@@ -79,13 +79,17 @@ const Dashboard = () => {
     init();
   }, []);
 
-  // Fetch Inventory when selected shop changes
+  // Clear cart when shop changes
+  useEffect(() => {
+    setCart([]);
+  }, [selectedShopId]);
+
+  // Fetch Inventory when shop or products change
   useEffect(() => {
     if (selectedShopId) {
       fetchInventory(selectedShopId);
-      setCart([]); // Clear cart on shop switch for safety
     }
-  }, [selectedShopId]);
+  }, [selectedShopId, products]);
 
   const fetchInventory = async (shopId) => {
     setLoading(true);

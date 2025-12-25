@@ -139,7 +139,16 @@ const AddStock = () => {
     },
   ];
 
-  const tableData = products.map((product) => ({
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (product.sku &&
+        product.sku.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const tableData = filteredProducts.map((product) => ({
     id: product.id,
     name: product.name,
     category: product.categoryName || "N/A",
@@ -153,25 +162,38 @@ const AddStock = () => {
 
   return (
     <div className="p-6">
-      {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600">{error}</p>
+      <div className="flex flex-col gap-6">
+        {/* Header Actions */}
+        <div className="flex justify-between items-center">
+          <div className="flex-1 max-w-md">
+            <Input
+              placeholder="Search products to add..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
-      )}
 
-      {success && (
-        <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-sm text-green-600">{success}</p>
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-sm text-green-600">{success}</p>
+          </div>
+        )}
+
+        <div className="bg-white rounded-lg shadow">
+          <Table
+            columns={columns}
+            data={tableData}
+            loading={loading}
+            emptyMessage="No products found matching your search."
+          />
         </div>
-      )}
-
-      <div className="bg-white rounded-lg shadow">
-        <Table
-          columns={columns}
-          data={tableData}
-          loading={loading}
-          emptyMessage="No products available. Create products first."
-        />
       </div>
 
       {/* Add Stock Modal */}

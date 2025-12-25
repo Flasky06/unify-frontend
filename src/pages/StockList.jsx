@@ -238,36 +238,40 @@ const StockList = () => {
         }
       />
 
-      {/* Filter by Shop */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Filter by Shop
-        </label>
-        <select
-          value={selectedShopId}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSelectedShopId(value);
-            setViewMode(value ? "byShop" : "all");
-          }}
-          className="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        >
-          <option value="">All Shops</option>
-          {shops.map((shop) => (
-            <option key={shop.id} value={shop.id}>
-              {shop.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* Filter and Search */}
+      <div className="mb-6 flex gap-4 items-end">
+        <div className="flex-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Filter by Shop
+          </label>
+          <select
+            value={selectedShopId}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedShopId(value);
+              setViewMode(value ? "byShop" : "all");
+            }}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="">All Shops</option>
+            {shops.map((shop) => (
+              <option key={shop.id} value={shop.id}>
+                {shop.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Search */}
-      <div className="mb-6">
-        <Input
-          placeholder="Search by product or shop name..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="flex-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Search
+          </label>
+          <Input
+            placeholder="Search by product or shop name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Stock Table */}

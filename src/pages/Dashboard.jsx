@@ -57,6 +57,9 @@ const Dashboard = () => {
     },
   ];
 
+  const [isCheckoutModalOpen, setCheckoutModalOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("CASH");
+
   // Fetch Shops and Products on mount
   useEffect(() => {
     const init = async () => {
@@ -168,7 +171,7 @@ const Dashboard = () => {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
-  const handleCheckout = async () => {
+  const processSale = async () => {
     if (!selectedShopId || cart.length === 0) return;
     setProcessing(true);
     try {
@@ -178,12 +181,13 @@ const Dashboard = () => {
           productId: item.productId,
           quantity: item.quantity,
         })),
-        paymentMethod: "CASH",
+        paymentMethod: paymentMethod,
       };
 
       await saleService.createSale(saleData);
       alert("Sale processed successfully!");
       setCart([]);
+      setCheckoutModalOpen(false);
       fetchInventory(selectedShopId); // Refresh stock
     } catch (err) {
       console.error(" Checkout failed", err);
@@ -192,6 +196,14 @@ const Dashboard = () => {
       setProcessing(false);
     }
   };
+
+  // Deprecated: existing handleCheckout is now processSale or unnecessary
+  // But wait, the button 'Checkout' calls handleCheckout in the original code?
+  // No, in the HTML update I changed it to open modal.
+  // So I can safely remove handleCheckout and replace it with this block.
+  // Wait, I need to make sure I am replacing the exact block.
+
+  // Function handleCheckout replacement logic is already in the ReplacementContent above.
 
   const filteredInventory = inventory.filter(
     (item) =>
@@ -389,13 +401,92 @@ const Dashboard = () => {
                 Continue Shopping
               </Button>
               <Button
-                onClick={handleCheckout}
-                disabled={cart.length === 0 || processing}
+                onClick={() => {
+                  setCartModalOpen(false);
+                  setCheckoutModalOpen(true);
+                }}
+                disabled={cart.length === 0}
                 className="flex-[2] py-3 text-lg"
               >
-                {processing ? "Processing..." : "Complete Sale"}
+                Checkout
               </Button>
             </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Checkout Modal */}
+      <Modal
+        isOpen={isCheckoutModalOpen}
+        onClose={() => setCheckoutModalOpen(false)}
+        title="Finalize Sale"
+      >
+        <div className="space-y-6">
+          <div className="bg-gray-50 p-4 rounded-lg text-center">
+            <p className="text-gray-600 mb-1">Total to Pay</p>
+            <p className="text-3xl font-bold text-blue-600">
+              KSH {calculateTotal().toLocaleString()}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              {cart.reduce((a, b) => a + b.quantity, 0)} Items in Cart
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Payment Method
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { id: "CASH", label: "Cash", icon: "💵" },
+                { id: "MPESA", label: "M-Pesa", icon: "📱" }, // Assuming Backend maps MOBILE_MONEY
+                { id: "CARD", label: "Card", icon: "💳" },
+              ].map((method) => (
+                <button
+                  key={method.id}
+                  onClick={() =>
+                    setPaymentMethod(
+                      method.id === "MPESA" ? "MOBILE_MONEY" : method.id
+                    )
+                  }
+                  className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition ${
+                    paymentMethod === method.id ||
+                    (paymentMethod === "MOBILE_MONEY" && method.id === "MPESA")
+                      ? "border-blue-600 bg-blue-50 text-blue-700"
+                      : "border-gray-200 hover:border-gray-300 text-gray-600"
+                  }`}
+                >
+                  <span className="text-2xl">{method.icon}</span>
+                  <span className="font-medium text-sm">{method.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Placeholder for future customer details */}
+          {/* <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Customer (Optional)</label>
+            <Input placeholder="Walk-in Customer" />
+          </div> */}
+
+          <div className="pt-4 flex gap-3">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setCheckoutModalOpen(false);
+                setCartModalOpen(true);
+              }}
+              className="flex-1"
+            >
+              Back to Cart
+            </Button>
+            <Button
+              onClick={processSale}
+              disabled={processing}
+              className="flex-[2] py-3 text-lg bg-green-600 hover:bg-green-700"
+            >
+              {processing ? "Processing..." : "Complete Payment"}
+            </Button>
           </div>
         </div>
       </Modal>

@@ -1,0 +1,203 @@
+import { useState, useEffect } from "react";
+import { PageHeader } from "../../components/layout/PageHeader";
+import Table from "../../components/ui/Table";
+import Modal from "../../components/ui/Modal";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
+import { categoryService } from "../../services/categoryService";
+
+export const CategoryList = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [formData, setFormData] = useState({ name: "", description: "" });
+  const [error, setError] = useState(null);
+
+  // Fetch categories on mount
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+      const data = await categoryService.getAll();
+      setCategories(data || []);
+    } catch (err) {
+      console.error("Failed to fetch categories", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      if (editingCategory) {
+        await categoryService.update(editingCategory.id, formData);
+      } else {
+        await categoryService.create(formData);
+      }
+      fetchCategories();
+      closeModal();
+    } catch (err) {
+      setError(err.message || "Operation failed");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this category?")) {
+      try {
+        await categoryService.delete(id);
+        fetchCategories();
+      } catch (err) {
+        alert(err.message || "Failed to delete category");
+      }
+    }
+  };
+
+  const openCreateModal = () => {
+    setEditingCategory(null);
+    setFormData({ name: "", description: "" });
+    setIsModalOpen(true);
+    setError(null);
+  };
+
+  const openEditModal = (category) => {
+    setEditingCategory(category);
+    setFormData({
+      name: category.name,
+      description: category.description || "",
+    });
+    setIsModalOpen(true);
+    setError(null);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingCategory(null);
+    setFormData({ name: "", description: "" });
+  };
+
+  const columns = [
+    { header: "Name", accessor: "name" },
+    { header: "Description", accessor: "description" },
+    {
+      header: "Actions",
+      render: (category) => (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              openEditModal(category);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="danger"
+            size="sm"
+            className="text-red-600 border-red-200 hover:bg-red-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(category.id);
+            }}
+          >
+            Delete
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <PageHeader
+        title="Product Categories"
+        subtitle="Manage product categories"
+        actions={
+          <Button onClick={openCreateModal}>
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Add Category
+          </Button>
+        }
+      />
+
+      <div className="bg-white rounded-lg shadow">
+        {loading ? (
+          <div className="p-8 text-center text-gray-500">
+            Loading categories...
+          </div>
+        ) : (
+          <Table
+            columns={columns}
+            data={categories}
+            emptyMessage="No categories found. Create one to get started."
+          />
+        )}
+      </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={editingCategory ? "Edit Category" : "Add New Category"}
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="p-3 bg-red-50 text-red-600 rounded-md text-sm">
+              {error}
+            </div>
+          )}
+
+          <Input
+            label="Category Name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="e.g., Electronics, Beverages"
+            required
+          />
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Description
+            </label>
+            <textarea
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+              rows="3"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              placeholder="Optional description..."
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4">
+            <Button type="button" variant="outline" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              {editingCategory ? "Update Category" : "Create Category"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  );
+};

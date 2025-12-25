@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { PageHeader } from "../../components/layout/PageHeader";
 import Table from "../../components/ui/Table";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
@@ -13,6 +12,8 @@ export const CategoryList = () => {
   const [editingCategory, setEditingCategory] = useState(null);
   const [formData, setFormData] = useState({ name: "", description: "" });
   const [error, setError] = useState(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch categories on mount
   useEffect(() => {
@@ -30,6 +31,13 @@ export const CategoryList = () => {
       setLoading(false);
     }
   };
+
+  const filteredCategories = categories.filter(
+    (category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (category.description &&
+        category.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,11 +123,17 @@ export const CategoryList = () => {
   ];
 
   return (
-    <div>
-      <PageHeader
-        title="Product Categories"
-        subtitle="Manage product categories"
-        actions={
+    <div className="p-6">
+      <div className="flex flex-col gap-6">
+        {/* Header Actions */}
+        <div className="flex justify-between items-center">
+          <div className="flex-1 max-w-md">
+            <Input
+              placeholder="Search categories..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <Button onClick={openCreateModal}>
             <svg
               className="w-5 h-5 mr-2"
@@ -136,21 +150,21 @@ export const CategoryList = () => {
             </svg>
             Add Category
           </Button>
-        }
-      />
+        </div>
 
-      <div className="bg-white rounded-lg shadow">
-        {loading ? (
-          <div className="p-8 text-center text-gray-500">
-            Loading categories...
-          </div>
-        ) : (
-          <Table
-            columns={columns}
-            data={categories}
-            emptyMessage="No categories found. Create one to get started."
-          />
-        )}
+        <div className="bg-white rounded-lg shadow">
+          {loading ? (
+            <div className="p-8 text-center text-gray-500">
+              Loading categories...
+            </div>
+          ) : (
+            <Table
+              columns={columns}
+              data={filteredCategories}
+              emptyMessage="No categories found. Create one to get started."
+            />
+          )}
+        </div>
       </div>
 
       <Modal

@@ -294,18 +294,28 @@ const Dashboard = () => {
                         onClick={() =>
                           updateCartQuantity(item.productId, item.quantity - 1)
                         }
-                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold"
+                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold border-r border-gray-200"
                       >
                         -
                       </button>
-                      <span className="px-2 font-medium w-8 text-center">
-                        {item.quantity}
-                      </span>
+                      <input
+                        type="number"
+                        min="1"
+                        max={item.maxStock}
+                        value={item.quantity}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value);
+                          if (!isNaN(val)) {
+                            updateCartQuantity(item.productId, val);
+                          }
+                        }}
+                        className="w-16 text-center border-none focus:ring-0 p-1 text-sm font-medium remove-arrow"
+                      />
                       <button
                         onClick={() =>
                           updateCartQuantity(item.productId, item.quantity + 1)
                         }
-                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold"
+                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold border-l border-gray-200"
                       >
                         +
                       </button>

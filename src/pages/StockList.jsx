@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { PageHeader } from "../components/layout/PageHeader";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -9,6 +10,7 @@ import { productService } from "../services/productService";
 import { shopService } from "../services/shopService";
 
 const StockList = () => {
+  const navigate = useNavigate();
   const [stocks, setStocks] = useState([]);
   const [products, setProducts] = useState([]);
   const [shops, setShops] = useState([]);
@@ -217,7 +219,7 @@ const StockList = () => {
         title="Stock Management"
         subtitle="Manage inventory across all shops"
         action={
-          <Button onClick={() => setIsModalOpen(true)}>
+          <Button onClick={() => navigate("/stocks/add")}>
             <svg
               className="w-5 h-5 mr-2"
               fill="none"

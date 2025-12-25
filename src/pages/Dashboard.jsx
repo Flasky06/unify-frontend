@@ -281,72 +281,93 @@ const Dashboard = () => {
                 <p>Your cart is empty.</p>
               </div>
             ) : (
-              cart.map((item) => (
-                <div
-                  key={item.productId}
-                  className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-100"
-                >
-                  <div>
-                    <h4 className="font-semibold text-gray-900">
-                      {item.productName}
-                    </h4>
-                    <p className="text-sm text-gray-500">
-                      KSH {item.price.toLocaleString()}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center bg-white border border-gray-200 rounded-lg">
-                      <button
-                        onClick={() =>
-                          updateCartQuantity(item.productId, item.quantity - 1)
-                        }
-                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold border-r border-gray-200"
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        min="1"
-                        max={item.maxStock}
-                        value={item.quantity}
-                        onChange={(e) => {
-                          const val = parseInt(e.target.value);
-                          if (!isNaN(val)) {
-                            updateCartQuantity(item.productId, val);
-                          }
-                        }}
-                        className="w-16 text-center border-none focus:ring-0 p-1 text-sm font-medium remove-arrow"
-                      />
-                      <button
-                        onClick={() =>
-                          updateCartQuantity(item.productId, item.quantity + 1)
-                        }
-                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold border-l border-gray-200"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <button
-                      onClick={() => removeFromCart(item.productId)}
-                      className="text-red-500 hover:bg-red-50 p-2 rounded-full transition"
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))
+              <table className="w-full text-left">
+                <thead className="text-gray-500 border-b border-gray-200">
+                  <tr>
+                    <th className="py-2 text-sm font-medium">Item</th>
+                    <th className="py-2 text-sm font-medium">Price</th>
+                    <th className="py-2 text-sm font-medium">Qty</th>
+                    <th className="py-2 text-sm font-medium text-right">
+                      Total
+                    </th>
+                    <th className="py-2 text-sm font-medium"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {cart.map((item) => (
+                    <tr key={item.productId} className="group">
+                      <td className="py-3 font-medium text-gray-900">
+                        {item.productName}
+                      </td>
+                      <td className="py-3 text-gray-600">
+                        {item.price.toLocaleString()}
+                      </td>
+                      <td className="py-3">
+                        <div className="flex items-center w-max bg-white border border-gray-200 rounded-lg">
+                          <button
+                            onClick={() =>
+                              updateCartQuantity(
+                                item.productId,
+                                item.quantity - 1
+                              )
+                            }
+                            className="px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold border-r border-gray-200"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            min="1"
+                            max={item.maxStock}
+                            value={item.quantity}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value);
+                              if (!isNaN(val)) {
+                                updateCartQuantity(item.productId, val);
+                              }
+                            }}
+                            className="w-12 text-center border-none focus:ring-0 p-1 text-sm font-medium remove-arrow"
+                          />
+                          <button
+                            onClick={() =>
+                              updateCartQuantity(
+                                item.productId,
+                                item.quantity + 1
+                              )
+                            }
+                            className="px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold border-l border-gray-200"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td className="py-3 text-right font-medium text-gray-900">
+                        {(item.price * item.quantity).toLocaleString()}
+                      </td>
+                      <td className="py-3 text-right">
+                        <button
+                          onClick={() => removeFromCart(item.productId)}
+                          className="text-gray-400 hover:text-red-500 transition"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
 

@@ -237,39 +237,26 @@ const StockList = () => {
       />
 
       {/* Filter by Shop */}
-      <div className="mb-6 flex gap-4 items-center">
-        <div className="flex gap-2">
-          <Button
-            variant={viewMode === "all" ? "primary" : "outline"}
-            onClick={() => {
-              setViewMode("all");
-              setSelectedShopId("");
-            }}
-          >
-            All Stocks
-          </Button>
-          <Button
-            variant={viewMode === "byShop" ? "primary" : "outline"}
-            onClick={() => setViewMode("byShop")}
-          >
-            Filter by Shop
-          </Button>
-        </div>
-
-        {viewMode === "byShop" && (
-          <select
-            value={selectedShopId}
-            onChange={(e) => setSelectedShopId(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="">Select Shop</option>
-            {shops.map((shop) => (
-              <option key={shop.id} value={shop.id}>
-                {shop.name}
-              </option>
-            ))}
-          </select>
-        )}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Filter by Shop
+        </label>
+        <select
+          value={selectedShopId}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSelectedShopId(value);
+            setViewMode(value ? "byShop" : "all");
+          }}
+          className="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="">All Shops</option>
+          {shops.map((shop) => (
+            <option key={shop.id} value={shop.id}>
+              {shop.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Search */}

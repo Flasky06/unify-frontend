@@ -163,43 +163,53 @@ const StockList = () => {
   });
 
   const columns = [
-    { key: "productName", label: "Product" },
-    { key: "shopName", label: "Shop" },
-    { key: "quantity", label: "Quantity" },
-    { key: "actions", label: "Actions" },
+    { header: "Product", accessor: "productName" },
+    { header: "Shop", accessor: "shopName" },
+    {
+      header: "Quantity",
+      render: (row) => (
+        <span
+          className={`font-semibold ${
+            row.quantity < 10
+              ? "text-red-600"
+              : row.quantity < 50
+              ? "text-yellow-600"
+              : "text-green-600"
+          }`}
+        >
+          {row.quantity}
+        </span>
+      ),
+    },
+    {
+      header: "Actions",
+      render: (row) => (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleEdit(row._stock)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDelete(row._stock.id)}
+          >
+            Delete
+          </Button>
+        </div>
+      ),
+    },
   ];
 
   const tableData = filteredStocks.map((stock) => ({
     id: stock.id,
     productName: getProductName(stock.productId),
     shopName: getShopName(stock.shopId),
-    quantity: (
-      <span
-        className={`font-semibold ${
-          stock.quantity < 10
-            ? "text-red-600"
-            : stock.quantity < 50
-            ? "text-yellow-600"
-            : "text-green-600"
-        }`}
-      >
-        {stock.quantity}
-      </span>
-    ),
-    actions: (
-      <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={() => handleEdit(stock)}>
-          Edit
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => handleDelete(stock.id)}
-        >
-          Delete
-        </Button>
-      </div>
-    ),
+    quantity: stock.quantity,
+    _stock: stock, // Store full stock object for actions
   }));
 
   return (

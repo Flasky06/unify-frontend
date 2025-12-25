@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { PageHeader } from "../components/layout/PageHeader";
 import Button from "../components/ui/Button";
+import Modal from "../components/ui/Modal";
+import Table from "../components/ui/Table";
+import Input from "../components/ui/Input";
 import { stockService } from "../services/stockService";
 import { productService } from "../services/productService";
 import { shopService } from "../services/shopService";
@@ -10,21 +13,34 @@ const AddStock = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [quantities, setQuantities] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    shopId: "",
+    quantity: 0,
+  });
 
   useEffect(() => {
+    console.log("🚀 AddStock component mounted");
     fetchProducts();
     fetchShops();
   }, []);
 
   const fetchProducts = async () => {
+    console.log("🔍 Fetching products...");
+    setLoading(true);
     try {
       const data = await productService.getAll();
+      console.log("✅ Products fetched:", data);
+      console.log("📊 Number of products:", data?.length);
       setProducts(data);
     } catch (error) {
-      console.error("Failed to fetch products:", error);
+      console.error("❌ Failed to fetch products:", error);
+      setError("Failed to load products");
+    } finally {
+      setLoading(false);
+      console.log("✅ Loading complete");
     }
   };
 
@@ -32,95 +48,116 @@ const AddStock = () => {
     try {
       const data = await shopService.getAll();
       setShops(data);
-      // Initialize quantities for all shops
-      const initialQuantities = {};
-      data.forEach((shop) => {
-        initialQuantities[shop.id] = 0;
-      });
-      setQuantities(initialQuantities);
     } catch (error) {
       console.error("Failed to fetch shops:", error);
     }
   };
 
-  const handleProductSelect = (product) => {
+  const handleSelectProduct = (product) => {
     setSelectedProduct(product);
+    setFormData({ shopId: "", quantity: 0 });
+    setIsModalOpen(true);
     setSuccess(null);
     setError(null);
-    // Reset quantities
-    const resetQuantities = {};
-    shops.forEach((shop) => {
-      resetQuantities[shop.id] = 0;
-    });
-    setQuantities(resetQuantities);
-  };
-
-  const handleQuantityChange = (shopId, value) => {
-    setQuantities({
-      ...quantities,
-      [shopId]: parseInt(value) || 0,
-    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedProduct) {
-      setError("Please select a product first");
+
+    if (!formData.shopId) {
+      setError("Please select a shop");
+      return;
+    }
+
+    if (formData.quantity <= 0) {
+      setError("Please enter a valid quantity");
       return;
     }
 
     setLoading(true);
     setError(null);
-    setSuccess(null);
 
     try {
-      const stockPromises = [];
-
-      // Create stock entries for shops with quantity > 0
-      Object.entries(quantities).forEach(([shopId, quantity]) => {
-        if (quantity > 0) {
-          stockPromises.push(
-            stockService.createStock({
-              shopId: parseInt(shopId),
-              productId: selectedProduct.id,
-              quantity: quantity,
-            })
-          );
-        }
+      console.log("📤 Creating stock:", {
+        shopId: parseInt(formData.shopId),
+        productId: selectedProduct.id,
+        quantity: parseInt(formData.quantity),
       });
 
-      if (stockPromises.length === 0) {
-        setError("Please enter at least one quantity");
-        setLoading(false);
-        return;
-      }
+      await stockService.createStock({
+        shopId: parseInt(formData.shopId),
+        productId: selectedProduct.id,
+        quantity: parseInt(formData.quantity),
+      });
 
-      await Promise.all(stockPromises);
-
+      const shopName = shops.find(
+        (s) => s.id === parseInt(formData.shopId)
+      )?.name;
       setSuccess(
-        `Successfully added ${selectedProduct.name} to ${stockPromises.length} shop(s)!`
+        `Successfully added ${formData.quantity} units of "${selectedProduct.name}" to ${shopName}!`
       );
 
-      // Reset form
+      console.log("✅ Stock created successfully!");
+
+      // Close modal and reset
+      setIsModalOpen(false);
       setSelectedProduct(null);
-      const resetQuantities = {};
-      shops.forEach((shop) => {
-        resetQuantities[shop.id] = 0;
-      });
-      setQuantities(resetQuantities);
+      setFormData({ shopId: "", quantity: 0 });
     } catch (err) {
-      console.error("Failed to add stock:", err);
+      console.error("❌ Failed to add stock:", err);
+
+      // Show error but close modal
       setError(
-        err.message || "Failed to add stock. Some entries may already exist."
+        err.message ||
+          "Failed to add stock. This product may already exist in the selected shop."
       );
+      setIsModalOpen(false);
+      setSelectedProduct(null);
+      setFormData({ shopId: "", quantity: 0 });
     } finally {
       setLoading(false);
     }
   };
 
+  const columns = [
+    { header: "Product Name", accessor: "name" },
+    { header: "Category", accessor: "category" },
+    { header: "Brand", accessor: "brand" },
+    { header: "Price (KSH)", accessor: "price" },
+    {
+      header: "Actions",
+      render: (row) => (
+        <Button
+          size="sm"
+          onClick={() => handleSelectProduct(row._product)}
+          className={
+            selectedProduct?.id === row._product?.id ? "bg-blue-600" : ""
+          }
+        >
+          Select
+        </Button>
+      ),
+    },
+  ];
+
+  const tableData = products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    category: product.categoryName || "N/A",
+    brand: product.brandName || "N/A",
+    price: product.price?.toLocaleString() || "0",
+    _product: product, // Store full product object for the button
+  }));
+
+  console.log("📋 Table data:", tableData);
+  console.log("📦 Products state:", products);
+
   return (
     <div className="p-6">
-      <PageHeader title="Add Stock" subtitle="Add products to your shops" />
+      <PageHeader
+        title="Add Stock"
+        subtitle="Select a product and add it to a shop"
+      />
 
       {error && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -134,130 +171,108 @@ const AddStock = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Product Selection */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Select Product
-            </h3>
-            <div className="space-y-2 max-h-[600px] overflow-y-auto">
-              {products.map((product) => (
-                <button
-                  key={product.id}
-                  onClick={() => handleProductSelect(product)}
-                  className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
-                    selectedProduct?.id === product.id
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="font-medium text-gray-900">
-                    {product.name}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    KSH {product.price?.toLocaleString()}
-                  </div>
-                </button>
-              ))}
-              {products.length === 0 && (
-                <p className="text-gray-500 text-center py-4">
-                  No products available. Create products first.
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+      <div className="bg-white rounded-lg shadow">
+        <Table
+          columns={columns}
+          data={tableData}
+          loading={loading}
+          emptyMessage="No products available. Create products first."
+        />
+      </div>
 
-        {/* Shop Quantities */}
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              {selectedProduct
-                ? `Add "${selectedProduct.name}" to Shops`
-                : "Select a product to continue"}
-            </h3>
-
-            {selectedProduct ? (
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-4 mb-6">
-                  {shops.map((shop) => (
-                    <div
-                      key={shop.id}
-                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
-                    >
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">
-                          {shop.name}
-                        </h4>
-                        <p className="text-sm text-gray-500">
-                          {shop.location}, {shop.county}
-                        </p>
-                      </div>
-                      <div className="w-32">
-                        <input
-                          type="number"
-                          min="0"
-                          value={quantities[shop.id] || 0}
-                          onChange={(e) =>
-                            handleQuantityChange(shop.id, e.target.value)
-                          }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="Qty"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  {shops.length === 0 && (
-                    <p className="text-gray-500 text-center py-8">
-                      No shops available. Create shops first.
-                    </p>
-                  )}
+      {/* Add Stock Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedProduct(null);
+          setFormData({ shopId: "", quantity: 0 });
+          setError(null);
+        }}
+        title={`Add Stock: ${selectedProduct?.name || ""}`}
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {selectedProduct && (
+            <div className="p-4 bg-gray-50 rounded-lg mb-4">
+              <h4 className="font-medium text-gray-900 mb-2">
+                Product Details
+              </h4>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="text-gray-600">Name:</div>
+                <div className="font-medium">{selectedProduct.name}</div>
+                <div className="text-gray-600">Price:</div>
+                <div className="font-medium">
+                  KSH {selectedProduct.price?.toLocaleString()}
                 </div>
-
-                {shops.length > 0 && (
-                  <div className="flex justify-end gap-3">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => {
-                        setSelectedProduct(null);
-                        const resetQuantities = {};
-                        shops.forEach((shop) => {
-                          resetQuantities[shop.id] = 0;
-                        });
-                        setQuantities(resetQuantities);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button type="submit" disabled={loading}>
-                      {loading ? "Adding..." : "Add to Shops"}
-                    </Button>
-                  </div>
-                )}
-              </form>
-            ) : (
-              <div className="text-center py-12 text-gray-400">
-                <svg
-                  className="w-16 h-16 mx-auto mb-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                  />
-                </svg>
-                <p>Select a product from the left to get started</p>
+                <div className="text-gray-600">Category:</div>
+                <div className="font-medium">
+                  {selectedProduct.categoryName || "N/A"}
+                </div>
+                <div className="text-gray-600">Brand:</div>
+                <div className="font-medium">
+                  {selectedProduct.brandName || "N/A"}
+                </div>
               </div>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Select Shop *
+            </label>
+            <select
+              value={formData.shopId}
+              onChange={(e) =>
+                setFormData({ ...formData, shopId: e.target.value })
+              }
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Choose a shop...</option>
+              {shops.map((shop) => (
+                <option key={shop.id} value={shop.id}>
+                  {shop.name} - {shop.location}, {shop.county}
+                </option>
+              ))}
+            </select>
+            {shops.length === 0 && (
+              <p className="mt-1 text-sm text-red-600">
+                No shops available. Please create a shop first.
+              </p>
             )}
           </div>
-        </div>
-      </div>
+
+          <Input
+            label="Quantity *"
+            type="number"
+            value={formData.quantity}
+            onChange={(e) =>
+              setFormData({ ...formData, quantity: e.target.value })
+            }
+            required
+            min="1"
+            placeholder="Enter quantity"
+          />
+
+          <div className="flex justify-end gap-3 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setIsModalOpen(false);
+                setSelectedProduct(null);
+                setFormData({ shopId: "", quantity: 0 });
+                setError(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={loading || shops.length === 0}>
+              {loading ? "Adding..." : "Add Stock"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

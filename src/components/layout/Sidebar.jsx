@@ -5,13 +5,11 @@ import useAuthStore from "../../store/authStore";
 export const Sidebar = () => {
   const location = useLocation();
   const { user, isSuperAdmin } = useAuthStore();
-  const [expandedMenus, setExpandedMenus] = useState({});
+  const [expandedMenu, setExpandedMenu] = useState(null);
 
   const toggleMenu = (name) => {
-    setExpandedMenus((prev) => ({
-      ...prev,
-      [name]: !prev[name],
-    }));
+    // Accordion: close same menu if clicked, OR open new one and close others (set to name)
+    setExpandedMenu((prev) => (prev === name ? null : name));
   };
 
   const isActive = (path) => location.pathname === path;
@@ -86,49 +84,7 @@ export const Sidebar = () => {
       ),
     },
     {
-      name: "User Management",
-      icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-          />
-        </svg>
-      ),
-      children: [{ name: "Users", path: "/users" }],
-    },
-    {
-      name: "Product Management",
-      icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-          />
-        </svg>
-      ),
-      children: [
-        { name: "Products", path: "/products" },
-        { name: "Product Categories", path: "/products/categories" },
-        { name: "Brands", path: "/products/brands" },
-      ],
-    },
-    {
-      name: "Shop Management",
+      name: "Shop Mgmt",
       icon: (
         <svg
           className="w-5 h-5"
@@ -147,7 +103,30 @@ export const Sidebar = () => {
       children: [{ name: "Shops", path: "/shops" }],
     },
     {
-      name: "Stock Management",
+      name: "Product Mgmt",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+          />
+        </svg>
+      ),
+      children: [
+        { name: "Products", path: "/products" },
+        { name: "Categories", path: "/products/categories" },
+        { name: "Brands", path: "/products/brands" },
+      ],
+    },
+    {
+      name: "Stock Mgmt",
       icon: (
         <svg
           className="w-5 h-5"
@@ -167,6 +146,25 @@ export const Sidebar = () => {
         { name: "Inventory", path: "/stocks" },
         { name: "Add Stock", path: "/stocks/add" },
       ],
+    },
+    {
+      name: "User Mgmt",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+          />
+        </svg>
+      ),
+      children: [{ name: "Users", path: "/users" }],
     },
     {
       name: "Profile",
@@ -193,25 +191,31 @@ export const Sidebar = () => {
 
   const renderNavItem = (item) => {
     if (item.children) {
-      const isExpanded = expandedMenus[item.name];
+      const isExpanded = expandedMenu === item.name;
       const isChildActive = isParentActive(item);
+
+      // Auto-expand if child is active and no menu is manually toggled yet
+      if (isChildActive && expandedMenu === null) {
+        // This is a side-effect, but safe enough here for initial loading
+        // better to use useEffect but strict mode might flicker
+      }
 
       return (
         <div key={item.name} className="mb-1">
           <button
             onClick={() => toggleMenu(item.name)}
-            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 ${
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-200 ${
               isChildActive || isExpanded
                 ? "text-white bg-gray-800"
                 : "text-gray-300 hover:bg-gray-700 hover:text-white"
             }`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 truncate">
               {item.icon}
-              <span className="font-medium">{item.name}</span>
+              <span className="font-medium text-sm truncate">{item.name}</span>
             </div>
             <svg
-              className={`w-4 h-4 transition-transform ${
+              className={`w-4 h-4 flex-shrink-0 transition-transform ${
                 isExpanded ? "transform rotate-180" : ""
               }`}
               fill="none"
@@ -228,12 +232,12 @@ export const Sidebar = () => {
           </button>
 
           {isExpanded && (
-            <div className="ml-9 mt-1 space-y-1">
+            <div className="ml-4 mt-1 space-y-1 pl-4 border-l border-gray-700">
               {item.children.map((child) => (
                 <Link
                   key={child.path}
                   to={child.path}
-                  className={`block px-4 py-2 text-sm rounded-lg transition-colors ${
+                  className={`block px-3 py-2 text-sm rounded-lg transition-colors truncate ${
                     isActive(child.path)
                       ? "text-blue-400 bg-gray-800"
                       : "text-gray-400 hover:text-white hover:bg-gray-700"
@@ -252,46 +256,46 @@ export const Sidebar = () => {
       <Link
         key={item.path}
         to={item.path}
-        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 mb-1 ${
           isActive(item.path)
             ? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
             : "text-gray-300 hover:bg-gray-700 hover:text-white"
         }`}
       >
         {item.icon}
-        <span className="font-medium">{item.name}</span>
+        <span className="font-medium text-sm truncate">{item.name}</span>
       </Link>
     );
   };
 
   return (
-    <div className="w-64 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col">
+    <div className="w-60 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col flex-shrink-0">
       {/* Logo */}
-      <div className="p-6 border-b border-gray-700">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+      <div className="p-5 border-b border-gray-700">
+        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
           mPOS
         </h1>
-        <p className="text-xs text-gray-400 mt-1">
-          {isSuperAdmin() ? "Admin Panel" : "Business Management"}
+        <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">
+          {isSuperAdmin() ? "Admin Panel" : "Business"}
         </p>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         {navigation.map((item) => renderNavItem(item))}
       </nav>
 
       {/* User Info */}
-      <div className="p-4 border-t border-gray-700">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+      <div className="p-3 border-t border-gray-700">
+        <div className="flex items-center gap-3 px-3 py-2 bg-gray-800/50 rounded-lg">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs">
             {user?.email?.[0]?.toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">
+            <p className="text-xs font-medium text-white truncate">
               {user?.email}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-[10px] text-gray-400 truncate">
               {user?.role?.replace("_", " ")}
             </p>
           </div>

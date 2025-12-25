@@ -332,6 +332,19 @@ const StockList = () => {
             min="0"
           />
 
+          {!editingStock && (
+            <Input
+              label="Buying Price (Cost Price) - Optional"
+              type="number"
+              placeholder="Update product cost price"
+              value={formData.buyingPrice || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, buyingPrice: e.target.value })
+              }
+              min="0"
+            />
+          )}
+
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"

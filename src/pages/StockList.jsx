@@ -18,7 +18,6 @@ const StockList = () => {
   const [editingStock, setEditingStock] = useState(null);
   const [viewMode, setViewMode] = useState("all"); // all, byShop
   const [selectedShopId, setSelectedShopId] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
 
   const [formData, setFormData] = useState({
     shopId: "",

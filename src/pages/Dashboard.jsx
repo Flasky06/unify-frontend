@@ -214,25 +214,37 @@ const Dashboard = () => {
           </select>
         </div>
         <div className="flex items-center gap-4">
-           <div className="w-72">
+          <div className="w-72">
             <Input
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button 
+          <button
             onClick={() => setCartModalOpen(true)}
             className="relative p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-sm"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
             </svg>
-            <span className="font-semibold">{cart.reduce((a, b) => a + b.quantity, 0)} Items</span>
+            <span className="font-semibold">
+              {cart.reduce((a, b) => a + b.quantity, 0)} Items
+            </span>
             {cart.length > 0 && (
-               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
-                 {cart.reduce((a, b) => a + b.quantity, 0)}
-               </span>
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
+                {cart.reduce((a, b) => a + b.quantity, 0)}
+              </span>
             )}
           </button>
         </div>
@@ -240,14 +252,14 @@ const Dashboard = () => {
 
       {/* Full Width Table */}
       <div className="bg-white rounded-lg shadow flex-1 overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-auto">
-             <Table 
-                columns={columns} 
-                data={filteredInventory} 
-                loading={loading}
-                emptyMessage="No stock available. Add items to stock to begin."
-              />
-          </div>
+        <div className="flex-1 overflow-auto">
+          <Table
+            columns={columns}
+            data={filteredInventory}
+            loading={loading}
+            emptyMessage="No stock available. Add items to stock to begin."
+          />
+        </div>
       </div>
 
       {/* Cart Modal */}
@@ -259,63 +271,99 @@ const Dashboard = () => {
         <div className="flex flex-col h-[500px]">
           <div className="flex-1 overflow-auto space-y-4 pr-2">
             {cart.length === 0 ? (
-               <div className="text-center py-20 text-gray-400">
-                  <p>Your cart is empty.</p>
-               </div>
+              <div className="text-center py-20 text-gray-400">
+                <p>Your cart is empty.</p>
+              </div>
             ) : (
               cart.map((item) => (
-                <div key={item.productId} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-100">
-                   <div>
-                      <h4 className="font-semibold text-gray-900">{item.productName}</h4>
-                      <p className="text-sm text-gray-500">KSH {item.price.toLocaleString()}</p>
-                   </div>
-                   <div className="flex items-center gap-3">
-                      <div className="flex items-center bg-white border border-gray-200 rounded-lg">
-                        <button 
-                          onClick={() => updateCartQuantity(item.productId, item.quantity - 1)}
-                          className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold"
-                        >-</button>
-                        <span className="px-2 font-medium w-8 text-center">{item.quantity}</span>
-                        <button 
-                          onClick={() => updateCartQuantity(item.productId, item.quantity + 1)}
-                          className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold"
-                        >+</button>
-                      </div>
-                      <button 
-                        onClick={() => removeFromCart(item.productId)}
-                        className="text-red-500 hover:bg-red-50 p-2 rounded-full transition"
+                <div
+                  key={item.productId}
+                  className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-100"
+                >
+                  <div>
+                    <h4 className="font-semibold text-gray-900">
+                      {item.productName}
+                    </h4>
+                    <p className="text-sm text-gray-500">
+                      KSH {item.price.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center bg-white border border-gray-200 rounded-lg">
+                      <button
+                        onClick={() =>
+                          updateCartQuantity(item.productId, item.quantity - 1)
+                        }
+                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold"
                       >
-                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                         </svg>
+                        -
                       </button>
-                   </div>
+                      <span className="px-2 font-medium w-8 text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() =>
+                          updateCartQuantity(item.productId, item.quantity + 1)
+                        }
+                        className="px-3 py-1 hover:bg-gray-100 text-gray-600 font-bold"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.productId)}
+                      className="text-red-500 hover:bg-red-50 p-2 rounded-full transition"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               ))
             )}
           </div>
-          
+
           <div className="mt-4 pt-4 border-t border-gray-200">
-             <div className="flex justify-between items-center mb-6">
-                <span className="text-lg font-medium text-gray-600">Total Amount</span>
-                <span className="text-3xl font-bold text-gray-900">KSH {calculateTotal().toLocaleString()}</span>
-             </div>
-             <div className="flex gap-4">
-                <Button variant="outline" onClick={() => setCartModalOpen(false)} className="flex-1">
-                  Continue Shopping
-                </Button>
-                <Button 
-                   onClick={handleCheckout} 
-                   disabled={cart.length === 0 || processing}
-                   className="flex-[2] py-3 text-lg"
-                >
-                  {processing ? "Processing..." : "Complete Sale"}
-                </Button>
-             </div>
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-lg font-medium text-gray-600">
+                Total Amount
+              </span>
+              <span className="text-3xl font-bold text-gray-900">
+                KSH {calculateTotal().toLocaleString()}
+              </span>
+            </div>
+            <div className="flex gap-4">
+              <Button
+                variant="outline"
+                onClick={() => setCartModalOpen(false)}
+                className="flex-1"
+              >
+                Continue Shopping
+              </Button>
+              <Button
+                onClick={handleCheckout}
+                disabled={cart.length === 0 || processing}
+                className="flex-[2] py-3 text-lg"
+              >
+                {processing ? "Processing..." : "Complete Sale"}
+              </Button>
+            </div>
           </div>
         </div>
       </Modal>
     </div>
   );
+};
 
 export default Dashboard;

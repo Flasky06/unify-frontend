@@ -240,7 +240,7 @@ const StockList = () => {
 
       {/* Filter and Search */}
       <div className="mb-6 flex gap-4 items-end">
-        <div className="flex-1">
+        <div className="w-64">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Filter by Shop
           </label>

@@ -14,8 +14,8 @@ import { ProductList } from "../pages/products/ProductList";
 import { CategoryList } from "../pages/products/CategoryList";
 import { BrandList } from "../pages/products/BrandList";
 import { ShopList } from "../pages/shops/ShopList";
-import StockList from "../pages/StockList";
-import AddStock from "../pages/AddStock";
+import StockList from "../pages/stocks/StockList";
+import AddStock from "../pages/stocks/AddStock";
 
 export const router = createBrowserRouter([
   {

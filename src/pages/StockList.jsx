@@ -123,7 +123,7 @@ const StockList = () => {
       setLoading(false);
     }
   };
-  };
+
 
   const getProductName = (productId) => {
     const product = products.find((p) => p.id === productId);

@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { userService } from "../../services/userService";
-import { useConfirmDialog } from "../../components/ui/ConfirmDialog"; // Assuming hook or component usage
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
+import { shopService } from "../../services/shopService";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
 import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [shops, setShops] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -18,6 +19,7 @@ export const UserList = () => {
     password: "",
     role: "BUSINESS_MANAGER", // Default
     phoneNo: "",
+    shopId: null,
   });
 
   // UI State
@@ -35,6 +37,7 @@ export const UserList = () => {
 
   useEffect(() => {
     fetchUsers();
+    fetchShops();
   }, []);
 
   const fetchUsers = async () => {
@@ -47,6 +50,15 @@ export const UserList = () => {
       console.error(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchShops = async () => {
+    try {
+      const data = await shopService.getAll();
+      setShops(data);
+    } catch (err) {
+      console.error("Failed to fetch shops:", err);
     }
   };
 
@@ -70,6 +82,7 @@ export const UserList = () => {
         password: "",
         role: "BUSINESS_MANAGER",
         phoneNo: "",
+        shopId: null,
       });
       fetchUsers();
     } catch (err) {
@@ -134,6 +147,9 @@ export const UserList = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Assigned Shop
+              </th>
               {/* <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> */}
             </tr>
           </thead>
@@ -150,7 +166,15 @@ export const UserList = () => {
                   {user.phoneNo || "-"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {user.isActive ? "Active" : "Inactive"}
+                  {user.isActive || user.active ? "Active" : "Inactive"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {user.shopId ? (
+                    shops.find((s) => s.id === user.shopId)?.name ||
+                    `Shop #${user.shopId}`
+                  ) : (
+                    <span className="text-gray-400">-</span>
+                  )}
                 </td>
                 {/* <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button onClick={() => setConfirmDialog({isOpen: true, userId: user.id})} className="text-red-600 hover:text-red-900">Delete</button>
@@ -230,6 +254,33 @@ export const UserList = () => {
                   <option value="SALES_REP">Sales Representative</option>
                 </select>
               </div>
+
+              {formData.role === "SHOP_MANAGER" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Assigned Shop <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="shopId"
+                    value={formData.shopId || ""}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        shopId: e.target.value ? Number(e.target.value) : null,
+                      }))
+                    }
+                    required
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:blue-500"
+                  >
+                    <option value="">Select a shop...</option>
+                    {shops.map((shop) => (
+                      <option key={shop.id} value={shop.id}>
+                        {shop.name} - {shop.location}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className="flex justify-end gap-3 mt-6">
                 <button

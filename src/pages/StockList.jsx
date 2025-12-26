@@ -5,12 +5,14 @@ import Input from "../components/ui/Input";
 import Modal from "../components/ui/Modal";
 import Table from "../components/ui/Table";
 import { ConfirmDialog, Toast } from "../components/ui/ConfirmDialog";
+import useAuthStore from "../store/authStore";
 import { stockService } from "../services/stockService";
 import { productService } from "../services/productService";
 import { shopService } from "../services/shopService";
 
 const StockList = () => {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
   const [stocks, setStocks] = useState([]);
   const [products, setProducts] = useState([]);
   const [shops, setShops] = useState([]);
@@ -185,31 +187,37 @@ const StockList = () => {
         </span>
       ),
     },
-    {
-      header: "Actions",
-      render: (row) => (
-        <div className="flex gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-            onClick={() => handleEdit(row._stock)}
-          >
-            Update
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-red-600 hover:text-red-800 hover:bg-red-50"
-            onClick={() =>
-              setConfirmDialog({ isOpen: true, stockId: row._stock.id })
-            }
-          >
-            Delete
-          </Button>
-        </div>
-      ),
     },
+    // Hide Actions for SALES_REP
+    ...(user?.role === "SALES_REP"
+      ? []
+      : [
+          {
+            header: "Actions",
+            render: (row) => (
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                  onClick={() => handleEdit(row._stock)}
+                >
+                  Update
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                  onClick={() =>
+                    setConfirmDialog({ isOpen: true, stockId: row._stock.id })
+                  }
+                >
+                  Delete
+                </Button>
+              </div>
+            ),
+          },
+        ]),
   ];
 
   const tableData = filteredStocks.map((stock) => ({
@@ -223,7 +231,7 @@ const StockList = () => {
   return (
     <div>
       {/* Add Stock Button */}
-      <div className="mb-4 flex justify-end">
+      {user?.role !== "SALES_REP" && <div className="mb-4 flex justify-end">
         <Button variant="success" onClick={() => navigate("/stocks/add")}>
           <svg
             className="w-5 h-5 mr-2"
@@ -240,7 +248,7 @@ const StockList = () => {
           </svg>
           Add Stock
         </Button>
-      </div>
+      </div>}
 
       {/* Filter and Search */}
       <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end">

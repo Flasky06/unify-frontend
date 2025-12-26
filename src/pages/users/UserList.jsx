@@ -5,6 +5,7 @@ import { shopService } from "../../services/shopService";
 import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
 import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
+import Button from "../../components/ui/Button";
 
 export const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -123,12 +124,22 @@ export const UserList = () => {
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">User Management</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
+        <Button variant="success" onClick={() => setIsModalOpen(true)}>
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
           Add User
-        </button>
+        </Button>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">

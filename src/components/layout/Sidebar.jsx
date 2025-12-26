@@ -213,25 +213,29 @@ export const Sidebar = ({ isOpen, onClose }) => {
   const getFilteredBusinessNav = () => {
     // SHOP_MANAGER and SALES_REP restrictions
     if (user?.role === "SHOP_MANAGER" || user?.role === "SALES_REP") {
-      return businessNav
-        .filter((item) => {
-          // Exclude User Management and Shop Management (since they manage 1 shop via context, not list)
-          return (
-            item.name !== "User Management" && item.name !== "Shop Management"
-          );
-        })
-        .map((item) => {
-          // For Product Management, show only Products, hide Categories/Brands
-          if (item.name === "Product Management") {
-            return {
-              ...item,
-              children: item.children.filter(
-                (child) => child.name === "Products"
-              ),
-            };
-          }
-          return item;
-        });
+      return businessNav.map((item) => {
+        // Disable User Management and Shop Management
+        if (
+          item.name === "User Management" ||
+          item.name === "Shop Management"
+        ) {
+          return { ...item, disabled: true };
+        }
+
+        // For Product Management, disable Categories/Brands
+        if (item.name === "Product Management") {
+          return {
+            ...item,
+            children: item.children.map((child) => {
+              if (child.name === "Brands" || child.name === "Categories") {
+                return { ...child, disabled: true };
+              }
+              return child;
+            }),
+          };
+        }
+        return item;
+      });
     }
     return businessNav;
   };
@@ -252,9 +256,14 @@ export const Sidebar = ({ isOpen, onClose }) => {
       return (
         <div key={item.name} className="mb-1">
           <button
-            onClick={() => toggleMenu(item.name)}
+            onClick={() => {
+              if (item.disabled) return;
+              toggleMenu(item.name);
+            }}
             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-200 ${
-              isChildActive || isExpanded
+              item.disabled
+                ? "opacity-50 cursor-not-allowed text-gray-400"
+                : isChildActive || isExpanded
                 ? "text-white bg-gray-800"
                 : "text-gray-300 hover:bg-gray-700 hover:text-white"
             }`}
@@ -285,10 +294,18 @@ export const Sidebar = ({ isOpen, onClose }) => {
               {item.children.map((child) => (
                 <Link
                   key={child.path}
-                  to={child.path}
-                  onClick={onClose}
+                  to={child.disabled ? "#" : child.path}
+                  onClick={(e) => {
+                    if (child.disabled) {
+                      e.preventDefault();
+                      return;
+                    }
+                    onClose();
+                  }}
                   className={`block px-3 py-2 text-sm rounded-lg transition-colors truncate ${
-                    isActive(child.path)
+                    child.disabled
+                      ? "opacity-50 cursor-not-allowed text-gray-500 hover:text-gray-500 hover:bg-transparent"
+                      : isActive(child.path)
                       ? "text-blue-400 bg-gray-800"
                       : "text-gray-400 hover:text-white hover:bg-gray-700"
                   }`}
@@ -305,10 +322,18 @@ export const Sidebar = ({ isOpen, onClose }) => {
     return (
       <Link
         key={item.path}
-        to={item.path}
-        onClick={onClose}
+        to={item.disabled ? "#" : item.path}
+        onClick={(e) => {
+          if (item.disabled) {
+            e.preventDefault();
+            return;
+          }
+          onClose();
+        }}
         className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 mb-1 ${
-          isActive(item.path)
+          item.disabled
+            ? "opacity-50 cursor-not-allowed text-gray-500 hover:text-gray-500 hover:bg-transparent"
+            : isActive(item.path)
             ? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
             : "text-gray-300 hover:bg-gray-700 hover:text-white"
         }`}

@@ -219,9 +219,9 @@ const StockList = () => {
   }));
 
   return (
-    <div className="p-6">
+    <div>
       {/* Add Stock Button */}
-      <div className="mb-6 flex justify-end">
+      <div className="mb-4 flex justify-end">
         <Button onClick={() => navigate("/stocks/add")}>
           <svg
             className="w-5 h-5 mr-2"
@@ -241,7 +241,7 @@ const StockList = () => {
       </div>
 
       {/* Filter and Search */}
-      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end">
+      <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end">
         <div className="w-full lg:w-64">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Filter by Shop

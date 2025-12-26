@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { api } from "../lib/api";
+import { api } from "../../lib/api";
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();

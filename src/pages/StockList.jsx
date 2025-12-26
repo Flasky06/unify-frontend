@@ -83,6 +83,7 @@ const StockList = () => {
     }
   };
 
+  const resetForm = () => {
     setFormData({
       shopId: "",
       productId: "",
@@ -99,7 +100,7 @@ const StockList = () => {
       if (editingStock) {
         await stockService.updateStock(editingStock.id, {
           quantity: parseInt(formData.quantity),
-          // typically we don't update buying price on simple quantity edit, 
+          // typically we don't update buying price on simple quantity edit,
           // but if user wants to, we could add it. The requirement said "added or incremented".
           // The backend updateStockDTO does NOT have buyingPrice yet, only quantity.
           // So for Edit, we stick to quantity.
@@ -109,7 +110,9 @@ const StockList = () => {
           shopId: parseInt(formData.shopId),
           productId: parseInt(formData.productId),
           quantity: parseInt(formData.quantity),
-          buyingPrice: formData.buyingPrice ? parseFloat(formData.buyingPrice) : null,
+          buyingPrice: formData.buyingPrice
+            ? parseFloat(formData.buyingPrice)
+            : null,
         });
       }
       setIsModalOpen(false);
@@ -123,7 +126,6 @@ const StockList = () => {
       setLoading(false);
     }
   };
-
 
   const getProductName = (productId) => {
     const product = products.find((p) => p.id === productId);

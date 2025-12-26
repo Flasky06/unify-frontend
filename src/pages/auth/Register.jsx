@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { registerSchema } from "../schemas/authSchemas";
+import { useAuth } from "../../hooks/useAuth";
+import { registerSchema } from "../../schemas/authSchemas";
 
 const Register = () => {
   const { register, isLoading, error } = useAuth();

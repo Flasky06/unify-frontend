@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { loginSchema } from "../schemas/authSchemas";
+import { useAuth } from "../../hooks/useAuth";
+import { loginSchema } from "../../schemas/authSchemas";
 
 const Login = () => {
   const navigate = useNavigate();

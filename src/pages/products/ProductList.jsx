@@ -240,7 +240,7 @@ export const ProductList = () => {
       <div className="flex flex-col gap-6">
         {/* Header Actions */}
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
-          <div className="flex flex-col gap-4 flex-1 lg:flex-row">
+          <div className="w-full flex flex-col gap-4 lg:flex-1 lg:flex-row">
             <div className="w-full lg:w-64">
               <Input
                 placeholder="Search products..."

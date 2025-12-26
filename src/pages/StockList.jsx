@@ -266,7 +266,7 @@ const StockList = () => {
           </select>
         </div>
 
-        <div className="flex-1">
+        <div className="w-full lg:flex-1">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Search
           </label>

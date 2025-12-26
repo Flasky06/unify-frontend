@@ -122,7 +122,7 @@ export const UserList = () => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
         <h1 className="text-2xl font-bold">User Management</h1>
         <Button variant="success" onClick={() => setIsModalOpen(true)}>
           <svg

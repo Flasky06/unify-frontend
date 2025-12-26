@@ -126,15 +126,6 @@ const SalesHistory = () => {
       render: (row) => `KSH ${row.total.toLocaleString()}`,
     },
     {
-      header: "Payment",
-      accessor: "paymentMethod",
-      render: (row) => (
-        <span className="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">
-          {row.paymentMethod?.replace("_", " ")}
-        </span>
-      ),
-    },
-    {
       header: "Status",
       accessor: "status",
       render: (row) => (

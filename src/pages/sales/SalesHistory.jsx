@@ -98,69 +98,6 @@ const SalesHistory = () => {
     setIsDetailsModalOpen(true);
   };
 
-  const columns = [
-    { header: "Sale No", accessor: "saleNumber" },
-    {
-      header: "Date",
-      accessor: "saleDate",
-      render: (row) => format(new Date(row.saleDate), "MMM dd, yyyy HH:mm"),
-    },
-    { header: "Shop", accessor: "shopName" },
-    {
-      header: "Items",
-      render: (row) => (row.items ? row.items.length : 0),
-    },
-    {
-      header: "Total",
-      accessor: "total",
-      render: (row) => `KSH ${row.total.toLocaleString()}`,
-    },
-    {
-      header: "Payment",
-      accessor: "paymentMethod",
-      render: (row) => (
-        <span className="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">
-          {row.paymentMethod?.replace("_", " ")}
-        </span>
-      ),
-    },
-    {
-      header: "Status",
-      accessor: "status",
-      render: (row) => (
-        <span
-          className={`px-2 py-1 rounded-full text-xs font-semibold ${
-            row.status === "COMPLETED"
-              ? "bg-green-100 text-green-800"
-              : row.status === "CANCELLED"
-              ? "bg-red-100 text-red-800"
-              : "bg-yellow-100 text-yellow-800"
-          }`}
-        >
-          {row.status}
-        </span>
-      ),
-    },
-    {
-      header: "Actions",
-      render: (row) => (
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => openDetails(row)}>
-            View
-          </Button>
-          {row.status !== "CANCELLED" && (
-            <button
-              onClick={() => handleCancelSale(row.id)}
-              className="text-red-600 hover:text-red-800 text-sm font-medium"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      ),
-    },
-  ];
-
   const filteredSales = sales.filter((sale) => {
     const search = searchTerm.toLowerCase();
     return (
@@ -176,13 +113,7 @@ const SalesHistory = () => {
     {
       header: "Date",
       accessor: "saleDate",
-      render: (row) =>
-        format(
-          new Date(
-            row.saleDate.endsWith("Z") ? row.saleDate : row.saleDate + "Z"
-          ),
-          "MMM dd, yyyy HH:mm"
-        ),
+      render: (row) => format(new Date(row.saleDate), "MMM dd, yyyy HH:mm"),
     },
     { header: "Shop", accessor: "shopName" },
     {
@@ -300,14 +231,7 @@ const SalesHistory = () => {
               <div>
                 <p className="text-gray-500">Date</p>
                 <p className="font-medium">
-                  {format(
-                    new Date(
-                      selectedSale.saleDate.endsWith("Z")
-                        ? selectedSale.saleDate
-                        : selectedSale.saleDate + "Z"
-                    ),
-                    "PPpp"
-                  )}
+                  {format(new Date(selectedSale.saleDate), "PPpp")}
                 </p>
               </div>
               <div>

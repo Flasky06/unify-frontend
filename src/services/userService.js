@@ -71,4 +71,12 @@ export const userService = {
     const data = await api.post("/users/my-business/employees", userData);
     return data;
   },
+
+  /**
+   * Update employee (BUSINESS_OWNER only)
+   */
+  updateEmployee: async (id, userData) => {
+    const data = await api.put(`/users/my-business/employees/${id}`, userData);
+    return data;
+  },
 };

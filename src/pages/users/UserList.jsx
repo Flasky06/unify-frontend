@@ -63,6 +63,28 @@ export const UserList = () => {
     }
   };
 
+  const handleToggleStatus = async (user) => {
+    try {
+      // Use active field as per DTO
+      const isActive = user.isActive || user.active;
+      await userService.updateEmployee(user.id, {
+        active: !isActive,
+      });
+      setToast({
+        isOpen: true,
+        message: `User ${isActive ? "deactivated" : "activated"} successfully`,
+        type: "success",
+      });
+      fetchUsers();
+    } catch (err) {
+      setToast({
+        isOpen: true,
+        message: err.message || "Failed to update status",
+        type: "error",
+      });
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -161,7 +183,9 @@ export const UserList = () => {
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Assigned Shop
               </th>
-              {/* <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> */}
+              <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -189,9 +213,18 @@ export const UserList = () => {
                     <span className="text-gray-400">-</span>
                   )}
                 </td>
-                {/* <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
-                  <button onClick={() => setConfirmDialog({isOpen: true, userId: user.id})} className="text-red-600 hover:text-red-900">Delete</button>
-                </td> */}
+                <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+                  <button
+                    onClick={() => handleToggleStatus(user)}
+                    className={`${
+                      user.isActive || user.active
+                        ? "text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-full transition-colors"
+                        : "text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-full transition-colors"
+                    }`}
+                  >
+                    {user.isActive || user.active ? "Deactivate" : "Activate"}
+                  </button>
+                </td>
               </tr>
             ))}
             {users.length === 0 && (

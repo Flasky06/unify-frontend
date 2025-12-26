@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 
 export const DashboardLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col">
-        <Header />
+        <Header onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 px-4 pt-4 pb-1">
           <Outlet />
         </main>

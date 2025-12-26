@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 
-export const Sidebar = () => {
+export const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
   const { user, isSuperAdmin } = useAuthStore();
   const [expandedMenu, setExpandedMenu] = useState(null);
@@ -268,6 +268,7 @@ export const Sidebar = () => {
                 <Link
                   key={child.path}
                   to={child.path}
+                  onClick={onClose}
                   className={`block px-3 py-2 text-sm rounded-lg transition-colors truncate ${
                     isActive(child.path)
                       ? "text-blue-400 bg-gray-800"
@@ -287,6 +288,7 @@ export const Sidebar = () => {
       <Link
         key={item.path}
         to={item.path}
+        onClick={onClose}
         className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 mb-1 ${
           isActive(item.path)
             ? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
@@ -300,59 +302,74 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="w-60 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col flex-shrink-0">
-      {/* Logo */}
-      <div className="p-5 border-b border-gray-700">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          mPOS
-        </h1>
-        <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">
-          {isSuperAdmin() ? "Admin Panel" : "Business"}
-        </p>
-      </div>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
+          onClick={onClose}
+        />
+      )}
 
-      {/* Navigation */}
-      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-        {navigation.map((item) => renderNavItem(item))}
-      </nav>
-
-      {/* User Info & Logout */}
-      <div className="p-3 border-t border-gray-700 bg-gray-900/50">
-        <div className="flex items-center gap-3 px-3 py-2 rounded-lg mb-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs">
-            {user?.email?.[0]?.toUpperCase()}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-white truncate">
-              {user?.email}
-            </p>
-            <p className="text-[10px] text-gray-400 truncate">
-              {user?.role?.replace("_", " ")}
-            </p>
-          </div>
+      <div
+        className={`
+        fixed inset-y-0 left-0 z-50 w-60 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex-shrink-0
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+      `}
+      >
+        {/* Logo */}
+        <div className="p-5 border-b border-gray-700">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            mPOS
+          </h1>
+          <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">
+            {isSuperAdmin() ? "Admin Panel" : "Business"}
+          </p>
         </div>
-        <button
-          onClick={() => {
-            useAuthStore.getState().logout();
-          }}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20 hover:border-red-500/30"
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+
+        {/* Navigation */}
+        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+          {navigation.map((item) => renderNavItem(item))}
+        </nav>
+
+        {/* User Info & Logout */}
+        <div className="p-3 border-t border-gray-700 bg-gray-900/50">
+          <div className="flex items-center gap-3 px-3 py-2 rounded-lg mb-2">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs">
+              {user?.email?.[0]?.toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium text-white truncate">
+                {user?.email}
+              </p>
+              <p className="text-[10px] text-gray-400 truncate">
+                {user?.role?.replace("_", " ")}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              useAuthStore.getState().logout();
+            }}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/20 hover:border-red-500/30"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
-          Sign Out
-        </button>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            Sign Out
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

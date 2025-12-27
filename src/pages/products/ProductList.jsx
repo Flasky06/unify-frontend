@@ -181,14 +181,9 @@ export const ProductList = () => {
 
   const columns = [
     { header: "Name", accessor: "name" },
-    { header: "SKU", accessor: "sku" },
     {
       header: "Selling Price",
       render: (product) => `KSH ${product.sellingPrice?.toFixed(2) || "0.00"}`,
-    },
-    {
-      header: "Cost Price",
-      render: (product) => `KSH ${product.costPrice?.toFixed(2) || "0.00"}`,
     },
     { header: "Brand", accessor: "brandName" },
     { header: "Category", accessor: "categoryName" },

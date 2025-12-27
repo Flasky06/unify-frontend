@@ -48,7 +48,7 @@ const Home = () => {
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Business Management
             <br />
-            <span className="text-gray-600">Simplified</span>
+            <span className="text-blue-600">Simplified</span>
           </h1>
           <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
             UNIFY streamlines your sales, inventory, and operations with an
@@ -84,7 +84,7 @@ const Home = () => {
         {/* Features Section */}
         <div className="py-20 grid md:grid-cols-3 gap-12">
           <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
+            <h3 className="text-xl font-bold text-blue-600 mb-3">
               Sales Management
             </h3>
             <p className="text-gray-600">
@@ -94,7 +94,7 @@ const Home = () => {
           </div>
 
           <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
+            <h3 className="text-xl font-bold text-blue-600 mb-3">
               Inventory Control
             </h3>
             <p className="text-gray-600">
@@ -104,7 +104,7 @@ const Home = () => {
           </div>
 
           <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
+            <h3 className="text-xl font-bold text-blue-600 mb-3">
               Multi-Location
             </h3>
             <p className="text-gray-600">
@@ -118,11 +118,11 @@ const Home = () => {
         <div className="py-20 border-t border-gray-200">
           <div className="grid md:grid-cols-3 gap-12 text-center">
             <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">Fast</div>
+              <div className="text-4xl font-bold text-blue-600 mb-2">Fast</div>
               <p className="text-gray-600">Lightning-fast performance</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">
+              <div className="text-4xl font-bold text-blue-600 mb-2">
                 Secure
               </div>
               <p className="text-gray-600">Enterprise-grade security</p>
@@ -138,7 +138,7 @@ const Home = () => {
 
         {/* CTA Section */}
         <div className="py-20 text-center border-t border-gray-200">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl font-bold text-blue-600 mb-6">
             Ready to get started?
           </h2>
           <p className="text-xl text-gray-600 mb-8">

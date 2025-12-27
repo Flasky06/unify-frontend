@@ -20,6 +20,8 @@ import AddStock from "../pages/stocks/AddStock";
 import SalesHistory from "../pages/sales/SalesHistory";
 import SalesByItem from "../pages/sales/SalesByItem";
 import { ServiceCategoryList } from "../pages/services/ServiceCategoryList";
+import { ServiceList } from "../pages/services/ServiceList";
+import { ServiceCategoryList } from "../pages/services/ServiceCategoryList";
 
 export const router = createBrowserRouter([
   {
@@ -117,6 +119,14 @@ export const router = createBrowserRouter([
       {
         path: "users",
         element: <AdminUsers />,
+      },
+      {
+        path: "services/categories",
+        element: <ServiceCategoryList />,
+      },
+      {
+        path: "services/products",
+        element: <ServiceList />,
       },
     ],
   },

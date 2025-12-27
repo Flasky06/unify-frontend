@@ -19,6 +19,7 @@ import StockTransfers from "../pages/stocks/StockTransfers";
 import AddStock from "../pages/stocks/AddStock";
 import SalesHistory from "../pages/sales/SalesHistory";
 import SalesByItem from "../pages/sales/SalesByItem";
+import { ServiceCategoryList } from "../pages/services/ServiceCategoryList";
 
 export const router = createBrowserRouter([
   {

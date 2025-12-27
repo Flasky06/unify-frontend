@@ -192,7 +192,7 @@ const StockTransfers = () => {
     {
       header: activeTab === "incoming" ? "From Shop" : "To Shop",
       render: (row) =>
-        activeTab === "incoming" ? row.sourceShopName : row.targetShopName,
+        activeTab === "incoming" ? row.sourceShopName : row.destinationShopName,
     },
     {
       header: "Status",
@@ -212,7 +212,8 @@ const StockTransfers = () => {
     },
     {
       header: "Date",
-      render: (row) => new Date(row.transferDate).toLocaleDateString(),
+      render: (row) =>
+        row.createdAt ? new Date(row.createdAt).toLocaleDateString() : "N/A",
     },
     {
       header: "Actions",

@@ -173,7 +173,7 @@ export const ShopList = () => {
       <div className="flex flex-col gap-6">
         {/* Header Actions */}
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
-          <div className="flex-1 w-full lg:max-w-md">
+          <div className="w-full lg:flex-1">
             <Input
               placeholder="Search shops..."
               value={searchTerm}

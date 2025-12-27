@@ -104,17 +104,15 @@ const SalesByItem = () => {
   return (
     <div className="p-6">
       <div className="flex flex-col gap-4 mb-6 lg:flex-row lg:justify-between lg:items-end">
-        <div className="flex-1">
+        <div className="w-full lg:flex-1">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
             Sales by Item
           </h1>
-          <div className="max-w-md">
-            <Input
-              placeholder="Search by product name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          <Input
+            placeholder="Search by product name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
 
         <div className="w-full lg:w-64">

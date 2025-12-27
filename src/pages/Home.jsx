@@ -84,9 +84,9 @@ const Home = () => {
         {/* Features Section */}
         <div className="mt-32 grid md:grid-cols-3 gap-8">
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition">
-            <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-teal-400 rounded-lg flex items-center justify-center mb-4">
               <svg
-                className="w-6 h-6 text-purple-600"
+                className="w-6 h-6 text-blue-700"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

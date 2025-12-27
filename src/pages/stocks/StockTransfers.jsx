@@ -189,11 +189,14 @@ const StockTransfers = () => {
     { header: "ID", accessor: "id" },
     { header: "Product", accessor: "productName" },
     { header: "Quantity", accessor: "quantity" },
-    {
-      header: activeTab === "incoming" ? "From Shop" : "To Shop",
-      render: (row) =>
-        activeTab === "incoming" ? row.sourceShopName : row.destinationShopName,
-    },
+    // For Business Owner/Manager, show both From and To shops
+    // For Shop Manager, only show From shop (they know it's coming to their shop)
+    ...(user?.role === "BUSINESS_OWNER" || user?.role === "BUSINESS_MANAGER"
+      ? [
+          { header: "From Shop", accessor: "sourceShopName" },
+          { header: "To Shop", accessor: "destinationShopName" },
+        ]
+      : [{ header: "From Shop", accessor: "sourceShopName" }]),
     {
       header: "Status",
       render: (row) => (

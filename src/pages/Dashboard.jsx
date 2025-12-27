@@ -239,33 +239,34 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-100px)]">
       {/* Header & Controls */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6 flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <h2 className="text-xl font-bold text-gray-800">Shop Inventory</h2>
-          <select
-            value={selectedShopId}
-            onChange={(e) => setSelectedShopId(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 min-w-[200px]"
-          >
-            {shops.map((shop) => (
-              <option key={shop.id} value={shop.id}>
-                {shop.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="w-72">
-            <Input
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+      <div className="bg-white p-4 rounded-lg shadow mb-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
+          <div className="flex flex-col gap-3 w-full lg:flex-row lg:items-center lg:w-auto">
+            <h2 className="text-xl font-bold text-gray-800">Shop Inventory</h2>
+            <select
+              value={selectedShopId}
+              onChange={(e) => setSelectedShopId(e.target.value)}
+              className="w-full lg:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 lg:min-w-[200px]"
+            >
+              {shops.map((shop) => (
+                <option key={shop.id} value={shop.id}>
+                  {shop.name}
+                </option>
+              ))}
+            </select>
           </div>
-          <button
-            onClick={() => setCartModalOpen(true)}
-            className="relative p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-sm"
-          >
+          <div className="flex flex-col gap-3 w-full lg:flex-row lg:items-center lg:w-auto">
+            <div className="w-full lg:w-72">
+              <Input
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <button
+              onClick={() => setCartModalOpen(true)}
+              className="relative p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2 shadow-sm"
+            >
             <svg
               className="w-5 h-5"
               fill="none"

@@ -7,7 +7,40 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="border-b border-gray-200 bg-white">
+      <nav className="bg-blue-600 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold text-white">UNIFY</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              {isAuthenticated ? (
+                <Link
+                  to="/dashboard"
+                  className="px-6 py-2 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-100 transition"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="px-6 py-2 text-white hover:text-gray-100 font-medium transition"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-6 py-2 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-100 transition"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -156,7 +189,13 @@ const Home = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-gray-50">
+      <footer className="bg-blue-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center text-white">
+            <p>&copy; 2025 UNIFY. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center text-gray-600">
             <p>&copy; 2025 UNIFY. All rights reserved.</p>

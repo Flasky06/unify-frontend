@@ -11,13 +11,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">UNIFY</h1>
+              <h1 className="text-2xl font-bold text-blue-600">UNIFY</h1>
             </div>
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
                 <Link
                   to="/dashboard"
-                  className="px-6 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
                 >
                   Dashboard
                 </Link>
@@ -31,7 +31,7 @@ const Home = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="px-6 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition"
+                    className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
                   >
                     Get Started
                   </Link>
@@ -66,13 +66,13 @@ const Home = () => {
               <>
                 <Link
                   to="/register"
-                  className="px-8 py-4 bg-gray-900 text-white rounded-lg font-semibold text-lg hover:bg-gray-800 transition"
+                  className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition"
                 >
                   Get Started Free
                 </Link>
                 <Link
                   to="/login"
-                  className="px-8 py-4 bg-white text-gray-900 border-2 border-gray-900 rounded-lg font-semibold text-lg hover:bg-gray-50 transition"
+                  className="px-8 py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold text-lg hover:bg-blue-50 transition"
                 >
                   Sign In
                 </Link>
@@ -147,7 +147,7 @@ const Home = () => {
           {!isAuthenticated && (
             <Link
               to="/register"
-              className="inline-block px-8 py-4 bg-gray-900 text-white rounded-lg font-semibold text-lg hover:bg-gray-800 transition"
+              className="inline-block px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition"
             >
               Start Free Trial
             </Link>

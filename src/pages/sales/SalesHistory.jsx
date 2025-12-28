@@ -236,7 +236,7 @@ const SalesHistory = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white rounded-lg shadow w-full overflow-x-auto">
         <Table
           columns={columns}
           data={filteredSales}

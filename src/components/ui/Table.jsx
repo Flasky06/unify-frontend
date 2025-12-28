@@ -20,9 +20,9 @@ const Table = ({
 
   return (
     <>
-      <div className="overflow-hidden rounded-lg border border-gray-200">
-        <div className="overflow-x-auto max-h-[calc(100vh-280px)]">
-          <table className="min-w-full divide-y divide-gray-200">
+      <div className="overflow-hidden rounded-lg border border-gray-200 w-full">
+        <div className="overflow-x-auto max-h-[calc(100vh-280px)] -webkit-overflow-scrolling-touch">
+          <table className="min-w-full divide-y divide-gray-200 w-full">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
                 {columns.map((column, index) => (

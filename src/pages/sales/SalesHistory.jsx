@@ -13,6 +13,8 @@ const SalesHistory = () => {
   const [shops, setShops] = useState([]);
   const [selectedShopId, setSelectedShopId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedSale, setSelectedSale] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -111,11 +113,28 @@ const SalesHistory = () => {
 
   const filteredSales = sales.filter((sale) => {
     const search = searchTerm.toLowerCase();
-    return (
+    const searchMatch =
       sale.saleNumber?.toLowerCase().includes(search) ||
       sale.shopName?.toLowerCase().includes(search) ||
-      sale.paymentMethod?.toLowerCase().includes(search)
-    );
+      sale.paymentMethod?.toLowerCase().includes(search);
+
+    // Date filtering
+    let dateMatch = true;
+    if (startDate || endDate) {
+      const saleDate = new Date(sale.saleDate);
+      if (startDate) {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        if (saleDate < start) dateMatch = false;
+      }
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        if (saleDate > end) dateMatch = false;
+      }
+    }
+
+    return searchMatch && dateMatch;
   });
 
   const columns = [
@@ -172,10 +191,34 @@ const SalesHistory = () => {
           />
         </div>
 
-        <div className="w-full lg:w-auto">
-          <div className="w-full sm:w-48">
+        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+          <div className="w-full sm:w-40">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Shop
+              Start Date
+            </label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="w-full sm:w-40">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              End Date
+            </label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="w-full sm:w-40">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Shop
             </label>
             <select
               value={selectedShopId}

@@ -27,11 +27,6 @@ export const registerSchema = z
       .string()
       .min(1, "Phone number is required")
       .min(10, "Phone number must be at least 10 digits"),
-    businessName: z
-      .string()
-      .min(1, "Business name is required")
-      .min(2, "Business name must be at least 2 characters"),
-    businessType: z.string().min(1, "Business type is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

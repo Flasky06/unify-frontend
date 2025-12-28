@@ -286,9 +286,58 @@ export const UserList = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Role
-                </label>
+                <div className="flex items-center gap-2 mb-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Role
+                  </label>
+                  <div className="relative group">
+                    <svg
+                      className="w-4 h-4 text-gray-400 cursor-help"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-72 p-4 bg-gray-800 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                      <div className="space-y-3">
+                        <div>
+                          <p className="font-bold text-blue-300">
+                            Business Manager
+                          </p>
+                          <p className="text-gray-300">
+                            Full access to settings, reports, staff management,
+                            and all shops.
+                          </p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-green-300">
+                            Shop Manager
+                          </p>
+                          <p className="text-gray-300">
+                            Manages sales, stock, and staff for their assigned
+                            shop only.
+                          </p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-yellow-300">
+                            Sales Representative
+                          </p>
+                          <p className="text-gray-300">
+                            Can only process sales and view product list. No
+                            access to reports.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-8 border-transparent border-t-gray-800"></div>
+                    </div>
+                  </div>
+                </div>
                 <select
                   name="role"
                   value={formData.role}

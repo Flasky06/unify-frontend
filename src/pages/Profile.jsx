@@ -104,9 +104,13 @@ const Profile = () => {
 
       updateUser(updatedUser);
 
-      // Update business if it exists
+      // Update business if it exists, otherwise create it
       if (hasBusiness) {
         await businessService.updateBusiness(businessData);
+      } else if (businessData.businessName && businessData.businessType) {
+        // Only attempt to create if we have at least name and type
+        await businessService.createBusiness(businessData);
+        setHasBusiness(true);
       }
 
       setSuccess("Profile updated successfully!");

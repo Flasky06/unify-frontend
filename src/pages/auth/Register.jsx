@@ -16,8 +16,6 @@ const Register = () => {
       password: "",
       confirmPassword: "",
       phoneNo: "",
-      businessName: "",
-      businessType: "",
     },
     validate: (values) => {
       try {
@@ -185,59 +183,6 @@ const Register = () => {
                 {formik.touched.phoneNo && formik.errors.phoneNo && (
                   <p className="mt-1 text-sm text-red-600">
                     {formik.errors.phoneNo}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="businessName"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Business Name
-                </label>
-                <input
-                  id="businessName"
-                  name="businessName"
-                  type="text"
-                  autoComplete="organization"
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition ${
-                    formik.touched.businessName && formik.errors.businessName
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
-                  placeholder="My Business LLC"
-                  {...formik.getFieldProps("businessName")}
-                />
-                {formik.touched.businessName && formik.errors.businessName && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {formik.errors.businessName}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="businessType"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Business Type
-                </label>
-                <input
-                  id="businessType"
-                  name="businessType"
-                  type="text"
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition ${
-                    formik.touched.businessType && formik.errors.businessType
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
-                  placeholder="e.g., Retail, Restaurant, Cafe"
-                  {...formik.getFieldProps("businessType")}
-                />
-                {formik.touched.businessType && formik.errors.businessType && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {formik.errors.businessType}
                   </p>
                 )}
               </div>

@@ -1,45 +1,56 @@
-import { useEffect, useState } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { api } from "../../lib/api";
+import { authService } from "../../services/authService";
+import useAuthStore from "../../store/authStore";
 
 const VerifyEmail = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [status, setStatus] = useState("verifying"); // verifying, success, error
+  const { setAuth } = useAuthStore();
+  const [code, setCode] = useState("");
+  const [status, setStatus] = useState("input"); // input, verifying, success, error
   const [message, setMessage] = useState("");
-  const token = searchParams.get("token");
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const verifyEmail = async () => {
-      if (!token) {
-        setStatus("error");
-        setMessage("Verification token is missing.");
-        return;
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      try {
-        const response = await api.get(`/auth/verify-email?token=${token}`);
-        setStatus("success");
-        setMessage(
-          response.message || "Your email has been verified successfully!"
-        );
+    if (!code || code.length !== 6) {
+      setStatus("error");
+      setMessage("Please enter a valid 6-digit verification code.");
+      return;
+    }
 
-        // Redirect to login after 3 seconds
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
-      } catch (error) {
-        setStatus("error");
-        setMessage(
-          error.data?.message ||
-            error.message ||
-            "Email verification failed. The link may be invalid or expired."
-        );
-      }
-    };
+    setIsLoading(true);
+    setStatus("verifying");
 
-    verifyEmail();
-  }, [token, navigate]);
+    try {
+      // Verify email with code
+      await api.post(`/auth/verify-email?code=${code}`);
+      setStatus("success");
+      setMessage("Your email has been verified successfully!");
+
+      // Auto-redirect after 2 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      setStatus("error");
+      setMessage(
+        error.data?.message ||
+          error.message ||
+          "Email verification failed. The code may be invalid or expired."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    // You'll need to implement this based on your backend
+    // For now, just show a message
+    setMessage("Please check your email for the verification code.");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
@@ -67,10 +78,10 @@ const VerifyEmail = () => {
                 </svg>
               </div>
             )}
-            {status === "error" && (
-              <div className="bg-red-100 rounded-full p-3">
+            {(status === "input" || status === "error") && (
+              <div className="bg-blue-100 rounded-full p-3">
                 <svg
-                  className="h-10 w-10 text-red-600"
+                  className="h-10 w-10 text-blue-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -79,7 +90,7 @@ const VerifyEmail = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
               </div>
@@ -90,22 +101,60 @@ const VerifyEmail = () => {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {status === "verifying" && "Verifying Your Email"}
             {status === "success" && "Email Verified!"}
-            {status === "error" && "Verification Failed"}
+            {(status === "input" || status === "error") && "Verify Your Email"}
           </h1>
 
           {/* Message */}
           <p className="text-gray-600 mb-6">
+            {status === "input" &&
+              "Please enter the 6-digit verification code sent to your email."}
             {status === "verifying" &&
               "Please wait while we verify your email address..."}
             {status === "success" && message}
             {status === "error" && message}
           </p>
 
-          {/* Actions */}
+          {/* Form */}
+          {(status === "input" || status === "error") && (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  maxLength="6"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-center text-2xl tracking-widest focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  placeholder="000000"
+                  autoFocus
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading || code.length !== 6}
+                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? "Verifying..." : "Verify Email"}
+              </button>
+
+              <div className="text-sm text-gray-600">
+                Didn't receive the code?{" "}
+                <button
+                  type="button"
+                  onClick={handleResendCode}
+                  className="text-blue-600 hover:text-blue-500 font-medium"
+                >
+                  Resend
+                </button>
+              </div>
+            </form>
+          )}
+
+          {/* Success Actions */}
           {status === "success" && (
             <div className="space-y-3">
               <p className="text-sm text-gray-500">
-                Redirecting to login in 3 seconds...
+                Redirecting to login in 2 seconds...
               </p>
               <Link
                 to="/login"
@@ -116,17 +165,12 @@ const VerifyEmail = () => {
             </div>
           )}
 
-          {status === "error" && (
-            <div className="space-y-3">
-              <Link
-                to="/register"
-                className="inline-block w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition"
-              >
-                Register Again
-              </Link>
+          {/* Back to Login */}
+          {status === "input" && (
+            <div className="mt-4">
               <Link
                 to="/login"
-                className="inline-block w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition"
+                className="text-sm text-gray-600 hover:text-gray-800"
               >
                 Back to Login
               </Link>

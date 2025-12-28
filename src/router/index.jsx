@@ -4,6 +4,7 @@ import { DashboardLayout } from "../components/layout/DashboardLayout";
 import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import CreateBusiness from "../pages/auth/CreateBusiness";
 import Dashboard from "../pages/Dashboard";
 import VerifyEmail from "../pages/auth/VerifyEmail";
 import AdminDashboard from "../pages/super-admin/SuperAdminDashboard";
@@ -34,6 +35,14 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/create-business",
+    element: (
+      <ProtectedRoute>
+        <CreateBusiness />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/verify-email",

@@ -36,6 +36,9 @@ const Login = () => {
         // Role-based redirect
         if (user?.role === "SUPER_ADMIN") {
           navigate("/super-admin/super-admin", { replace: true });
+        } else if (user?.role === "BUSINESS_OWNER" && !user?.businessId) {
+          // Redirect to business setup if not yet done
+          navigate("/create-business", { replace: true });
         } else {
           // All other users go to regular dashboard
           navigate("/dashboard", { replace: true });

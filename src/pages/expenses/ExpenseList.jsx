@@ -18,6 +18,7 @@ export const ExpenseList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const [formData, setFormData] = useState({
+    name: "",
     amount: "",
     expenseDate: "",
     notes: "",
@@ -107,6 +108,7 @@ export const ExpenseList = () => {
   const filteredExpenses = useMemo(() => {
     return expenses.filter((expense) => {
       const matchesSearch =
+        expense.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         expense.notes?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         expense.categoryName
           ?.toLowerCase()
@@ -220,6 +222,7 @@ export const ExpenseList = () => {
   const openCreateModal = () => {
     setEditingExpense(null);
     setFormData({
+      name: "",
       amount: "",
       expenseDate: new Date().toISOString().split("T")[0],
       notes: "",
@@ -233,6 +236,7 @@ export const ExpenseList = () => {
   const openEditModal = (expense) => {
     setEditingExpense(expense);
     setFormData({
+      name: expense.name || "",
       amount: expense.amount.toString(),
       expenseDate: expense.expenseDate,
       notes: expense.notes || "",
@@ -247,6 +251,7 @@ export const ExpenseList = () => {
     setIsModalOpen(false);
     setEditingExpense(null);
     setFormData({
+      name: "",
       amount: "",
       expenseDate: "",
       notes: "",
@@ -256,6 +261,10 @@ export const ExpenseList = () => {
   };
 
   const columns = [
+    {
+      header: "Name",
+      accessor: "name",
+    },
     {
       header: "Date",
       accessor: "expenseDate",
@@ -582,6 +591,14 @@ export const ExpenseList = () => {
               {error}
             </div>
           )}
+
+          <Input
+            label="Expense Name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="e.g., Electricity, 30 units of tokens"
+            required
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <Input

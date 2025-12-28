@@ -270,7 +270,10 @@ export const ExpenseList = () => {
               </select>
             </div>
             <div className="flex gap-2 w-full lg:w-auto">
-              <div className="relative flex-1 lg:flex-none lg:w-auto">
+              <div className="flex-1 lg:flex-none lg:w-auto">
+                <label className="block text-xs font-medium text-gray-700 mb-1 px-1">
+                  From
+                </label>
                 <Input
                   type="date"
                   value={startDate}
@@ -278,7 +281,10 @@ export const ExpenseList = () => {
                   placeholder="Start Date"
                 />
               </div>
-              <div className="relative flex-1 lg:flex-none lg:w-auto">
+              <div className="flex-1 lg:flex-none lg:w-auto">
+                <label className="block text-xs font-medium text-gray-700 mb-1 px-1">
+                  To
+                </label>
                 <Input
                   type="date"
                   value={endDate}

@@ -11,7 +11,7 @@ export const DashboardLayout = () => {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 px-2 sm:px-4 py-4 overflow-auto">
+        <main className="flex-1 px-3 sm:px-4 py-3 sm:py-4 overflow-auto">
           <Outlet />
         </main>
       </div>

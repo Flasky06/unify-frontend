@@ -192,28 +192,28 @@ const SalesHistory = () => {
   ];
 
   return (
-    <div className="p-6">
-      <div className="flex flex-col gap-4 mb-6 lg:flex-row lg:justify-between lg:items-end">
+    <div className="p-4">
+      <div className="flex flex-col gap-3 mb-4 lg:flex-row lg:justify-between lg:items-end">
         <div className="w-full lg:flex-1">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          <h1 className="text-2xl font-bold text-gray-800 mb-3">
             Sales History
           </h1>
           <Input
-            placeholder="Search by sale no, shop, status..."
+            placeholder="Search by sale no, shop..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-          <div className="w-full sm:w-48">
+        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+          <div className="w-full sm:w-40">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Sales Type
             </label>
             <select
               value={salesType}
               onChange={(e) => setSalesType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Sales</option>
               <option value="product">Products Only</option>
@@ -221,14 +221,14 @@ const SalesHistory = () => {
             </select>
           </div>
 
-          <div className="w-full sm:w-48">
+          <div className="w-full sm:w-40">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Shop
+              Shop
             </label>
             <select
               value={selectedShopId}
               onChange={(e) => setSelectedShopId(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Shops</option>
               {shops.map((shop) => (

@@ -145,26 +145,29 @@ export const UserList = () => {
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-4 sm:gap-6">
-        <div className="flex justify-end">
-          <Button
-            onClick={() => setIsModalOpen(true)}
-            className="w-full sm:w-auto whitespace-nowrap"
-          >
-            <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <h1 className="text-2xl font-bold text-gray-800">User Management</h1>
+          <div className="w-full sm:w-auto flex justify-end">
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              className="w-full sm:w-auto whitespace-nowrap"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Add User
-          </Button>
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Add User
+            </Button>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow overflow-hidden">

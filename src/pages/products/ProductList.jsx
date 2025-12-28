@@ -19,10 +19,10 @@ export const ProductList = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
-    sku: "",
+
     description: "",
     sellingPrice: "",
-    costPrice: "",
+
     brandId: "",
     categoryId: "",
     active: true,
@@ -66,9 +66,9 @@ export const ProductList = () => {
   };
 
   const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.sku.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesBrand = selectedBrand
       ? product.brandId.toString() === selectedBrand
       : true;

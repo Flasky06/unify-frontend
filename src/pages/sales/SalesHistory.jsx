@@ -169,23 +169,6 @@ const SalesHistory = () => {
       render: (row) => `KSH ${row.total.toLocaleString()}`,
     },
     {
-      header: "Status",
-      accessor: "status",
-      render: (row) => (
-        <span
-          className={`px-2 py-1 rounded-full text-xs font-semibold ${
-            row.status === "COMPLETED"
-              ? "bg-green-100 text-green-800"
-              : row.status === "CANCELLED"
-              ? "bg-red-100 text-red-800"
-              : "bg-yellow-100 text-yellow-800"
-          }`}
-        >
-          {row.status}
-        </span>
-      ),
-    },
-    {
       header: "Actions",
       render: (row) => (
         <div className="flex gap-3">

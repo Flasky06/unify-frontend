@@ -8,7 +8,6 @@ import CreateBusiness from "../pages/auth/CreateBusiness";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Dashboard from "../pages/Dashboard";
-import VerifyEmail from "../pages/auth/VerifyEmail";
 import AdminDashboard from "../pages/super-admin/SuperAdminDashboard";
 import AdminUsers from "../pages/super-admin/AdminUsers";
 import Profile from "../pages/Profile";
@@ -45,10 +44,6 @@ export const router = createBrowserRouter([
         <CreateBusiness />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/verify-email",
-    element: <VerifyEmail />,
   },
   {
     path: "/forgot-password",

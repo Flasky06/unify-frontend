@@ -5,4 +5,10 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  preview: {
+    allowedHosts: [
+      "unify-frontend-production.up.railway.app",
+      ".railway.app", // Allow all Railway subdomains
+    ],
+  },
 });

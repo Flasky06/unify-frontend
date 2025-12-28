@@ -28,6 +28,13 @@ const SalesByItem = () => {
     }
   }, [selectedShopId]);
 
+  // Re-aggregate data when salesType changes
+  useEffect(() => {
+    if (sales.length > 0) {
+      aggregateData(sales);
+    }
+  }, [salesType]);
+
   const fetchShops = async () => {
     try {
       const data = await shopService.getAll();

@@ -331,7 +331,7 @@ export const ExpenseList = () => {
         <h1 className="text-2xl font-bold text-gray-800">Expense Management</h1>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
             <p className="text-sm text-blue-600 font-medium">Total Expenses</p>
             <p className="text-2xl font-bold text-blue-900">
@@ -340,23 +340,6 @@ export const ExpenseList = () => {
             <p className="text-xs text-blue-600 mt-1">
               {summary.count} transactions
             </p>
-          </div>
-          <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
-            <p className="text-sm text-green-600 font-medium">Categories</p>
-            <p className="text-2xl font-bold text-green-900">
-              {Object.keys(summary.byCategory).length}
-            </p>
-            <p className="text-xs text-green-600 mt-1">active categories</p>
-          </div>
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
-            <p className="text-sm text-purple-600 font-medium">Average</p>
-            <p className="text-2xl font-bold text-purple-900">
-              KSH{" "}
-              {summary.count > 0
-                ? (summary.total / summary.count).toFixed(2)
-                : "0.00"}
-            </p>
-            <p className="text-xs text-purple-600 mt-1">per transaction</p>
           </div>
         </div>
 

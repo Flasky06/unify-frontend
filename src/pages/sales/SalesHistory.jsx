@@ -12,6 +12,7 @@ const SalesHistory = () => {
   const [sales, setSales] = useState([]);
   const [shops, setShops] = useState([]);
   const [selectedShopId, setSelectedShopId] = useState("");
+  const [salesType, setSalesType] = useState("all"); // 'all', 'product', 'service'
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedSale, setSelectedSale] = useState(null);
@@ -109,7 +110,21 @@ const SalesHistory = () => {
     setIsDetailsModalOpen(true);
   };
 
-  const filteredSales = sales.filter((sale) => {
+  // Helper function to determine sale type based on items
+  const getSaleType = (sale) => {
+    if (!sale.items || sale.items.length === 0) return "unknown";
+
+    const hasProducts = sale.items.some((item) => item.type === "PRODUCT");
+    const hasServices = sale.items.some((item) => item.type === "SERVICE");
+
+    if (hasProducts && hasServices) return "mixed";
+    if (hasProducts) return "product";
+    if (hasServices) return "service";
+    return "unknown";
+  };
+
+  // Filter by search term
+  const searchFilteredSales = sales.filter((sale) => {
     const search = searchTerm.toLowerCase();
     return (
       sale.saleNumber?.toLowerCase().includes(search) ||
@@ -117,6 +132,23 @@ const SalesHistory = () => {
       sale.paymentMethod?.toLowerCase().includes(search) ||
       sale.status?.toLowerCase().includes(search)
     );
+  });
+
+  // Filter by sales type
+  const filteredSales = searchFilteredSales.filter((sale) => {
+    if (salesType === "all") return true;
+
+    const saleType = getSaleType(sale);
+
+    if (salesType === "product") {
+      return saleType === "product";
+    }
+
+    if (salesType === "service") {
+      return saleType === "service";
+    }
+
+    return true;
   });
 
   const columns = [

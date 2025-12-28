@@ -136,7 +136,7 @@ export const ProductList = () => {
     setEditingProduct(null);
     setFormData({
       name: "",
-      sku: "",
+
       description: "",
       sellingPrice: "",
 
@@ -152,7 +152,7 @@ export const ProductList = () => {
     setEditingProduct(product);
     setFormData({
       name: product.name,
-      sku: product.sku,
+
       description: product.description || "",
       sellingPrice: product.sellingPrice?.toString() || "",
 
@@ -169,7 +169,7 @@ export const ProductList = () => {
     setEditingProduct(null);
     setFormData({
       name: "",
-      sku: "",
+
       description: "",
       sellingPrice: "",
 
@@ -331,14 +331,6 @@ export const ProductList = () => {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="e.g., iPhone 15 Pro"
-            required
-          />
-
-          <Input
-            label="SKU"
-            value={formData.sku}
-            onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-            placeholder="e.g., IPH15PRO-256"
             required
           />
 

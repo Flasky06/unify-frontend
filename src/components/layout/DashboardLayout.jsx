@@ -9,9 +9,9 @@ export const DashboardLayout = () => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <Header onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 px-4 pt-4 pb-1">
+        <main className="flex-1 px-2 sm:px-4 py-4 overflow-auto">
           <Outlet />
         </main>
       </div>

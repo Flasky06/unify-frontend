@@ -169,11 +169,11 @@ export const ShopList = () => {
   ];
 
   return (
-    <div>
-      <div className="flex flex-col gap-6">
+    <div className="flex flex-col h-full max-w-full overflow-hidden">
+      <div className="flex flex-col gap-4 sm:gap-6">
         {/* Header Actions */}
-        <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
-          <div className="w-full lg:flex-1">
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+          <div className="w-full sm:flex-1 sm:max-w-md">
             <Input
               placeholder="Search shops..."
               value={searchTerm}
@@ -181,9 +181,12 @@ export const ShopList = () => {
             />
           </div>
           {user?.role !== "SHOP_MANAGER" && user?.role !== "SALES_REP" && (
-            <Button onClick={openCreateModal} className="w-full lg:w-auto">
+            <Button
+              onClick={openCreateModal}
+              className="w-full sm:w-auto whitespace-nowrap"
+            >
               <svg
-                className="w-5 h-5 mr-2"
+                className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -200,7 +203,7 @@ export const ShopList = () => {
           )}
         </div>
 
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg shadow overflow-hidden">
           {loading ? (
             <div className="p-8 text-center text-gray-500">
               Loading shops...

@@ -213,65 +213,71 @@ const StockList = () => {
   }));
 
   return (
-    <div className="p-6">
-      {/* Add Stock Button */}
-      <div className="mb-6 flex justify-end">
-        <Button onClick={() => navigate("/stocks/add")}>
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-          Add Stock
-        </Button>
-      </div>
+    <div className="flex flex-col h-full max-w-full overflow-hidden">
+      <div className="flex flex-col gap-4 sm:gap-6">
+        {/* Add Stock Button and Filters */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-end">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-1 sm:gap-4">
+            <div className="w-full sm:w-48">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Filter by Shop
+              </label>
+              <select
+                value={selectedShopId}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSelectedShopId(value);
+                  setViewMode(value ? "byShop" : "all");
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">All Shops</option>
+                {shops.map((shop) => (
+                  <option key={shop.id} value={shop.id}>
+                    {shop.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      {/* Filter and Search */}
-      <div className="mb-6 flex gap-4 items-end">
-        <div className="w-64">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Filter by Shop
-          </label>
-          <select
-            value={selectedShopId}
-            onChange={(e) => {
-              const value = e.target.value;
-              setSelectedShopId(value);
-              setViewMode(value ? "byShop" : "all");
-            }}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Search
+              </label>
+              <Input
+                placeholder="Search by product or shop name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <Button
+            onClick={() => navigate("/stocks/add")}
+            className="w-full sm:w-auto whitespace-nowrap"
           >
-            <option value="">All Shops</option>
-            {shops.map((shop) => (
-              <option key={shop.id} value={shop.id}>
-                {shop.name}
-              </option>
-            ))}
-          </select>
+            <svg
+              className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Add Stock
+          </Button>
         </div>
 
-        <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Search
-          </label>
-          <Input
-            placeholder="Search by product or shop name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        {/* Stock Table */}
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <Table columns={columns} data={tableData} loading={loading} />
         </div>
       </div>
-
-      {/* Stock Table */}
-      <Table columns={columns} data={tableData} loading={loading} />
 
       {/* Add/Edit Modal */}
       <Modal

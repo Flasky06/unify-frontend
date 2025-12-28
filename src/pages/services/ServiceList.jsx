@@ -258,7 +258,8 @@ export const ServiceList = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -269,12 +270,16 @@ export const ServiceList = () => {
             </div>
           </div>
           {user?.role !== "SALES_REP" && (
-            <Button onClick={openCreateModal} className="w-full sm:w-auto whitespace-nowrap">
+            <Button
+              onClick={openCreateModal}
+              className="w-full sm:w-auto whitespace-nowrap"
+            >
               <svg
                 className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -288,12 +293,15 @@ export const ServiceList = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow overflow-hidden">
-        columns={columns}
-        data={filteredServices}
-        loading={loading}
-        emptyMessage="No services found"
-        showViewAction={true}
-      />
+          <Table
+            columns={columns}
+            data={filteredServices}
+            loading={loading}
+            emptyMessage="No services found"
+            showViewAction={true}
+          />
+        </div>
+      </div>
 
       {/* Add/Edit Modal */}
       <Modal

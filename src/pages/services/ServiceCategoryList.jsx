@@ -174,12 +174,16 @@ export const ServiceCategoryList = () => {
             />
           </div>
           {user?.role !== "SALES_REP" && (
-            <Button onClick={openCreateModal} className="w-full sm:w-auto whitespace-nowrap">
+            <Button
+              onClick={openCreateModal}
+              className="w-full sm:w-auto whitespace-nowrap"
+            >
               <svg
                 className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -193,11 +197,14 @@ export const ServiceCategoryList = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow overflow-hidden">
-        columns={columns}
-        data={filteredCategories}
-        loading={loading}
-        emptyMessage="No service categories found"
-      />
+          <Table
+            columns={columns}
+            data={filteredCategories}
+            loading={loading}
+            emptyMessage="No service categories found"
+          />
+        </div>
+      </div>
 
       {/* Add/Edit Modal */}
       <Modal

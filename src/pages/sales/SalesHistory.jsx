@@ -188,10 +188,13 @@ const SalesHistory = () => {
     {
       header: "Actions",
       render: (row) => (
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => openDetails(row)}>
+        <div className="flex gap-3">
+          <button
+            onClick={() => openDetails(row)}
+            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          >
             View
-          </Button>
+          </button>
           {row.status !== "CANCELLED" && (
             <button
               onClick={() => setConfirmDialog({ isOpen: true, saleId: row.id })}

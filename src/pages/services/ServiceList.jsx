@@ -34,6 +34,7 @@ export const ServiceList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -77,7 +78,10 @@ export const ServiceList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       const businessId = user?.businessId;
       const dataToSubmit = {
@@ -108,6 +112,8 @@ export const ServiceList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -418,8 +424,8 @@ export const ServiceList = () => {
             <Button type="button" variant="secondary" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingService ? "Update" : "Create"}
+            <Button type="submit" disabled={submitting}>
+              {submitting ? "Saving..." : editingService ? "Update" : "Create"}
             </Button>
           </div>
         </form>

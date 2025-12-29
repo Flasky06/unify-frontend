@@ -33,6 +33,8 @@ const ResetPassword = () => {
       return;
     }
 
+    if (status === "loading") return;
+
     setStatus("loading");
 
     try {

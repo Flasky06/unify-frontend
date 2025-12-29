@@ -24,6 +24,7 @@ export const ServiceCategoryList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -57,7 +58,10 @@ export const ServiceCategoryList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       const businessId = user?.businessId;
       if (editingCategory) {
@@ -81,6 +85,8 @@ export const ServiceCategoryList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -240,8 +246,8 @@ export const ServiceCategoryList = () => {
             <Button type="button" variant="secondary" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingCategory ? "Update" : "Create"}
+            <Button type="submit" disabled={submitting}>
+              {submitting ? "Saving..." : editingCategory ? "Update" : "Create"}
             </Button>
           </div>
         </form>

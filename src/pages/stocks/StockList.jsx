@@ -86,6 +86,7 @@ const StockList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
 
     try {
@@ -124,6 +125,7 @@ const StockList = () => {
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this stock entry?")) return;
+    if (loading) return;
 
     setLoading(true);
     try {

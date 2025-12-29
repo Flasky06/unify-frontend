@@ -168,8 +168,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
       children: [
         { name: "Sales History", path: "/sales" },
         { name: "Sales By Item", path: "/sales/items" },
+        { name: "Sales Analytics", path: "/sales/analytics" },
       ],
     },
+
     {
       name: "Service Management",
       icon: (
@@ -212,6 +214,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
       children: [
         { name: "Expense Categories", path: "/expenses/categories" },
         { name: "Expenses", path: "/expenses" },
+        { name: "Expense Analytics", path: "/expenses/analytics" },
       ],
     },
     {

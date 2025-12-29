@@ -28,6 +28,7 @@ const Login = () => {
       }
     },
     onSubmit: async (values) => {
+      if (isLoading) return;
       try {
         const user = await login(values);
         console.log("Login User Response:", user);

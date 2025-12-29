@@ -73,6 +73,8 @@ const AddStock = () => {
       return;
     }
 
+    if (loading) return;
+
     setLoading(true);
     setError(null);
 

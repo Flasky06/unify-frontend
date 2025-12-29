@@ -24,6 +24,7 @@ export const ExpenseCategoryList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -49,7 +50,10 @@ export const ExpenseCategoryList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       if (editingCategory) {
         await expenseCategoryService.update(editingCategory.id, formData);
@@ -72,6 +76,8 @@ export const ExpenseCategoryList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -227,8 +233,12 @@ export const ExpenseCategoryList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingCategory ? "Update Category" : "Create Category"}
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : editingCategory
+                ? "Update Category"
+                : "Create Category"}
             </Button>
           </div>
         </form>

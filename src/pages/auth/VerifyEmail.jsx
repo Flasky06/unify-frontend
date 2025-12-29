@@ -21,6 +21,8 @@ const VerifyEmail = () => {
       return;
     }
 
+    if (isLoading) return;
+
     setIsLoading(true);
     setStatus("verifying");
 
@@ -56,6 +58,8 @@ const VerifyEmail = () => {
       setStatus("error");
       return;
     }
+
+    if (resendLoading) return;
 
     setResendLoading(true);
     setResendMessage("");

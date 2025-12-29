@@ -35,6 +35,7 @@ export const ExpenseList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -168,7 +169,10 @@ export const ExpenseList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       const submitData = {
         ...formData,
@@ -198,6 +202,8 @@ export const ExpenseList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -667,8 +673,12 @@ export const ExpenseList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingExpense ? "Update Expense" : "Create Expense"}
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : editingExpense
+                ? "Update Expense"
+                : "Create Expense"}
             </Button>
           </div>
         </form>

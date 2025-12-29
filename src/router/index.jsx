@@ -25,7 +25,9 @@ import { ServiceCategoryList } from "../pages/services/ServiceCategoryList";
 import { ServiceList } from "../pages/services/ServiceList";
 import { ExpenseCategoryList } from "../pages/expenses/ExpenseCategoryList";
 import { ExpenseList } from "../pages/expenses/ExpenseList";
+import ExpenseAnalytics from "../pages/expenses/ExpenseAnalytics";
 import { PaymentMethodList } from "../pages/paymentMethods/PaymentMethodList";
+import SalesAnalytics from "../pages/sales/SalesAnalytics";
 
 export const router = createBrowserRouter([
   {
@@ -118,6 +120,10 @@ export const router = createBrowserRouter([
         element: <SalesByItem />,
       },
       {
+        path: "sales/analytics",
+        element: <SalesAnalytics />,
+      },
+      {
         path: "services/categories",
         element: <ServiceCategoryList />,
       },
@@ -132,6 +138,10 @@ export const router = createBrowserRouter([
       {
         path: "expenses",
         element: <ExpenseList />,
+      },
+      {
+        path: "expenses/analytics",
+        element: <ExpenseAnalytics />,
       },
       {
         path: "payment-methods",

@@ -32,6 +32,7 @@ const StockTransfers = () => {
     message: "",
     type: "info",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     // Load shops for Business Owner
@@ -136,6 +137,10 @@ const StockTransfers = () => {
         });
         return;
       }
+
+      if (submitting) return;
+      setSubmitting(true);
+
       const payload = {
         sourceShopId: selectedShopId,
         destinationShopId: parseInt(formData.targetShopId),
@@ -158,21 +163,29 @@ const StockTransfers = () => {
         message: err.message || "Transfer failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleAcknowledge = async (id) => {
     try {
+      if (submitting) return;
+      setSubmitting(true);
       await stockTransferService.acknowledgeTransfer(id);
       setToast({ isOpen: true, message: "Transfer accepted", type: "success" });
       fetchTransfers();
     } catch (err) {
       setToast({ isOpen: true, message: "Failed to accept", type: "error" });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleCancel = async (id) => {
     try {
+      if (submitting) return;
+      setSubmitting(true);
       await stockTransferService.cancelTransfer(id);
       setToast({
         isOpen: true,
@@ -182,6 +195,8 @@ const StockTransfers = () => {
       fetchTransfers();
     } catch (err) {
       setToast({ isOpen: true, message: "Failed to cancel", type: "error" });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -371,7 +386,9 @@ const StockTransfers = () => {
             <Button variant="outline" onClick={() => setCreateModalOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleCreateTransfer}>Initiate Transfer</Button>
+            <Button onClick={handleCreateTransfer} disabled={submitting}>
+              {submitting ? "Initiating..." : "Initiate Transfer"}
+            </Button>
           </div>
         </div>
       </Modal>

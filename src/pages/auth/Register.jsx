@@ -29,6 +29,7 @@ const Register = () => {
       }
     },
     onSubmit: async (values) => {
+      if (isLoading) return;
       try {
         const { confirmPassword, ...data } = values;
         const registerData = {

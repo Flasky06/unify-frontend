@@ -152,6 +152,7 @@ export const POS = () => {
 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
+    if (isProcessing) return;
 
     try {
       setIsProcessing(true);

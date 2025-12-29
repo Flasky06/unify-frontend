@@ -53,7 +53,7 @@ const Profile = () => {
     const fetchBusinessData = async () => {
       try {
         const business = await businessService.getMyBusiness();
-        console.log("✅ Fetched business data:", business);
+        console.log("Fetched business data:", business);
         setBusinessData({
           businessName: business.businessName || "",
           businessType: business.businessType || "",
@@ -62,7 +62,7 @@ const Profile = () => {
         });
         setHasBusiness(true);
       } catch (err) {
-        console.error("❌ Failed to fetch business:", {
+        console.error("Failed to fetch business:", {
           message: err.message,
           status: err.status,
           error: err,

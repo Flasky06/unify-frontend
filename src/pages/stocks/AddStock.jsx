@@ -21,25 +21,25 @@ const AddStock = () => {
   });
 
   useEffect(() => {
-    console.log("🚀 AddStock component mounted");
+    console.log("AddStock component mounted");
     fetchProducts();
     fetchShops();
   }, []);
 
   const fetchProducts = async () => {
-    console.log("🔍 Fetching products...");
+    console.log("Fetching products...");
     setLoading(true);
     try {
       const data = await productService.getAll();
-      console.log("✅ Products fetched:", data);
-      console.log("📊 Number of products:", data?.length);
+      console.log("Products fetched:", data);
+      console.log("Number of products:", data?.length);
       setProducts(data);
     } catch (error) {
-      console.error("❌ Failed to fetch products:", error);
+      console.error("Failed to fetch products:", error);
       setError("Failed to load products");
     } finally {
       setLoading(false);
-      console.log("✅ Loading complete");
+      console.log("Loading complete");
     }
   };
 
@@ -79,7 +79,7 @@ const AddStock = () => {
     setError(null);
 
     try {
-      console.log("📤 Creating stock:", {
+      console.log("Creating stock:", {
         shopId: parseInt(formData.shopId),
         productId: selectedProduct.id,
         quantity: parseInt(formData.quantity),
@@ -98,14 +98,14 @@ const AddStock = () => {
         `Successfully added ${formData.quantity} units of "${selectedProduct.name}" to ${shopName}!`
       );
 
-      console.log("✅ Stock created successfully!");
+      console.log("Stock created successfully!");
 
       // Close modal and reset
       setIsModalOpen(false);
       setSelectedProduct(null);
       setFormData({ shopId: "", quantity: 0 });
     } catch (err) {
-      console.error("❌ Failed to add stock:", err);
+      console.error("Failed to add stock:", err);
 
       // Show error but close modal
       setError(
@@ -161,8 +161,8 @@ const AddStock = () => {
     _product: product, // Store full product object for the button
   }));
 
-  console.log("📋 Table data:", tableData);
-  console.log("📦 Products state:", products);
+  console.log("Table data:", tableData);
+  console.log("Products state:", products);
 
   return (
     <div className="p-6">

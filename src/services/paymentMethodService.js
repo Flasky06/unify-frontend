@@ -1,27 +1,31 @@
-import api from "./api";
+import { apiFetch } from "../lib/api";
 
 export const paymentMethodService = {
   getAll: async () => {
-    const response = await api.get("/payment-methods");
-    return response.data;
+    return await apiFetch("/payment-methods");
   },
 
   getById: async (id) => {
-    const response = await api.get(`/payment-methods/${id}`);
-    return response.data;
+    return await apiFetch(`/payment-methods/${id}`);
   },
 
   create: async (data) => {
-    const response = await api.post("/payment-methods", data);
-    return response.data;
+    return await apiFetch("/payment-methods", {
+      method: "POST",
+      body: data,
+    });
   },
 
   update: async (id, data) => {
-    const response = await api.put(`/payment-methods/${id}`, data);
-    return response.data;
+    return await apiFetch(`/payment-methods/${id}`, {
+      method: "PUT",
+      body: data,
+    });
   },
 
   delete: async (id) => {
-    await api.delete(`/payment-methods/${id}`);
+    await apiFetch(`/payment-methods/${id}`, {
+      method: "DELETE",
+    });
   },
 };

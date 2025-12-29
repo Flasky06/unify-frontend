@@ -93,13 +93,13 @@ export const PaymentMethodList = () => {
       fetchPaymentMethods();
       setToast({
         isOpen: true,
-        message: "Payment method deactivated successfully",
+        message: "Payment method deleted successfully",
         type: "success",
       });
     } catch (err) {
       setToast({
         isOpen: true,
-        message: err.message || "Failed to deactivate payment method",
+        message: err.message || "Failed to delete payment method",
         type: "error",
       });
     }
@@ -168,19 +168,17 @@ export const PaymentMethodList = () => {
                 >
                   Edit
                 </Button>
-                {method.isActive && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:text-red-800 hover:bg-red-50"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setConfirmDialog({ isOpen: true, methodId: method.id });
-                    }}
-                  >
-                    Deactivate
-                  </Button>
-                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setConfirmDialog({ isOpen: true, methodId: method.id });
+                  }}
+                >
+                  Delete
+                </Button>
               </div>
             ),
           },
@@ -295,9 +293,9 @@ export const PaymentMethodList = () => {
         isOpen={confirmDialog.isOpen}
         onClose={() => setConfirmDialog({ isOpen: false, methodId: null })}
         onConfirm={() => handleDelete(confirmDialog.methodId)}
-        title="Deactivate Payment Method"
-        message="Are you sure you want to deactivate this payment method? It will no longer be available for new sales."
-        confirmText="Deactivate"
+        title="Delete Payment Method"
+        message="Are you sure you want to delete this payment method? It will be marked as inactive and hidden from new sales."
+        confirmText="Delete"
         variant="danger"
       />
 

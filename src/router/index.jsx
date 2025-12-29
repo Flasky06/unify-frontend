@@ -25,6 +25,7 @@ import { ServiceCategoryList } from "../pages/services/ServiceCategoryList";
 import { ServiceList } from "../pages/services/ServiceList";
 import { ExpenseCategoryList } from "../pages/expenses/ExpenseCategoryList";
 import { ExpenseList } from "../pages/expenses/ExpenseList";
+import { PaymentMethodList } from "../pages/paymentMethods/PaymentMethodList";
 
 export const router = createBrowserRouter([
   {
@@ -131,6 +132,10 @@ export const router = createBrowserRouter([
       {
         path: "expenses",
         element: <ExpenseList />,
+      },
+      {
+        path: "payment-methods",
+        element: <PaymentMethodList />,
       },
     ],
   },

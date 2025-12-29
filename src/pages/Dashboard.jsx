@@ -9,14 +9,16 @@ import { productService } from "../services/productService";
 import { stockService } from "../services/stockService";
 import { saleService } from "../services/saleService";
 import { serviceProductService } from "../services/serviceProductService";
+import { paymentMethodService } from "../services/paymentMethodService";
 import { Toast } from "../components/ui/ConfirmDialog";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const [shops, setShops] = useState([]);
   const [selectedShopId, setSelectedShopId] = useState("");
-  const [inventory, setInventory] = useState([]);
+  const [stock, setStock] = useState([]);
   const [services, setServices] = useState([]); // Services list
+  const [paymentMethods, setPaymentMethods] = useState([]); // Payment methods
   const [activeTab, setActiveTab] = useState("products"); // 'products' or 'services'
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +36,6 @@ const Dashboard = () => {
 
   const columns = [
     { header: "Product", accessor: "productName" },
-    { header: "SKU", accessor: "sku" },
     {
       header: "Stock",
       accessor: "quantity",
@@ -67,18 +68,30 @@ const Dashboard = () => {
   ];
 
   const [isCheckoutModalOpen, setCheckoutModalOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("CASH");
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   // Fetch Shops and Products on mount
   useEffect(() => {
     const init = async () => {
       try {
-        const [shopsData, productsData] = await Promise.all([
-          shopService.getAll(),
-          productService.getAll(),
-        ]);
+        const [shopsData, productsData, paymentMethodsData] = await Promise.all(
+          [
+            shopService.getAll(),
+            productService.getAll(),
+            paymentMethodService.getAll(),
+          ]
+        );
         setShops(shopsData);
         setProducts(productsData);
+
+        // Filter active payment methods and set default
+        const activeMethods = (paymentMethodsData || []).filter(
+          (pm) => pm.isActive
+        );
+        setPaymentMethods(activeMethods);
+        if (activeMethods.length > 0) {
+          setPaymentMethod(activeMethods[0].id);
+        }
 
         // Fetch services if businessId is available
         if (user?.businessId) {
@@ -104,14 +117,14 @@ const Dashboard = () => {
     setCart([]);
   }, [selectedShopId]);
 
-  // Fetch Inventory when shop or products change
+  // Fetch Stock when shop or products change
   useEffect(() => {
     if (selectedShopId) {
-      fetchInventory(selectedShopId);
+      fetchStock(selectedShopId);
     }
   }, [selectedShopId, products]);
 
-  const fetchInventory = async (shopId) => {
+  const fetchStock = async (shopId) => {
     setLoading(true);
     try {
       const stocks = await stockService.getStocksByShop(shopId);
@@ -123,12 +136,11 @@ const Dashboard = () => {
           ...stock,
           productName: product?.name || "Unknown",
           price: product?.sellingPrice || 0,
-          sku: product?.sku || "",
         };
       });
-      setInventory(enrichedStocks);
+      setStock(enrichedStocks);
     } catch (err) {
-      console.error("Failed to fetch inventory", err);
+      console.error("Failed to fetch stock", err);
     } finally {
       setLoading(false);
     }
@@ -183,7 +195,6 @@ const Dashboard = () => {
           {
             productId: item.productId,
             name: item.productName,
-            sku: item.sku,
             price: item.price,
             quantity: 1,
             maxStock: item.quantity,
@@ -241,10 +252,9 @@ const Dashboard = () => {
           serviceId: item.type === "SERVICE" ? item.serviceId : null,
           quantity: item.quantity,
         })),
-        paymentMethod: paymentMethod,
+        paymentMethodId: paymentMethod,
       };
 
-      await saleService.createSale(saleData);
       await saleService.createSale(saleData);
       setToast({
         isOpen: true,
@@ -253,7 +263,7 @@ const Dashboard = () => {
       });
       setCart([]);
       setCheckoutModalOpen(false);
-      fetchInventory(selectedShopId); // Refresh stock
+      fetchStock(selectedShopId); // Refresh stock
     } catch (err) {
       console.error(" Checkout failed", err);
       setToast({
@@ -274,10 +284,8 @@ const Dashboard = () => {
 
   // Function handleCheckout replacement logic is already in the ReplacementContent above.
 
-  const filteredInventory = inventory.filter(
-    (item) =>
-      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.sku?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredStock = stock.filter((item) =>
+    item.productName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const filteredServices = services.filter(
@@ -325,7 +333,7 @@ const Dashboard = () => {
       <div className="bg-white p-4 rounded-lg shadow mb-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
           <div className="flex flex-col gap-3 w-full lg:flex-row lg:items-center lg:w-auto">
-            <h2 className="text-xl font-bold text-gray-800">Shop Inventory</h2>
+            <h2 className="text-xl font-bold text-gray-800">Shop Stock</h2>
             <select
               value={selectedShopId}
               onChange={(e) => setSelectedShopId(e.target.value)}
@@ -409,9 +417,7 @@ const Dashboard = () => {
         <div className="flex-1 overflow-auto">
           <Table
             columns={activeTab === "products" ? columns : serviceColumns}
-            data={
-              activeTab === "products" ? filteredInventory : filteredServices
-            }
+            data={activeTab === "products" ? filteredStock : filteredServices}
             loading={loading}
             emptyMessage={
               activeTab === "products"
@@ -426,13 +432,13 @@ const Dashboard = () => {
       <Modal
         isOpen={isCartModalOpen}
         onClose={() => setCartModalOpen(false)}
-        title="Current Sale Cart"
+        title="Current Sale"
       >
         <div className="flex flex-col h-[500px]">
           <div className="flex-1 overflow-auto space-y-4 pr-2">
             {cart.length === 0 ? (
               <div className="text-center py-20 text-gray-400">
-                <p>Your cart is empty.</p>
+                <p>No items added.</p>
               </div>
             ) : (
               <table className="w-full text-left">
@@ -571,7 +577,7 @@ const Dashboard = () => {
                 onClick={() => setCartModalOpen(false)}
                 className="flex-1"
               >
-                Continue Shopping
+                Cancel
               </Button>
               <Button
                 onClick={() => {
@@ -581,7 +587,7 @@ const Dashboard = () => {
                 disabled={cart.length === 0}
                 className="flex-[2] py-3 text-lg"
               >
-                Checkout
+                Process Sale
               </Button>
             </div>
           </div>
@@ -601,7 +607,7 @@ const Dashboard = () => {
               KSH {calculateTotal().toLocaleString()}
             </p>
             <p className="text-sm text-gray-500 mt-2">
-              {cart.reduce((a, b) => a + b.quantity, 0)} Items in Cart
+              {cart.reduce((a, b) => a + b.quantity, 0)} Items
             </p>
           </div>
 
@@ -609,28 +615,23 @@ const Dashboard = () => {
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Payment Method
             </label>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { id: "CASH", label: "Cash", icon: "💵" },
-                { id: "MPESA", label: "M-Pesa", icon: "📱" }, // Assuming Backend maps MOBILE_MONEY
-                { id: "CARD", label: "Card", icon: "💳" },
-              ].map((method) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {paymentMethods.map((method) => (
                 <button
                   key={method.id}
-                  onClick={() =>
-                    setPaymentMethod(
-                      method.id === "MPESA" ? "MOBILE_MONEY" : method.id
-                    )
-                  }
+                  onClick={() => setPaymentMethod(method.id)}
                   className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition ${
-                    paymentMethod === method.id ||
-                    (paymentMethod === "MOBILE_MONEY" && method.id === "MPESA")
+                    paymentMethod === method.id
                       ? "border-blue-600 bg-blue-50 text-blue-700"
                       : "border-gray-200 hover:border-gray-300 text-gray-600"
                   }`}
                 >
-                  <span className="text-2xl">{method.icon}</span>
-                  <span className="font-medium text-sm">{method.label}</span>
+                  <span className="font-medium text-sm text-center">
+                    {method.name}
+                  </span>
+                  {method.type && (
+                    <span className="text-xs text-gray-500">{method.type}</span>
+                  )}
                 </button>
               ))}
             </div>
@@ -651,7 +652,7 @@ const Dashboard = () => {
               }}
               className="flex-1"
             >
-              Back to Cart
+              Back
             </Button>
             <Button
               onClick={processSale}

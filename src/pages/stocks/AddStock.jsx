@@ -146,11 +146,8 @@ const AddStock = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (product.sku &&
-        product.sku.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const tableData = filteredProducts.map((product) => ({

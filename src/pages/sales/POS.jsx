@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { stockService } from "../../services/stockService";
 import { saleService } from "../../services/saleService";
+import { paymentMethodService } from "../../services/paymentMethodService";
 import useAuthStore from "../../store/authStore";
 import Button from "../../components/ui/Button";
 import Toast from "../../components/ui/Toast";
@@ -16,7 +17,8 @@ export const POS = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Checkout State
-  const [paymentMethod, setPaymentMethod] = useState("CASH");
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   // UI State
@@ -28,6 +30,7 @@ export const POS = () => {
 
   useEffect(() => {
     fetchProducts();
+    fetchPaymentMethods();
   }, []);
 
   const fetchProducts = async () => {
@@ -60,6 +63,19 @@ export const POS = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchPaymentMethods = async () => {
+    try {
+      const data = await paymentMethodService.getAll();
+      const activeMethods = (data || []).filter((pm) => pm.isActive);
+      setPaymentMethods(activeMethods);
+      if (activeMethods.length > 0) {
+        setPaymentMethod(activeMethods[0].id);
+      }
+    } catch (err) {
+      console.error("Failed to load payment methods", err);
     }
   };
 
@@ -142,7 +158,7 @@ export const POS = () => {
 
       const saleData = {
         shopId: user.shopId || user.shop?.id,
-        paymentMethod: paymentMethod,
+        paymentMethodId: paymentMethod,
         items: cart.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
@@ -195,7 +211,6 @@ export const POS = () => {
                 <h3 className="font-semibold text-gray-800">
                   {item.productName}
                 </h3>
-                <p className="text-xs text-gray-500">{item.sku}</p>
               </div>
               <div className="mt-4 flex justify-between items-end">
                 <span className="font-bold text-lg text-blue-600">
@@ -267,7 +282,9 @@ export const POS = () => {
             </div>
           ))}
           {cart.length === 0 && (
-            <div className="text-center text-gray-400 py-10">Cart is empty</div>
+            <div className="text-center text-gray-400 py-10">
+              No items added
+            </div>
           )}
         </div>
 
@@ -280,37 +297,20 @@ export const POS = () => {
           </div>
 
           <div className="space-y-3">
-            <div className="flex gap-2">
-              <button
-                onClick={() => setPaymentMethod("CASH")}
-                className={`flex-1 py-2 text-sm font-medium rounded ${
-                  paymentMethod === "CASH"
-                    ? "bg-blue-100 text-blue-700 border border-blue-300"
-                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-                }`}
-              >
-                Cash
-              </button>
-              <button
-                onClick={() => setPaymentMethod("CARD")}
-                className={`flex-1 py-2 text-sm font-medium rounded ${
-                  paymentMethod === "CARD"
-                    ? "bg-blue-100 text-blue-700 border border-blue-300"
-                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-                }`}
-              >
-                Card
-              </button>
-              <button
-                onClick={() => setPaymentMethod("ONLINE")}
-                className={`flex-1 py-2 text-sm font-medium rounded ${
-                  paymentMethod === "ONLINE"
-                    ? "bg-blue-100 text-blue-700 border border-blue-300"
-                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-                }`}
-              >
-                Online
-              </button>
+            <div className="grid grid-cols-2 gap-2">
+              {paymentMethods.map((method) => (
+                <button
+                  key={method.id}
+                  onClick={() => setPaymentMethod(method.id)}
+                  className={`py-2 px-3 text-sm font-medium rounded ${
+                    paymentMethod === method.id
+                      ? "bg-blue-100 text-blue-700 border border-blue-300"
+                      : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {method.name}
+                </button>
+              ))}
             </div>
 
             <Button
@@ -321,7 +321,7 @@ export const POS = () => {
             >
               {isProcessing
                 ? "Processing..."
-                : `Checkout $${calculateTotal().toFixed(2)}`}
+                : `Process Sale - $${calculateTotal().toFixed(2)}`}
             </Button>
           </div>
         </div>

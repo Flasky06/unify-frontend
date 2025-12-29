@@ -51,7 +51,7 @@ const Home = () => {
             <span className="text-blue-600">Simplified</span>
           </h1>
           <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            UNIFY streamlines your sales, inventory, and operations with an
+            UNIFY streamlines your sales, stock, and operations with an
             all-in-one business management solution.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -95,7 +95,7 @@ const Home = () => {
 
           <div className="text-center">
             <h3 className="text-xl font-bold text-blue-600 mb-3">
-              Inventory Control
+              Stock Control
             </h3>
             <p className="text-gray-600">
               Real-time stock tracking, automated alerts, and seamless transfers

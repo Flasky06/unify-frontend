@@ -37,6 +37,7 @@ export const ProductList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -80,7 +81,10 @@ export const ProductList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       const submitData = {
         ...formData,
@@ -111,6 +115,8 @@ export const ProductList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -424,8 +430,12 @@ export const ProductList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingProduct ? "Update Product" : "Create Product"}
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : editingProduct
+                ? "Update Product"
+                : "Create Product"}
             </Button>
           </div>
         </form>

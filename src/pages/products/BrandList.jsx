@@ -22,6 +22,7 @@ export const BrandList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -49,7 +50,10 @@ export const BrandList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       if (editingBrand) {
         await brandService.update(editingBrand.id, formData);
@@ -72,6 +76,8 @@ export const BrandList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -218,8 +224,12 @@ export const BrandList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingBrand ? "Update Brand" : "Create Brand"}
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : editingBrand
+                ? "Update Brand"
+                : "Create Brand"}
             </Button>
           </div>
         </form>

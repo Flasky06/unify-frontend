@@ -28,6 +28,7 @@ export const PaymentMethodList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -53,7 +54,10 @@ export const PaymentMethodList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     setError(null);
+    setSubmitting(true);
     try {
       // Sanitize data - convert empty strings to null for optional fields
       const sanitizedData = {
@@ -84,6 +88,8 @@ export const PaymentMethodList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -282,8 +288,12 @@ export const PaymentMethodList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingMethod ? "Update Method" : "Create Method"}
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : editingMethod
+                ? "Update Method"
+                : "Create Method"}
             </Button>
           </div>
         </form>

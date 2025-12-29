@@ -19,6 +19,8 @@ const CreateBusiness = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return; // Prevent double submission
+
     setLoading(true);
     setError(null);
 

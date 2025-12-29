@@ -27,6 +27,7 @@ export const ShopList = () => {
     message: "",
     type: "success",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -55,7 +56,10 @@ export const ShopList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return; // Prevent double submission
+
     setError(null);
+    setSubmitting(true);
     try {
       if (editingShop) {
         await shopService.update(editingShop.id, formData);
@@ -78,6 +82,8 @@ export const ShopList = () => {
         message: err.message || "Operation failed",
         type: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -253,8 +259,12 @@ export const ShopList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">
-              {editingShop ? "Update Shop" : "Create Shop"}
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : editingShop
+                ? "Update Shop"
+                : "Create Shop"}
             </Button>
           </div>
         </form>

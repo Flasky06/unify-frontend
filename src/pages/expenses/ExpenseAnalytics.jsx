@@ -207,22 +207,19 @@ export const ExpenseAnalytics = () => {
             {/* Expenses by Category */}
             {expenseAnalytics?.expensesByCategory &&
               Object.keys(expenseAnalytics.expensesByCategory).length > 0 && (
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <span className="w-1 h-5 bg-blue-600 rounded-full"></span>
+                <div className="bg-white p-4 rounded-lg shadow">
+                  <h3 className="font-semibold text-gray-800 mb-3">
                     Expenses by Category
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {Object.entries(expenseAnalytics.expensesByCategory).map(
                       ([category, amount]) => (
                         <div
                           key={category}
-                          className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-blue-200 transition-colors"
+                          className="flex justify-between items-center"
                         >
-                          <span className="text-gray-700 font-medium">
-                            {category}
-                          </span>
-                          <span className="font-bold text-blue-900">
+                          <span className="text-gray-700">{category}</span>
+                          <span className="font-semibold text-gray-900">
                             KSH {amount.toFixed(2)}
                           </span>
                         </div>
@@ -235,22 +232,19 @@ export const ExpenseAnalytics = () => {
             {/* Expenses by Shop */}
             {expenseAnalytics?.expensesByShop &&
               Object.keys(expenseAnalytics.expensesByShop).length > 1 && (
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <span className="w-1 h-5 bg-blue-600 rounded-full"></span>
+                <div className="bg-white p-4 rounded-lg shadow">
+                  <h3 className="font-semibold text-gray-800 mb-3">
                     Expenses by Shop
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {Object.entries(expenseAnalytics.expensesByShop).map(
                       ([shop, amount]) => (
                         <div
                           key={shop}
-                          className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-blue-200 transition-colors"
+                          className="flex justify-between items-center"
                         >
-                          <span className="text-gray-700 font-medium">
-                            {shop}
-                          </span>
-                          <span className="font-bold text-blue-900">
+                          <span className="text-gray-700">{shop}</span>
+                          <span className="font-semibold text-gray-900">
                             KSH {amount.toFixed(2)}
                           </span>
                         </div>

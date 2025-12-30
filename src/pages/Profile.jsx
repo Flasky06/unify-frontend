@@ -146,8 +146,8 @@ const Profile = () => {
   return (
     <div>
       <PageHeader
-        title="My Profile"
-        subtitle=""
+        title="Profile"
+        subtitle="Manage your account information"
         actions={
           !isEditing && (
             <Button onClick={() => setIsEditing(true)}>

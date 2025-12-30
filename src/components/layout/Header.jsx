@@ -4,7 +4,7 @@ export const Header = ({ onMenuClick }) => {
   const { user } = useAuthStore();
 
   return (
-    <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3">
+    <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 sm:px-6 py-3">
       <div className="flex items-center justify-between">
         <button
           className="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-md"
@@ -25,11 +25,7 @@ export const Header = ({ onMenuClick }) => {
           </svg>
         </button>
         <div className="flex items-center gap-4 ml-auto">
-          {user?.businessName && (
-            <span className="text-gray-700 font-medium">
-              {user.businessName}
-            </span>
-          )}
+          {/* User info is now in sidebar */}
         </div>
       </div>
     </header>

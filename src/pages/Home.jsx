@@ -117,8 +117,8 @@ const Home = () => {
               Advanced Inventory
             </h3>
             <p className="text-gray-600">
-              Track unlimited products across multiple locations. Manage brands,
-              categories, and stock transfers effortlessly.
+              Take full control of your stock. Real-time tracking across all
+              your locations ensures you never run out of what sells best.
             </p>
           </div>
 
@@ -143,9 +143,8 @@ const Home = () => {
               Performance Analytics
             </h3>
             <p className="text-gray-600">
-              Visualize daily, weekly, monthly and periodical data instantly.
-              Deep dive into sales, expenses, and net profit with custom date
-              filters.
+              Make data-driven decisions. Uncover trends and insights that drive
+              growth with powerful, easy-to-understand dashboards.
             </p>
           </div>
 
@@ -170,8 +169,8 @@ const Home = () => {
               Multi-Shop Support
             </h3>
             <p className="text-gray-600">
-              Scale your business. Manage multiple branches, locations, staff,
-              and inventories from a single centralized dashboard.
+              Expand your empire. Seamlessly manage multiple branches from one
+              central hub, no matter where you are.
             </p>
           </div>
 
@@ -196,8 +195,8 @@ const Home = () => {
               Expense Tracking
             </h3>
             <p className="text-gray-600">
-              Categorize all your operational costs. Keep a close watch on
-              spending and monitor burn rate to maximize profitability.
+              Maximize your profits. Keep a pulse on every penny spent and
+              optimize your operational costs for a healthier bottom line.
             </p>
           </div>
 
@@ -222,12 +221,12 @@ const Home = () => {
               Staff Permissions
             </h3>
             <p className="text-gray-600">
-              Go beyond roles. Set specific, fine-grained permission overrides
-              for every staff member to secure your business data.
+              Empower your team safely. Give staff the exact tools they need
+              while keeping sensitive business data secure.
             </p>
           </div>
 
-          {/* Feature 6: Returns Management */}
+          {/* Feature 6: Products & Services */}
           <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
               <svg
@@ -240,16 +239,16 @@ const Home = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
                 />
               </svg>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Returns Management
+              Products & Services
             </h3>
             <p className="text-gray-600">
-              Process returns instantly. Handle customer returns and damaged
-              stock efficiently, keeping your inventory counts accurate.
+              Create and manage your offerings with ease. Organize products and
+              services to speed up checkout and delight customers.
             </p>
           </div>
         </div>

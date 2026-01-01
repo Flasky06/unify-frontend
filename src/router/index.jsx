@@ -18,6 +18,7 @@ import { CategoryList } from "../pages/products/CategoryList";
 import { BrandList } from "../pages/products/BrandList";
 import { ShopList } from "../pages/shops/ShopList";
 import StockList from "../pages/stocks/StockList";
+import StockReturnList from "../pages/stocks/StockReturnList";
 import StockTransfers from "../pages/stocks/StockTransfers";
 import AddStock from "../pages/stocks/AddStock";
 import SalesHistory from "../pages/sales/SalesHistory";
@@ -116,6 +117,10 @@ export const router = createBrowserRouter([
       {
         path: "stocks/add",
         element: <AddStock />,
+      },
+      {
+        path: "stocks/returns",
+        element: <StockReturnList />,
       },
       {
         path: "transfers",

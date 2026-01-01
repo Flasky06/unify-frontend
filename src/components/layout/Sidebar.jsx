@@ -128,6 +128,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
         { name: "Products", path: "/products" },
         { name: "Categories", path: "/products/categories" },
         { name: "Brands", path: "/products/brands" },
+        { name: "Stock Returns", path: "/stocks/returns" },
         { name: "Transfer Stock", path: "/transfers" },
       ],
     },

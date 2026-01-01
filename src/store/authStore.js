@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { authService } from "../services/authService";
 import { setGlobalAuthState } from "../lib/authState";
 
@@ -117,6 +117,7 @@ const useAuthStore = create(
     }),
     {
       name: "auth-storage",
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,

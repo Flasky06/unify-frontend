@@ -24,12 +24,6 @@ const Home = () => {
               ) : (
                 <>
                   <Link
-                    to="/login"
-                    className="px-6 py-2 text-white hover:text-gray-100 font-medium transition"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
                     to="/register"
                     className="px-6 py-2 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-100 transition"
                   >
@@ -63,20 +57,12 @@ const Home = () => {
                 Go to Dashboard
               </Link>
             ) : (
-              <>
-                <Link
-                  to="/register"
-                  className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition"
-                >
-                  Get Started Free
-                </Link>
-                <Link
-                  to="/login"
-                  className="px-8 py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold text-lg hover:bg-blue-50 transition"
-                >
-                  Sign In
-                </Link>
-              </>
+              <Link
+                to="/register"
+                className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition"
+              >
+                Get Started Free
+              </Link>
             )}
           </div>
         </div>

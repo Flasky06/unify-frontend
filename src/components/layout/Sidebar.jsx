@@ -233,6 +233,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
         { name: "Employees", path: "/employees" },
         { name: "Users", path: "/users" },
         { name: "Payment Methods", path: "/payment-methods" },
+        { name: "Role Permissions", path: "/users/roles" },
       ],
     },
 

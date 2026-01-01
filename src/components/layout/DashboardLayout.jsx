@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
+import { useIdleTimeout } from "../../hooks/useIdleTimeout";
 
 export const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Auto-logout after 5 minutes of inactivity
+  useIdleTimeout(5 * 60 * 1000);
 
   return (
     <div className="flex min-h-screen bg-gray-50">

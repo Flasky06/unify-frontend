@@ -4,10 +4,11 @@ export const Header = ({ onMenuClick }) => {
   const { user } = useAuthStore();
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 sm:px-6 py-3">
-      <div className="flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 relative">
+      <div className="flex items-center justify-end w-full h-full min-h-[24px]">
         <button
-          className="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-md"
+          className="lg:hidden absolute top-3 right-4 p-2 text-gray-600 hover:bg-gray-100 rounded-md z-50"
+          style={{ position: "absolute", right: "1rem", top: "0.75rem" }}
           onClick={onMenuClick}
         >
           <svg
@@ -24,9 +25,6 @@ export const Header = ({ onMenuClick }) => {
             />
           </svg>
         </button>
-        <div className="flex items-center gap-4 ml-auto">
-          {/* User info is now in sidebar */}
-        </div>
       </div>
     </header>
   );

@@ -90,6 +90,14 @@ const useAuthStore = create(
         return roles.includes(user?.role);
       },
 
+      hasPermission: (permission) => {
+        const { user } = get();
+        // Super/Business Owner always has access
+        if (["SUPER_ADMIN", "BUSINESS_OWNER"].includes(user?.role)) return true;
+        // Check granted permissions from backend
+        return user?.permissions?.includes(permission);
+      },
+
       isBusinessOwner: () => {
         const { user } = get();
         return user?.role === "BUSINESS_OWNER";
@@ -119,7 +127,7 @@ const useAuthStore = create(
       name: "auth-storage",
       storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
-        user: state.user,
+        user: state.user, // User object now contains permissions
         isAuthenticated: state.isAuthenticated,
       }),
     }

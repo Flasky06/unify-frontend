@@ -4,7 +4,7 @@ import useAuthStore from "../../store/authStore";
 
 export const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const { user, isSuperAdmin } = useAuthStore();
+  const { user, isSuperAdmin, hasPermission } = useAuthStore();
   const [expandedMenu, setExpandedMenu] = useState(null);
 
   const toggleMenu = (name) => {
@@ -87,6 +87,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
     {
       name: "Reports",
       path: "/reports",
+      permission: "VIEW_REPORTS",
       icon: (
         <svg
           className="w-5 h-5"
@@ -107,6 +108,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
     // 2. PRODUCTS
     {
       name: "Products",
+      permission: "VIEW_PRODUCTS",
       icon: (
         <svg
           className="w-5 h-5"
@@ -123,15 +125,28 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Product List", path: "/products" },
-        { name: "Product Categories", path: "/products/categories" },
-        { name: "Brands", path: "/products/brands" },
+        {
+          name: "Product List",
+          path: "/products",
+          permission: "VIEW_PRODUCTS",
+        },
+        {
+          name: "Product Categories",
+          path: "/products/categories",
+          permission: "MANAGE_PRODUCT_CATEGORIES",
+        },
+        {
+          name: "Brands",
+          path: "/products/brands",
+          permission: "MANAGE_PRODUCTS",
+        },
       ],
     },
 
     // 3. INVENTORY
     {
       name: "Inventory",
+      permission: "VIEW_STOCK",
       icon: (
         <svg
           className="w-5 h-5"
@@ -148,16 +163,25 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Stock List", path: "/stocks" },
-        { name: "Add Stock", path: "/stocks/add" },
-        { name: "Stock Returns", path: "/stocks/returns" },
-        { name: "Transfer Stock", path: "/transfers" },
+        { name: "Stock List", path: "/stocks", permission: "VIEW_STOCK" },
+        { name: "Add Stock", path: "/stocks/add", permission: "MANAGE_STOCK" },
+        {
+          name: "Stock Returns",
+          path: "/stocks/returns",
+          permission: "PROCESS_RETURNS",
+        },
+        {
+          name: "Transfer Stock",
+          path: "/transfers",
+          permission: "MANAGE_STOCK",
+        },
       ],
     },
 
     // 4. RECORDS (Finance)
     {
       name: "Records",
+      permission: "VIEW_SALES", // Base permission for seeing records section
       icon: (
         <svg
           className="w-5 h-5"
@@ -174,15 +198,20 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Sales History", path: "/sales" },
-        { name: "Expenses", path: "/expenses" },
-        { name: "Expense Categories", path: "/expenses/categories" },
+        { name: "Sales History", path: "/sales", permission: "VIEW_SALES" },
+        { name: "Expenses", path: "/expenses", permission: "VIEW_EXPENSES" },
+        {
+          name: "Expense Categories",
+          path: "/expenses/categories",
+          permission: "MANAGE_EXPENSE_CATEGORIES",
+        },
       ],
     },
 
     // 5. SERVICES
     {
       name: "Services",
+      permission: "VIEW_PRODUCTS", // Services are treated as products in this system
       icon: (
         <svg
           className="w-5 h-5"
@@ -199,14 +228,23 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Service List", path: "/services/products" },
-        { name: "Service Categories", path: "/services/categories" },
+        {
+          name: "Service List",
+          path: "/services/products",
+          permission: "VIEW_PRODUCTS",
+        },
+        {
+          name: "Service Categories",
+          path: "/services/categories",
+          permission: "MANAGE_PRODUCT_CATEGORIES",
+        },
       ],
     },
 
     // 6. ADMIN
     {
       name: "Admin",
+      permission: "MANAGE_BUSINESS_SETTINGS", // Or check if ANY child is visible
       icon: (
         <svg
           className="w-5 h-5"
@@ -229,15 +267,31 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Shops", path: "/shops" },
-        { name: "Employees", path: "/employees" },
-        { name: "Users", path: "/users" },
-        { name: "Payment Methods", path: "/payment-methods" },
-        { name: "Role Permissions", path: "/users/roles" },
+        { name: "Shops", path: "/shops", permission: "MANAGE_SHOPS" },
+        {
+          name: "Employees",
+          path: "/employees",
+          permission: "MANAGE_EMPLOYEES",
+        },
+        {
+          name: "Users",
+          path: "/users",
+          permission: "MANAGE_BUSINESS_SETTINGS",
+        }, // Assuming Users = Business Settings scope for now
+        {
+          name: "Payment Methods",
+          path: "/payment-methods",
+          permission: "MANAGE_BUSINESS_SETTINGS",
+        },
+        {
+          name: "Role Permissions",
+          path: "/users/roles",
+          permission: "MANAGE_BUSINESS_SETTINGS",
+        },
       ],
     },
 
-    // Profile
+    // Profile (Always visible)
     {
       name: "Profile",
       path: "/profile",
@@ -259,97 +313,61 @@ export const Sidebar = ({ isOpen, onClose }) => {
     },
   ];
 
-  // Filter navigation based on user role
+  // Filter navigation based on user permissions
   const getFilteredBusinessNav = () => {
-    // SALES_REP: Very restricted
-    if (user?.role === "SALES_REP") {
-      return businessNav.map((item) => {
-        // Disable User Management and Shop Management
-        if (
-          item.name === "Admin" || // Renamed block
-          item.name === "User Management" ||
-          item.name === "Shop Management"
-        ) {
-          return { ...item, disabled: true };
-        }
+    return businessNav.reduce((acc, item) => {
+      // 1. Check Item Permission
+      if (item.permission && !hasPermission(item.permission)) {
+        // Special case: Admin block check - if it has children that are allowed, we might want to show it?
+        // But for now, strict parent permission check.
+        // Wait, "Admin" usually requires general admin access.
+        // If I grant "MANAGE_EMPLOYEES" to a Manager but not "MANAGE_BUSINESS_SETTINGS",
+        // and Admin parent requires "MANAGE_BUSINESS_SETTINGS", they won't see Employees.
+        // FIX: If item has children, check if ANY child is visible.
 
-        // Disable entire Products section
-        if (item.name === "Products") {
-          return { ...item, disabled: true };
-        }
+        if (!item.children) return acc; // No permission and no children -> hide
+      }
 
-        // Inventory: Disable Add Stock, Stock Returns, Transfers
-        if (item.name === "Inventory") {
-          return {
-            ...item,
-            children: item.children.map((child) => {
-              if (
-                child.name === "Add Stock" ||
-                child.name === "Stock Returns" ||
-                child.name === "Transfer Stock"
-              ) {
-                return { ...child, disabled: true };
-              }
-              return child;
-            }),
-          };
-        }
-        return item;
-      });
-    }
+      // 2. Check Children
+      if (item.children) {
+        const visibleChildren = item.children.filter((child) => {
+          return !child.permission || hasPermission(child.permission);
+        });
 
-    // SHOP_MANAGER: Moderate restriction
-    if (user?.role === "SHOP_MANAGER") {
-      return businessNav.map((item) => {
-        // Disable User Management and Shop Management
-        if (
-          item.name === "Admin" // Renamed block checks
-        ) {
-          // Admin block has shops/employees/users. Shop Manager shouldn't access global admin?
-          // But Shop Manager manages employees?
-          // The old code disabled "User Management".
-          // Let's look at the Admin block children: Shops, Employees, Users, Payment Methods.
-          // Shop Manager should probably see Employees (of their shop), but maybe not global Users?
-          // For now, I'll replicate the previous restriction: Disable "User Management" & "Shop Management" which likely mapped to Admin features.
-          // The previous code explicitly checked names `User Management` and `Shop Management`.
-          // But the main nav item is named "Admin".
-          // Ah, wait. The previous code structure had "Admin" as the name.
-          // But the checks were `item.name === "User Management"`. This implies there were top level items with those names?
-          // No, looking at lines 186-215 of original file, the group name is "Admin".
-          // The previous checks `item.name === "User Management"` might have been legacy or targeting something that doesn't exist anymore?
-          // Or maybe they meant children?
-          // Wait, the previous code lines 247-248: `item.name === "User Management" || item.name === "Shop Management"`.
-          // The `businessNav` array in the View (lines 187) has name "Admin".
-          // There is NO item named "User Management" in `businessNav`.
-          // So those checks were doing nothing? Or I missed something.
-          // Let's assume for now I should disable the "Admin" block for Shop Managers, or strictly filter it.
-          // Actually, Shop Managers usually manage their shop staff.
-          // I'll disable the "Admin" block for them to be safe/consistent with "Manager shouldn't touch Configs".
-          if (item.name === "Admin") {
-            return { ...item, disabled: true };
+        if (visibleChildren.length > 0) {
+          // Include parent if it has visible children, even if parent permission failed?
+          // Ideally, parent permission should be broader.
+          // Let's assume if ANY child is visible, show parent (unless parent is strictly forbidden?)
+          // For typical sidebar, Parent is just a grouper.
+          acc.push({ ...item, children: visibleChildren });
+        }
+      } else {
+        // No children, permission check passed (line 331 checked failure condition, but wait)
+        // If I fell through to here, it means permission passed OR it had children (but 'else' means no children).
+        // Wait, my logic at step 1:
+        // if (item.permission && !hasPermission(item.permission)) {
+        //    if (!item.children) return acc;
+        // }
+        // If it HAS children, I proceed to step 2.
+
+        // Correct logic:
+        const hasParentPermission =
+          !item.permission || hasPermission(item.permission);
+
+        if (item.children) {
+          const visibleChildren = item.children.filter(
+            (child) => !child.permission || hasPermission(child.permission)
+          );
+
+          if (visibleChildren.length > 0) {
+            acc.push({ ...item, children: visibleChildren });
           }
+        } else if (hasParentPermission) {
+          acc.push(item);
         }
-
-        // Products: Disable Categories and Brands
-        if (item.name === "Products") {
-          return {
-            ...item,
-            children: item.children.map((child) => {
-              if (
-                child.name === "Brands" ||
-                child.name === "Product Categories"
-              ) {
-                return { ...child, disabled: true };
-              }
-              return child;
-            }),
-          };
-        }
-        return item;
-      });
-    }
-
-    return businessNav;
+      }
+      return acc;
+    }, []);
   };
 
   const navigation = isSuperAdmin() ? superAdminNav : getFilteredBusinessNav();

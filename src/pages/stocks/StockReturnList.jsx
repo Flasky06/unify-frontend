@@ -6,6 +6,7 @@ import { productService } from "../../services/productService";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Toast from "../../components/ui/Toast";
+import Table from "../../components/ui/Table";
 
 const StockReturnList = () => {
   const [returns, setReturns] = useState([]);
@@ -182,71 +183,55 @@ const StockReturnList = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 text-gray-600 font-medium">
-              <tr>
-                <th className="px-6 py-3">Date</th>
-                <th className="px-6 py-3">Product</th>
-                <th className="px-6 py-3">Type</th>
-                <th className="px-6 py-3">Quantity</th>
-                <th className="px-6 py-3">Reason</th>
-                <th className="px-6 py-3">Handled By</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {loading ? (
-                <tr>
-                  <td
-                    colSpan="6"
-                    className="px-6 py-8 text-center text-gray-500"
-                  >
-                    Loading...
-                  </td>
-                </tr>
-              ) : filteredReturns.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan="6"
-                    className="px-6 py-8 text-center text-gray-500"
-                  >
-                    No returns found
-                  </td>
-                </tr>
-              ) : (
-                filteredReturns.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-3 text-gray-900">
-                      {new Date(item.date).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-3 font-medium text-gray-900">
-                      {item.productName}
-                    </td>
-                    <td className="px-6 py-3">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          item.type === "CUSTOMER_RETURN"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {item.type.replace("_", " ")}
-                      </span>
-                    </td>
-                    <td className="px-6 py-3 text-gray-900">{item.quantity}</td>
-                    <td
-                      className="px-6 py-3 text-gray-500 truncate max-w-xs"
-                      title={item.reason}
-                    >
-                      {item.reason}
-                    </td>
-                    <td className="px-6 py-3 text-gray-500">{item.userName}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+        <Table
+          headers={[
+            { key: "date", label: "Date" },
+            { key: "productName", label: "Product" },
+            { key: "type", label: "Type" },
+            { key: "quantity", label: "Quantity" },
+            { key: "reason", label: "Reason" },
+            { key: "userName", label: "Handled By" },
+          ]}
+          data={filteredReturns}
+          isLoading={loading}
+          emptyMessage="No returns found"
+          renderRow={(item) => (
+            <tr
+              key={item.id}
+              className="hover:bg-gray-50 border-b border-gray-100 last:border-0"
+            >
+              <td className="px-6 py-4 text-sm text-gray-900">
+                {new Date(item.date).toLocaleDateString()}
+              </td>
+              <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                {item.productName}
+              </td>
+              <td className="px-6 py-4 text-sm">
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    item.type === "CUSTOMER_RETURN"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {item.type.replace("_", " ")}
+                </span>
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-900">
+                {item.quantity}
+              </td>
+              <td
+                className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs"
+                title={item.reason}
+              >
+                {item.reason}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-500">
+                {item.userName}
+              </td>
+            </tr>
+          )}
+        />
       </div>
 
       <Modal

@@ -237,9 +237,6 @@ const StockList = () => {
           <Button
             variant="ghost"
             size="sm"
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={() =>
               row._stock && setAdjustModal({ isOpen: true, stock: row._stock })
             }

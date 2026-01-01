@@ -69,7 +69,7 @@ const Home = () => {
                 to="/register"
                 className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
-                Start Free Trial
+                Get Started
               </Link>
             )}
           </div>
@@ -78,7 +78,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32 lg:h-[80vh] lg:flex lg:items-center">
           <div className="text-center w-full">
             <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-8 tracking-tight">
-              Run Your Entire Business
+              Manage Your Entire Business
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 Simplify Operations
@@ -104,7 +104,7 @@ const Home = () => {
                     to="/register"
                     className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-200 transform hover:-translate-y-1"
                   >
-                    Start 14-Day Free Trial
+                    Get Started
                   </Link>
                   <Link
                     to="/demo"
@@ -114,40 +114,6 @@ const Home = () => {
                   </Link>
                 </>
               )}
-            </div>
-            <div className="mt-16 flex items-center justify-center gap-8 text-gray-400 text-sm font-medium">
-              <span className="flex items-center gap-2">
-                <svg
-                  className="w-5 h-5 text-green-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                No credit card required
-              </span>
-              <span className="flex items-center gap-2">
-                <svg
-                  className="w-5 h-5 text-green-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                14-day free trial
-              </span>
             </div>
           </div>
         </div>

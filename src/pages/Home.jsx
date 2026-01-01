@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
+import useAuthStore from "../store/authStore";
 import { useState } from "react";
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
     {
       question: "Can I use UNIFY for multiple separate businesses?",
       answer:
-        "Yes! UNIFY is designed to handle multiple shops and business entities under a single account, giving you a centralized view of your entire empire.",
+        "UNIFY is designed for a single business entity but supports multiple locations and shops, giving you a centralized view of your entire operation.",
     },
     {
       question: "Who has access to my data?",

@@ -212,7 +212,7 @@ const StockList = () => {
   });
 
   const columns = [
-    { header: "Product", accessor: "productName" },
+    { header: "Product", accessor: "productName", triggerView: true },
     { header: "Shop", accessor: "shopName" },
     {
       header: "Quantity",

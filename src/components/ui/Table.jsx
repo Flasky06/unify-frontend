@@ -94,19 +94,43 @@ const Table = ({
                       >
                         {column.truncate ? (
                           <div
-                            className="truncate"
+                            className={`truncate ${
+                              column.triggerView
+                                ? "cursor-pointer text-blue-600 hover:text-blue-800 font-medium"
+                                : ""
+                            }`}
                             title={
                               column.render ? undefined : row[column.accessor]
+                            }
+                            onClick={(e) => {
+                              if (column.triggerView) {
+                                e.stopPropagation();
+                                handleViewRow(row);
+                              }
+                            }}
+                          >
+                            {column.render
+                              ? column.render(row)
+                              : row[column.accessor]}
+                          </div>
+                        ) : (
+                          <div
+                            onClick={(e) => {
+                              if (column.triggerView) {
+                                e.stopPropagation();
+                                handleViewRow(row);
+                              }
+                            }}
+                            className={
+                              column.triggerView
+                                ? "cursor-pointer text-blue-600 hover:text-blue-800 font-medium"
+                                : ""
                             }
                           >
                             {column.render
                               ? column.render(row)
                               : row[column.accessor]}
                           </div>
-                        ) : column.render ? (
-                          column.render(row)
-                        ) : (
-                          row[column.accessor]
                         )}
                       </td>
                     ))}

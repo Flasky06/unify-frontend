@@ -51,15 +51,16 @@ const Home = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-8 leading-tight tracking-tight">
-            Master Your Business,
+            Manage Your Business,
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               Simplify Operations
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
-            The comprehensive mPOS solution for modern retailers. Manage stock,
-            analyze finances, and control access—all in one place.
+            The comprehensive business management solution for modern
+            businesses. Manage stock,products & service sales, and more—all in
+            one place.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {isAuthenticated ? (
@@ -74,7 +75,7 @@ const Home = () => {
                 to="/register"
                 className="px-10 py-5 bg-blue-600 text-white rounded-full font-bold text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200"
               >
-                Start Your Free Trial
+                Get Started
               </Link>
             )}
           </div>
@@ -256,8 +257,7 @@ const Home = () => {
       <footer className="bg-gray-900 text-gray-400 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-lg">
-            &copy; {new Date().getFullYear()} UNIFY. Building the future of
-            retail.
+            &copy; 2026 UNIFY. Building the future of Business management
           </p>
         </div>
       </footer>

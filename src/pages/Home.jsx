@@ -114,7 +114,7 @@ const Home = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Granular Controls
+              Staff Permissions
             </h3>
             <p className="text-gray-600">
               Go beyond roles. Set specific, fine-grained permission overrides
@@ -166,7 +166,7 @@ const Home = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Recall Analytics
+              Performance Analytics
             </h3>
             <p className="text-gray-600">
               Visualize daily, weekly, monthly and periodical data instantly.
@@ -245,7 +245,7 @@ const Home = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Customer & Stock Returns
+              Returns Management
             </h3>
             <p className="text-gray-600">
               Process returns instantly. Handle customer returns and damaged

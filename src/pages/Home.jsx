@@ -60,8 +60,8 @@ const Home = () => {
           <p className="text-2xl md:text-3xl text-gray-600 mb-12 leading-relaxed">
             The comprehensive business management solution for modern
             businesses. Effortlessly manage stock across multiple locations,
-            track product & service sales, handle returns, and gain deep
-            insights with real-time analytics—all in one place.
+            track product & service sales, and gain deep insights with real-time
+            analytics—all in one place.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {isAuthenticated ? (
@@ -143,7 +143,7 @@ const Home = () => {
               Advanced Inventory
             </h3>
             <p className="text-gray-600">
-              Track 10,000+ SKUs across multiple locations. Manage brands,
+              Track 10,000+ products across multiple locations. Manage brands,
               categories, and stock transfers effortlessly.
             </p>
           </div>
@@ -169,8 +169,9 @@ const Home = () => {
               Recall Analytics
             </h3>
             <p className="text-gray-600">
-              Visualize 12 months of data instantly. Deep dive into sales,
-              expenses, and net profit with custom date filters.
+              Visualize daily, weekly, monthly and periodical data instantly.
+              Deep dive into sales, expenses, and net profit with custom date
+              filters.
             </p>
           </div>
 

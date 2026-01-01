@@ -20,7 +20,6 @@ export const ProductList = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    sku: "",
     costPrice: "",
     sellingPrice: "",
     brandId: "",
@@ -143,7 +142,6 @@ export const ProductList = () => {
     setFormData({
       name: "",
       description: "",
-      sku: "",
       costPrice: "",
       sellingPrice: "",
       brandId: "",
@@ -159,7 +157,6 @@ export const ProductList = () => {
     setFormData({
       name: product.name,
       description: product.description || "",
-      sku: product.sku || "",
       costPrice: product.costPrice?.toString() || "",
       sellingPrice: product.sellingPrice?.toString() || "",
       brandId: product.brandId?.toString() || "",
@@ -176,7 +173,6 @@ export const ProductList = () => {
     setFormData({
       name: "",
       description: "",
-      sku: "",
       costPrice: "",
       sellingPrice: "",
       brandId: "",
@@ -187,7 +183,6 @@ export const ProductList = () => {
 
   const columns = [
     { header: "Name", accessor: "name", truncate: true, maxWidth: "200px" },
-    { header: "SKU", accessor: "sku" },
     {
       header: "Cost Price",
       render: (product) => `KSH ${product.costPrice?.toFixed(2) || "0.00"}`,
@@ -359,14 +354,6 @@ export const ProductList = () => {
               placeholder="Optional description..."
             />
           </div>
-
-          <Input
-            label="SKU / Product Code"
-            value={formData.sku}
-            onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-            placeholder="e.g., PARA-500"
-            required
-          />
 
           <div className="grid grid-cols-2 gap-4">
             <Input

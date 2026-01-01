@@ -29,7 +29,7 @@ export const ExpenseList = () => {
 
   // Updated Form Data Structure
   const [formData, setFormData] = useState({
-    description: "",
+    name: "",
     amount: "",
     expenseDate: "",
     categoryId: "",
@@ -125,7 +125,8 @@ export const ExpenseList = () => {
   const filteredExpenses = useMemo(() => {
     return expenses.filter((expense) => {
       const matchesSearch =
-        expense.description?.toLowerCase().includes(searchTerm.toLowerCase()) || // name -> description
+      const matchesSearch =
+        expense.name?.toLowerCase().includes(searchTerm.toLowerCase()) || // name
         expense.categoryName
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
@@ -191,7 +192,7 @@ export const ExpenseList = () => {
     setSubmitting(true);
     try {
       const submitData = {
-        description: formData.description,
+        name: formData.name,
         amount: parseFloat(formData.amount),
         date: formData.expenseDate
           ? new Date(formData.expenseDate).toISOString()
@@ -262,7 +263,7 @@ export const ExpenseList = () => {
   const openCreateModal = () => {
     setEditingExpense(null);
     setFormData({
-      description: "",
+      name: "",
       amount: "",
       expenseDate: new Date().toISOString().split("T")[0],
       categoryId: "",
@@ -277,7 +278,7 @@ export const ExpenseList = () => {
   const openEditModal = (expense) => {
     setEditingExpense(expense);
     setFormData({
-      description: expense.description || "",
+      name: expense.name || "",
       amount: expense.amount.toString(),
       expenseDate: expense.date ? expense.date.split("T")[0] : "", // date in DTO
       categoryId: expense.categoryId?.toString() || "",
@@ -293,7 +294,7 @@ export const ExpenseList = () => {
     setIsModalOpen(false);
     setEditingExpense(null);
     setFormData({
-      description: "",
+      name: "",
       amount: "",
       expenseDate: "",
       categoryId: "",
@@ -305,8 +306,8 @@ export const ExpenseList = () => {
 
   const columns = [
     {
-      header: "Description",
-      accessor: "description",
+      header: "Name",
+      accessor: "name",
     },
     {
       header: "Date",
@@ -582,10 +583,10 @@ export const ExpenseList = () => {
           )}
 
           <Input
-            label="Description (What was it?)"
-            value={formData.description}
+            label="Expense Name"
+            value={formData.name}
             onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
+              setFormData({ ...formData, name: e.target.value })
             }
             placeholder="e.g., Electricity, Repair..."
             required
@@ -716,7 +717,7 @@ export const ExpenseList = () => {
         onClose={() => setAuditModal({ ...auditModal, isOpen: false })}
         title={
           auditModal.expense
-            ? `Expense History - ${auditModal.expense.description}`
+            ? `Expense History - ${auditModal.expense.name}`
             : "Expense History"
         }
         logs={auditModal.logs}

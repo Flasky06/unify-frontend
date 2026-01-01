@@ -20,7 +20,7 @@ const Profile = () => {
   const [businessData, setBusinessData] = useState({
     businessName: "",
     businessType: "",
-    location: "",
+    address: "",
     county: "",
   });
 
@@ -57,7 +57,7 @@ const Profile = () => {
         setBusinessData({
           businessName: business.businessName || "",
           businessType: business.businessType || "",
-          location: business.location || "",
+          address: business.address || "",
           county: business.county || "",
         });
         setHasBusiness(true);
@@ -133,7 +133,7 @@ const Profile = () => {
         setBusinessData({
           businessName: business.businessName || "",
           businessType: business.businessType || "",
-          location: business.location || "",
+          address: business.address || "",
           county: business.county || "",
         });
       });
@@ -255,16 +255,16 @@ const Profile = () => {
                 />
 
                 <Input
-                  label="Location"
-                  value={businessData.location}
+                  label="Address"
+                  value={businessData.address}
                   onChange={(e) =>
                     setBusinessData({
                       ...businessData,
-                      location: e.target.value,
+                      address: e.target.value,
                     })
                   }
                   disabled={!isEditing}
-                  placeholder="Business Location"
+                  placeholder="Business Address"
                 />
 
                 <Input

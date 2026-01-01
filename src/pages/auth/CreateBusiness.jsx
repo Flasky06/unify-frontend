@@ -13,8 +13,7 @@ const CreateBusiness = () => {
   const [formData, setFormData] = useState({
     businessName: "",
     businessType: "",
-    location: "",
-    county: "",
+    address: "",
   });
 
   const handleSubmit = async (e) => {
@@ -85,21 +84,12 @@ const CreateBusiness = () => {
           />
 
           <Input
-            label="Location (Optional)"
-            value={formData.location}
+            label="Address (Optional)"
+            value={formData.address}
             onChange={(e) =>
-              setFormData({ ...formData, location: e.target.value })
+              setFormData({ ...formData, address: e.target.value })
             }
-            placeholder="Business Location"
-          />
-
-          <Input
-            label="County (Optional)"
-            value={formData.county}
-            onChange={(e) =>
-              setFormData({ ...formData, county: e.target.value })
-            }
-            placeholder="County"
+            placeholder="Business Address"
           />
 
           <Button type="submit" disabled={loading} className="w-full">

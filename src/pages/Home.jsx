@@ -57,7 +57,7 @@ const Home = () => {
               Simplify Operations
             </span>
           </h1>
-          <p className="text-2xl md:text-3xl text-gray-600 mb-12 leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
             The comprehensive business management solution for modern
             businesses. Effortlessly manage stock across multiple locations,
             track product & service sales, and gain deep insights with real-time

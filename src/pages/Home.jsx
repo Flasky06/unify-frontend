@@ -1,100 +1,168 @@
 import { Link } from "react-router-dom";
-import useAuthStore from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
+import { useState } from "react";
 
 const Home = () => {
   const { isAuthenticated } = useAuthStore();
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+
+  const toggleFaq = (index) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  const faqs = [
+    {
+      question: "Can I use UNIFY for multiple separate businesses?",
+      answer:
+        "Yes! UNIFY is designed to handle multiple shops and business entities under a single account, giving you a centralized view of your entire empire.",
+    },
+    {
+      question: "Who has access to my data?",
+      answer:
+        "You have complete control. Our granular permissions system allows you to define exactly what each staff member can see and do. Your data is encrypted and secure.",
+    },
+    {
+      question: "Can I export my financial reports?",
+      answer:
+        "Absolutely. You can export detailed sales, expense, and profit reports to help with accounting and performance analysis.",
+    },
+    {
+      question: "Does UNIFY work offline?",
+      answer:
+        "Yes, keep selling even without internet. Your sales data syncs automatically the moment you're back online, so business never stops.",
+    },
+    {
+      question: "Is it hard to switch to UNIFY?",
+      answer:
+        "Not at all. We offer seamless data migration tools and dedicated support to ensure a smooth, zero-downtime transition from your old system.",
+    },
+    {
+      question: "What kind of support do you offer?",
+      answer:
+        "We provide 24/7 priority support via chat and email for all plans. Our expert team is always ready to help you resolve any issues quickly.",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-blue-50">
-      {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">U</span>
-              </div>
-              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-                UNIFY
-              </h1>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-b from-blue-50 to-white">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+              <span className="text-white font-bold text-2xl">U</span>
             </div>
-            <div className="flex items-center gap-4">
+            <span className="text-2xl font-bold text-gray-900 tracking-tight">
+              UNIFY
+            </span>
+          </div>
+          <div className="flex items-center gap-4">
+            {isAuthenticated ? (
+              <Link
+                to="/dashboard"
+                className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="hidden sm:block px-6 py-2.5 text-gray-600 hover:text-blue-600 font-medium transition"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                >
+                  Start Free Trial
+                </Link>
+              </>
+            )}
+          </div>
+        </nav>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32 lg:h-[80vh] lg:flex lg:items-center">
+          <div className="text-center w-full">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-8 tracking-tight">
+              Run Your Entire Business
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Simplify Operations
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
+              The comprehensive business management solution for modern
+              businesses. Effortlessly manage stock across multiple locations,
+              track product & service sales, and gain deep insights with
+              real-time analytics all in one place.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {isAuthenticated ? (
                 <Link
                   to="/dashboard"
-                  className="px-6 py-2.5 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                  className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-200 transform hover:-translate-y-1"
                 >
                   Go to Dashboard
                 </Link>
               ) : (
-                <div className="flex items-center gap-4">
-                  <Link
-                    to="/login"
-                    className="text-gray-600 font-medium hover:text-blue-600 transition"
-                  >
-                    Login
-                  </Link>
+                <>
                   <Link
                     to="/register"
-                    className="px-6 py-2.5 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                    className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-200 transform hover:-translate-y-1"
                   >
-                    Get Started
+                    Start 14-Day Free Trial
                   </Link>
-                </div>
+                  <Link
+                    to="/demo"
+                    className="px-8 py-4 bg-white text-blue-600 border-2 border-blue-100 rounded-xl font-bold text-lg hover:border-blue-200 hover:bg-blue-50 transition duration-300"
+                  >
+                    Watch Demo
+                  </Link>
+                </>
               )}
             </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32 lg:h-[80vh] lg:flex lg:items-center">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-8 leading-tight tracking-tight">
-            Manage Your Business,
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-              Simplify Operations
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
-            The comprehensive business management solution for modern
-            businesses. Effortlessly manage stock across multiple locations,
-            track product & service sales, and gain deep insights with real-time
-            analytics all in one place.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {isAuthenticated ? (
-              <Link
-                to="/dashboard"
-                className="px-10 py-5 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-gray-800 transition shadow-xl"
-              >
-                Access Dashboard
-              </Link>
-            ) : (
-              <Link
-                to="/register"
-                className="px-10 py-5 bg-blue-600 text-white rounded-full font-bold text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200"
-              >
-                Get Started
-              </Link>
-            )}
+            <div className="mt-16 flex items-center justify-center gap-8 text-gray-400 text-sm font-medium">
+              <span className="flex items-center gap-2">
+                <svg
+                  className="w-5 h-5 text-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                No credit card required
+              </span>
+              <span className="flex items-center gap-2">
+                <svg
+                  className="w-5 h-5 text-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                14-day free trial
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Features Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-white rounded-3xl shadow-xl mb-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Everything your business needs
-          </h2>
-          <p className="text-gray-500 text-lg">
-            Powerful tools to help you grow and manage your business
-            efficiently.
-          </p>
-        </div>
-
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 -mt-20">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Feature 1: Advanced Inventory */}
           <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
@@ -260,65 +328,39 @@ const Home = () => {
           Frequently Asked Questions
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Can I use UNIFY for multiple separate businesses?
-            </h3>
-            <p className="text-gray-600">
-              Yes! UNIFY is designed to handle multiple shops and business
-              entities under a single account, giving you a centralized view of
-              your entire empire.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Who has access to my data?
-            </h3>
-            <p className="text-gray-600">
-              You have complete control. Our granular permissions system allows
-              you to define exactly what each staff member can see and do. Your
-              data is encrypted and secure.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Can I export my financial reports?
-            </h3>
-            <p className="text-gray-600">
-              Absolutely. You can export detailed sales, expense, and profit
-              reports to help with accounting and performance analysis.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Does UNIFY work offline?
-            </h3>
-            <p className="text-gray-600">
-              Yes, keep selling even without internet. Your sales data syncs
-              automatically the moment you're back online, so business never
-              stops.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Is it hard to switch to UNIFY?
-            </h3>
-            <p className="text-gray-600">
-              Not at all. We offer seamless data migration tools and dedicated
-              support to ensure a smooth, zero-downtime transition from your old
-              system.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              What kind of support do you offer?
-            </h3>
-            <p className="text-gray-600">
-              We provide 24/7 priority support via chat and email for all plans.
-              Our expert team is always ready to help you resolve any issues
-              quickly.
-            </p>
-          </div>
+          {faqs.map((faq, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition cursor-pointer"
+              onClick={() => toggleFaq(index)}
+            >
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-xl font-bold text-gray-900">
+                  {faq.question}
+                </h3>
+                <svg
+                  className={`w-6 h-6 text-blue-600 transform transition-transform duration-300 ${
+                    openFaqIndex === index ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              {openFaqIndex === index && (
+                <p className="text-gray-600 mt-4 animate-fadeIn">
+                  {faq.answer}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 

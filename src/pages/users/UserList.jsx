@@ -43,6 +43,17 @@ export const UserList = () => {
     userId: null,
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredUsers = users.filter((user) => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      user.email?.toLowerCase().includes(searchLower) ||
+      user.phoneNo?.toLowerCase().includes(searchLower) ||
+      user.role?.toLowerCase().includes(searchLower)
+    );
+  });
+
   const { isBusinessOwner } = useAuthStore();
 
   useEffect(() => {
@@ -204,11 +215,19 @@ export const UserList = () => {
 
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
-      <div className="flex flex-col gap-4 sm:gap-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col gap-2 sm:gap-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
+          <div className="w-full sm:max-w-xs">
+            <Input
+              placeholder="Search users..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="py-1.5"
+            />
+          </div>
           <Button
             onClick={() => setIsModalOpen(true)}
-            className="w-full sm:w-auto whitespace-nowrap"
+            className="w-full sm:w-auto whitespace-nowrap py-1.5"
           >
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
@@ -237,9 +256,10 @@ export const UserList = () => {
           ) : (
             <Table
               columns={columns}
-              data={users}
+              data={filteredUsers}
               emptyMessage="No users found."
               showViewAction={false}
+              searchable={false}
             />
           )}
         </div>

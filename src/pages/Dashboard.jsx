@@ -664,12 +664,6 @@ const Dashboard = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Amount Paid (Optional)
             </label>
-            <Input
-              placeholder={`Full Amount: ${calculateTotal().toLocaleString()}`}
-              type="number"
-              value={amountPaid}
-              onChange={(e) => setAmountPaid(e.target.value)}
-            />
             <p className="text-xs text-gray-500 mt-1">
               Leave empty if paid in full. Enter less for Credit Sale.
             </p>

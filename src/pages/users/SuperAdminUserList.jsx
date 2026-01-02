@@ -39,7 +39,6 @@ export const SuperAdminUserList = () => {
     isOpen: false,
     userId: null,
     action: null,
-    action: null,
   });
 
   const [searchTerm, setSearchTerm] = useState("");

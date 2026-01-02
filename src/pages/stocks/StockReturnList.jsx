@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 import Input from "../../components/ui/Input";
-import Select from "../../components/ui/Select";
+import { Select } from "../../components/ui/Select";
 import { stockReturnService } from "../../services/stockReturnService";
 import { shopService } from "../../services/shopService";
 import { productService } from "../../services/productService";

@@ -96,7 +96,7 @@ const Table = ({
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50"
+                    className="px-6 py-3 text-left text-sm font-bold text-gray-700 uppercase tracking-wider bg-gray-50"
                     style={{ minWidth: column.width || "auto" }}
                   >
                     {column.header}
@@ -145,7 +145,7 @@ const Table = ({
                     {columns.map((column, colIndex) => (
                       <td
                         key={colIndex}
-                        className={`px-6 py-2.5 text-sm text-gray-900 ${
+                        className={`px-6 py-2.5 text-base font-medium text-gray-900 ${
                           column.truncate ? "" : "whitespace-nowrap"
                         }`}
                         style={{
@@ -158,7 +158,7 @@ const Table = ({
                           <div
                             className={`truncate ${
                               column.triggerView
-                                ? "cursor-pointer text-blue-600 hover:text-blue-800 font-medium"
+                                ? "cursor-pointer text-blue-600 hover:text-blue-800 font-bold"
                                 : ""
                             }`}
                             title={
@@ -185,7 +185,7 @@ const Table = ({
                             }}
                             className={
                               column.triggerView
-                                ? "cursor-pointer text-blue-600 hover:text-blue-800 font-medium"
+                                ? "cursor-pointer text-blue-600 hover:text-blue-800 font-bold"
                                 : ""
                             }
                           >
@@ -197,13 +197,13 @@ const Table = ({
                       </td>
                     ))}
                     {showViewAction && (
-                      <td className="px-6 py-2.5 text-sm">
+                      <td className="px-6 py-2.5 text-base font-medium">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleViewRow(row);
                           }}
-                          className="text-blue-600 hover:text-blue-800 font-medium"
+                          className="text-blue-600 hover:text-blue-800 font-bold"
                         >
                           View
                         </button>

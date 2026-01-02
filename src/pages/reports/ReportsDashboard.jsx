@@ -78,8 +78,8 @@ const ReportsDashboard = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-bold mb-4">Last 7 Days Sales</h3>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-gray-500 bg-gray-50 uppercase">
+            <table className="w-full text-base text-left">
+              <thead className="text-gray-700 bg-gray-50 uppercase font-bold">
                 <tr>
                   <th className="px-4 py-2">Date</th>
                   <th className="px-4 py-2 text-right">Total Sales</th>

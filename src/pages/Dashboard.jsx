@@ -458,15 +458,15 @@ const Dashboard = () => {
               </div>
             ) : (
               <table className="w-full text-left">
-                <thead className="text-gray-500 border-b border-gray-200">
+                <thead className="text-gray-600 border-b border-gray-200">
                   <tr>
-                    <th className="py-1 text-sm font-medium">Item</th>
-                    <th className="py-1 text-sm font-medium">Price</th>
-                    <th className="py-1 text-sm font-medium">Qty</th>
-                    <th className="py-1 text-sm font-medium text-right">
+                    <th className="py-1 text-base font-bold">Item</th>
+                    <th className="py-1 text-base font-bold">Price</th>
+                    <th className="py-1 text-base font-bold">Qty</th>
+                    <th className="py-1 text-base font-bold text-right">
                       Total
                     </th>
-                    <th className="py-1 text-sm font-medium"></th>
+                    <th className="py-1 text-base font-bold"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">

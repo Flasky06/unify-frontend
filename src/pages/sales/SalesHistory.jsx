@@ -353,16 +353,16 @@ const SalesHistory = () => {
 
             {/* Items Table */}
             <div>
-              <table className="w-full text-sm">
+              <table className="w-full text-base">
                 <thead>
                   <tr className="border-b-2 border-gray-100">
-                    <th className="py-1.5 text-left font-semibold text-gray-600 w-1/2">
+                    <th className="py-1.5 text-left font-bold text-gray-700 w-1/2">
                       Product
                     </th>
-                    <th className="py-1.5 text-center font-semibold text-gray-600">
+                    <th className="py-1.5 text-center font-bold text-gray-700">
                       Qty
                     </th>
-                    <th className="py-1.5 text-right font-semibold text-gray-600">
+                    <th className="py-1.5 text-right font-bold text-gray-700">
                       Amount
                     </th>
                   </tr>

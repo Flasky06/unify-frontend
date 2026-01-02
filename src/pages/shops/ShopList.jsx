@@ -47,9 +47,8 @@ export const ShopList = () => {
     }
   };
 
-  const filteredShops = shops.filter(
-    (shop) =>
-      shop.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredShops = shops.filter((shop) =>
+    shop.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSubmit = async (e) => {
@@ -174,16 +173,51 @@ export const ShopList = () => {
 
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
-      <div className="flex flex-col gap-2 sm:gap-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:max-w-xs">
-            <Input
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <svg
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
               placeholder="Search shops..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 rounded-lg border-gray-300 focus:ring-primary-500 focus:border-primary-500"
             />
           </div>
+          {user?.role !== "SHOP_MANAGER" && user?.role !== "SALES_REP" && (
+            <Button
+              onClick={openCreateModal}
+              className="w-full sm:w-auto whitespace-nowrap py-1.5 px-4"
+            >
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Add Shop
+            </Button>
+          )}
         </div>
 
         <Table
@@ -211,19 +245,20 @@ export const ShopList = () => {
                   >
                     Edit
                   </Button>
-                  {user?.role !== "SHOP_MANAGER" && user?.role !== "SALES_REP" && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-red-600 hover:bg-red-50 hover:text-red-700 font-medium px-3"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setConfirmDialog({ isOpen: true, shopId: shop.id });
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  )}
+                  {user?.role !== "SHOP_MANAGER" &&
+                    user?.role !== "SALES_REP" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-600 hover:bg-red-50 hover:text-red-700 font-medium px-3"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setConfirmDialog({ isOpen: true, shopId: shop.id });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    )}
                 </div>
               ),
             },
@@ -233,32 +268,6 @@ export const ShopList = () => {
           emptyMessage="No shops found"
           showViewAction={false}
         />
-      </div>
-          </div>
-          {user?.role !== "SHOP_MANAGER" && user?.role !== "SALES_REP" && (
-            <Button
-              onClick={openCreateModal}
-              className="w-full sm:w-auto whitespace-nowrap py-1.5"
-            >
-              <svg
-                className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              Add Shop
-            </Button>
-          )}
-        </div>
-
-        {/* The original Table component was here, but it's now integrated into the search div */}
       </div>
 
       <Modal

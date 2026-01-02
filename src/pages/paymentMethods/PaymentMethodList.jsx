@@ -63,7 +63,7 @@ export const PaymentMethodList = () => {
       const sanitizedData = {
         name: formData.name.trim(),
         type: formData.type?.trim() || null,
-        active: formData.active,
+        isActive: formData.active,
       };
 
       if (editingMethod) {
@@ -123,7 +123,7 @@ export const PaymentMethodList = () => {
     setFormData({
       name: method.name,
       type: method.type || "",
-      active: method.active !== undefined ? method.active : true,
+      active: method.isActive !== undefined ? method.isActive : true,
     });
     setIsModalOpen(true);
     setError(null);
@@ -147,12 +147,12 @@ export const PaymentMethodList = () => {
       render: (method) => (
         <span
           className={`px-2 py-1 text-xs rounded-full ${
-            method.active
+            method.isActive
               ? "bg-green-100 text-green-800"
               : "bg-gray-100 text-gray-800"
           }`}
         >
-          {method.active ? "Active" : "Inactive"}
+          {method.isActive ? "Active" : "Inactive"}
         </span>
       ),
     },

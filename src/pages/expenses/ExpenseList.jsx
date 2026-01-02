@@ -386,8 +386,6 @@ export const ExpenseList = () => {
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-4 sm:gap-6">
-        <h1 className="text-2xl font-bold text-blue-600">Expense Management</h1>
-
         {/* Summary Cards */}
         <div className="grid grid-cols-1 gap-4">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">

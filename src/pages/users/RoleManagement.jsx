@@ -189,11 +189,7 @@ const RoleManagement = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <span className="text-blue-600">Role Management</span>
-          </h1>
-        </div>
+        <div></div>
         <button
           onClick={handleSave}
           disabled={saving}

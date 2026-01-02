@@ -13,7 +13,7 @@ const SalesHistory = () => {
   const [sales, setSales] = useState([]);
   const [shops, setShops] = useState([]);
   const [selectedShopId, setSelectedShopId] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
@@ -130,12 +130,6 @@ const SalesHistory = () => {
   };
 
   const filteredSales = sales.filter((sale) => {
-    const search = searchTerm.toLowerCase();
-    const searchMatch =
-      sale.saleNumber?.toLowerCase().includes(search) ||
-      sale.shopName?.toLowerCase().includes(search) ||
-      sale.paymentMethod?.toLowerCase().includes(search);
-
     // Date filtering
     let dateMatch = true;
     if (startDate || endDate) {
@@ -152,7 +146,7 @@ const SalesHistory = () => {
       }
     }
 
-    return searchMatch && dateMatch;
+    return dateMatch;
   });
 
   const columns = [
@@ -225,11 +219,6 @@ const SalesHistory = () => {
           <h1 className="text-2xl font-bold text-blue-600 mb-3">
             Sales History
           </h1>
-          <Input
-            placeholder="Search by sale no, shop..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">

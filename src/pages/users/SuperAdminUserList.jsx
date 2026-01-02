@@ -41,21 +41,6 @@ export const SuperAdminUserList = () => {
     action: null,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredUsers = users.filter((user) => {
-    const searchLower = searchTerm.toLowerCase();
-    const businessName = user.business?.businessName?.toLowerCase() || "";
-    const email = user.email?.toLowerCase() || "";
-    const phone = user.phoneNo?.toLowerCase() || "";
-
-    return (
-      businessName.includes(searchLower) ||
-      email.includes(searchLower) ||
-      phone.includes(searchLower)
-    );
-  });
-
   const { isSuperAdmin } = useAuthStore();
   const navigate = useNavigate();
 
@@ -282,14 +267,7 @@ export const SuperAdminUserList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-2 sm:gap-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:max-w-xs">
-            <Input
-              placeholder="Search business owners..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-1.5"
-            />
-          </div>
+          <div className="w-full sm:max-w-xs"></div>
           <Button
             onClick={() => setIsCreateModalOpen(true)}
             className="w-full sm:w-auto whitespace-nowrap py-1.5"
@@ -321,10 +299,9 @@ export const SuperAdminUserList = () => {
           ) : (
             <Table
               columns={columns}
-              data={filteredUsers}
+              data={users}
               emptyMessage="No business owners found."
               showViewAction={false}
-              searchable={false}
             />
           )}
         </div>

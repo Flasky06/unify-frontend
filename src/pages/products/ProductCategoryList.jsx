@@ -24,8 +24,6 @@ export const ProductCategoryList = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   // Fetch categories on mount
   useEffect(() => {
     fetchCategories();
@@ -42,10 +40,6 @@ export const ProductCategoryList = () => {
       setLoading(false);
     }
   };
-
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -158,13 +152,7 @@ export const ProductCategoryList = () => {
       <div className="flex flex-col gap-4 sm:gap-6">
         {/* Header Actions */}
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:flex-1 sm:max-w-md">
-            <Input
-              placeholder="Search categories..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          <div className="w-full sm:flex-1 sm:max-w-md"></div>
           <Button
             onClick={openCreateModal}
             className="w-full sm:w-auto whitespace-nowrap"
@@ -194,7 +182,7 @@ export const ProductCategoryList = () => {
           ) : (
             <Table
               columns={columns}
-              data={filteredCategories}
+              data={categories}
               emptyMessage="No categories found. Create one to get started."
               showViewAction={false}
             />

@@ -24,8 +24,6 @@ export const BrandList = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   // Fetch brands on mount
   useEffect(() => {
     fetchBrands();
@@ -43,10 +41,6 @@ export const BrandList = () => {
       setLoading(false);
     }
   };
-
-  const filteredBrands = brands.filter((brand) =>
-    brand.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -156,13 +150,7 @@ export const BrandList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-4 sm:gap-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:flex-1 sm:max-w-md">
-            <Input
-              placeholder="Search brands..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          <div className="w-full sm:flex-1 sm:max-w-md"></div>
           <Button
             onClick={openCreateModal}
             className="w-full sm:w-auto whitespace-nowrap"
@@ -192,7 +180,7 @@ export const BrandList = () => {
           ) : (
             <Table
               columns={columns}
-              data={filteredBrands}
+              data={brands}
               emptyMessage="No brands found. Create one to get started."
               showViewAction={false}
             />

@@ -17,7 +17,7 @@ const StockReturnList = () => {
   const [selectedShop, setSelectedShop] = useState("");
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [formData, setFormData] = useState({
     productId: "",
     type: "CUSTOMER_RETURN",
@@ -102,12 +102,6 @@ const StockReturnList = () => {
     setTimeout(() => setToast(null), 3000);
   };
 
-  const filteredReturns = returns.filter(
-    (item) =>
-      item.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.reason?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <div className="space-y-6">
       {toast && (
@@ -172,13 +166,6 @@ const StockReturnList = () => {
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-            <input
-              type="text"
-              placeholder="Search returns..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 rounded-lg border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-            />
           </div>
         </div>
 
@@ -229,7 +216,7 @@ const StockReturnList = () => {
               accessor: "userName",
             },
           ]}
-          data={filteredReturns}
+          data={returns}
           loading={loading}
           emptyMessage="No returns found"
           showViewAction={false}

@@ -20,7 +20,6 @@ const StockList = () => {
   const [editingStock, setEditingStock] = useState(null);
   const [viewMode, setViewMode] = useState("all"); // all, byShop
   const [selectedShopId, setSelectedShopId] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
 
   // Audit Log State
   const [auditModal, setAuditModal] = useState({
@@ -204,13 +203,6 @@ const StockList = () => {
     return shop ? shop.name : "Unknown";
   };
 
-  const filteredStocks = stocks.filter((stock) => {
-    const productName = getProductName(stock.productId).toLowerCase();
-    const shopName = getShopName(stock.shopId).toLowerCase();
-    const search = searchTerm.toLowerCase();
-    return productName.includes(search) || shopName.includes(search);
-  });
-
   const columns = [
     { header: "Product", accessor: "productName", triggerView: true },
     { header: "Shop", accessor: "shopName" },
@@ -273,7 +265,7 @@ const StockList = () => {
     },
   ];
 
-  const tableData = filteredStocks.map((stock) => ({
+  const tableData = stocks.map((stock) => ({
     id: stock.id,
     productName: getProductName(stock.productId),
     shopName: getShopName(stock.shopId),
@@ -308,17 +300,7 @@ const StockList = () => {
               </select>
             </div>
 
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Search
-              </label>
-              <Input
-                placeholder="Search by product or shop name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="py-1.5"
-              />
-            </div>
+            <div className="flex-1"></div>
           </div>
 
           <Button

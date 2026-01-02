@@ -50,7 +50,7 @@ export const ExpenseList = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedShop, setSelectedShop] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -114,7 +114,7 @@ export const ExpenseList = () => {
   };
 
   const clearFilters = () => {
-    setSearchTerm("");
+
     setSelectedCategory("");
     setSelectedShop("");
     setStartDate("");
@@ -124,14 +124,6 @@ export const ExpenseList = () => {
 
   const filteredExpenses = useMemo(() => {
     return expenses.filter((expense) => {
-      const matchesSearch =
-        expense.name?.toLowerCase().includes(searchTerm.toLowerCase()) || // name
-        expense.categoryName
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        expense.shopName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        expense.payee?.toLowerCase().includes(searchTerm.toLowerCase()); // Search Payee
-
       const matchesCategory = selectedCategory
         ? expense.categoryId.toString() === selectedCategory
         : true;
@@ -145,12 +137,11 @@ export const ExpenseList = () => {
         (!endDate || expense.date <= endDate);
 
       return (
-        matchesSearch && matchesCategory && matchesShop && matchesDateRange
+        matchesCategory && matchesShop && matchesDateRange
       );
     });
   }, [
     expenses,
-    searchTerm,
     selectedCategory,
     selectedShop,
     startDate,
@@ -441,18 +432,6 @@ export const ExpenseList = () => {
 
         {/* Filters Input Area */}
         <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-end lg:flex-wrap">
-          <div className="flex flex-col gap-2 lg:flex-row lg:flex-1 lg:gap-3 lg:flex-wrap">
-            <div className="w-full lg:w-64 lg:max-w-xs">
-              <Input
-                placeholder="Search expenses..."
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="py-1.5"
-              />
-            </div>
             {/* Category Select */}
             <div className="w-full lg:w-48 lg:max-w-xs">
               <select

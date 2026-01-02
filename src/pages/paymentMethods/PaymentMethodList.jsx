@@ -30,8 +30,6 @@ export const PaymentMethodList = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   useEffect(() => {
     fetchPaymentMethods();
   }, []);
@@ -47,10 +45,6 @@ export const PaymentMethodList = () => {
       setLoading(false);
     }
   };
-
-  const filteredMethods = paymentMethods.filter((method) =>
-    method.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -195,14 +189,7 @@ export const PaymentMethodList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-2 sm:gap-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:max-w-xs">
-            <Input
-              placeholder="Search payment methods..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-1.5"
-            />
-          </div>
+          <div className="w-full sm:max-w-xs"></div>
           {user?.role !== "SALES_REP" && (
             <Button
               onClick={openCreateModal}
@@ -232,13 +219,7 @@ export const PaymentMethodList = () => {
               Loading payment methods...
             </div>
           ) : (
-            <Table
-              columns={columns}
-              data={filteredMethods}
-              emptyMessage="No payment methods found. Create one to get started."
-              showViewAction={false}
-              searchable={false}
-            />
+            <Table columns={columns} data={paymentMethods} />
           )}
         </div>
       </div>

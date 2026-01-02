@@ -230,24 +230,6 @@ const StockList = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() =>
-              row._stock && setAdjustModal({ isOpen: true, stock: row._stock })
-            }
-            className="text-purple-600 hover:bg-purple-50 font-medium px-3"
-          >
-            Adjust
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => handleViewLogs(row._stock)}
-            className="text-gray-600 hover:bg-gray-100 font-medium px-3"
-          >
-            History
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={() => handleEdit(row._stock)}
             className="text-blue-600 hover:bg-blue-50 font-medium px-3"
           >

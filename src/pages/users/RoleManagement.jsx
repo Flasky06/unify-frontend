@@ -200,9 +200,9 @@ const RoleManagement = () => {
         </button>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Role Selector Sidebar */}
-        <div className="w-full md:w-64 bg-white rounded-lg shadow-sm border p-4 h-fit">
+      <div className="flex flex-col gap-6">
+        {/* Role Selector Top Section */}
+        <div className="w-full bg-white rounded-lg shadow-sm border p-4">
           <h2 className="font-semibold text-gray-700 border-b pb-2 mb-4">
             Select Role
           </h2>
@@ -237,7 +237,7 @@ const RoleManagement = () => {
         </div>
 
         {/* Permissions Grid */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-[calc(100vh-140px)] flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-full flex flex-col">
           <div className="flex items-center justify-between mb-6 border-b pb-4">
             <h2 className="text-lg font-semibold text-gray-800">
               Permissions for{" "}

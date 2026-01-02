@@ -212,7 +212,7 @@ export const ServiceCategoryList = () => {
 
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <Table
-            data={categories.filter((c) =>
+            data={(categories || []).filter((c) =>
               c.name.toLowerCase().includes(searchTerm.toLowerCase())
             )}
             loading={loading}

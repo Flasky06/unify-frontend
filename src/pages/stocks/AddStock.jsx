@@ -212,6 +212,7 @@ const AddStock = () => {
             loading={loading}
             emptyMessage="No products found matching your search."
             showViewAction={false}
+            searchable={false}
           />
         </div>
       </div>

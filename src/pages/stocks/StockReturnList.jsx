@@ -15,6 +15,7 @@ const StockReturnList = () => {
   const [shops, setShops] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedShop, setSelectedShop] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -153,19 +154,12 @@ const StockReturnList = () => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+            <Input
+              placeholder="Search returns..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full"
+            />
           </div>
         </div>
 
@@ -216,10 +210,15 @@ const StockReturnList = () => {
               accessor: "userName",
             },
           ]}
-          data={returns}
+          data={(returns || []).filter(
+            (r) =>
+              r.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              r.type?.toLowerCase().includes(searchTerm.toLowerCase())
+          )}
           loading={loading}
           emptyMessage="No returns found"
           showViewAction={false}
+          searchable={false}
         />
       </div>
 

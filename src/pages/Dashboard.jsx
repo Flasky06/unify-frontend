@@ -463,6 +463,7 @@ const Dashboard = () => {
                 : "No services found"
             }
             showViewAction={false}
+            searchable={false}
           />
         </div>
       </div>

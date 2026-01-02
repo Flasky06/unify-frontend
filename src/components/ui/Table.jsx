@@ -4,7 +4,7 @@ import Modal from "./Modal";
 
 const Table = ({
   columns,
-  data,
+  data = [],
   onRowClick,
   loading = false,
   emptyMessage = "No data available",
@@ -27,6 +27,7 @@ const Table = ({
 
   // Filter data based on search query
   const filteredData = useMemo(() => {
+    if (!data) return [];
     if (!searchable || !searchQuery.trim()) return data;
 
     return data.filter((row) => {
@@ -54,7 +55,7 @@ const Table = ({
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   // Reset to page 1 when search query changes
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 

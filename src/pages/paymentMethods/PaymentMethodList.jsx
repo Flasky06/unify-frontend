@@ -19,6 +19,7 @@ export const PaymentMethodList = () => {
     active: true,
   });
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     methodId: null,
@@ -189,7 +190,14 @@ export const PaymentMethodList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-2 sm:gap-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:max-w-xs"></div>
+          <div className="w-full sm:flex-1 sm:max-w-md">
+            <Input
+              placeholder="Search payment methods..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full"
+            />
+          </div>
           {user?.role !== "SALES_REP" && (
             <Button
               onClick={openCreateModal}
@@ -219,7 +227,15 @@ export const PaymentMethodList = () => {
               Loading payment methods...
             </div>
           ) : (
-            <Table columns={columns} data={paymentMethods} />
+            <Table
+              columns={columns}
+              data={(paymentMethods || []).filter((method) =>
+                method.name.toLowerCase().includes(searchTerm.toLowerCase())
+              )}
+              emptyMessage="No payment methods found."
+              showViewAction={false}
+              searchable={false}
+            />
           )}
         </div>
       </div>

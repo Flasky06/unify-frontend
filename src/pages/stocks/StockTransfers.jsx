@@ -14,6 +14,7 @@ const StockTransfers = () => {
   const [activeTab, setActiveTab] = useState("incoming"); // 'incoming' or 'outgoing'
   const [transfers, setTransfers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [shops, setShops] = useState([]); // All shops
   const [selectedShopId, setSelectedShopId] = useState(""); // For Business Owner shop selection
 
@@ -290,6 +291,15 @@ const StockTransfers = () => {
             </Button>
           </div>
         </div>
+
+        <div className="w-full sm:max-w-md">
+          <Input
+            placeholder="Search transfers..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full"
+          />
+        </div>
       </div>
 
       <div className="flex gap-4 border-b border-gray-200">
@@ -317,10 +327,20 @@ const StockTransfers = () => {
 
       <Table
         columns={columns}
-        data={transfers}
+        data={(transfers || []).filter(
+          (t) =>
+            t.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            t.sourceShopName
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            t.destinationShopName
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase())
+        )}
         loading={loading}
         emptyMessage={`No ${activeTab} transfers found`}
         showViewAction={false}
+        searchable={false}
       />
 
       <Modal

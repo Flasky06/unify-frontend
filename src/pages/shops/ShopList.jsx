@@ -152,13 +152,13 @@ export const ShopList = () => {
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row gap-4">
-          <div className="w-full sm:max-w-xs">
+        <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <div className="w-full sm:flex-1 sm:max-w-md">
             <Input
               placeholder="Search shops..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-1.5"
+              className="w-full"
             />
           </div>
           {user?.role !== "SHOP_MANAGER" && user?.role !== "SALES_REP" && (
@@ -181,7 +181,7 @@ export const ShopList = () => {
               </svg>
               Add Shop
             </Button>
-          )}
+
         </div>
 
         <Table

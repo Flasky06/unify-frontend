@@ -26,8 +26,6 @@ export const ExpenseCategoryList = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -43,10 +41,6 @@ export const ExpenseCategoryList = () => {
       setLoading(false);
     }
   };
-
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -160,14 +154,7 @@ export const ExpenseCategoryList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-2 sm:gap-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-          <div className="w-full sm:flex-1 sm:max-w-md">
-            <Input
-              placeholder="Search expense categories..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-1.5"
-            />
-          </div>
+          <div className="w-full sm:flex-1 sm:max-w-md"></div>
           {user?.role !== "SALES_REP" && (
             <Button
               onClick={openCreateModal}
@@ -199,7 +186,7 @@ export const ExpenseCategoryList = () => {
           ) : (
             <Table
               columns={columns}
-              data={filteredCategories}
+              data={categories}
               emptyMessage="No expense categories found. Create one to get started."
               showViewAction={false}
             />

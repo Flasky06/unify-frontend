@@ -29,6 +29,24 @@ export const ShopList = () => {
   const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const fetchShops = async () => {
+    try {
+      setLoading(true);
+      const data = await shopService.getAll();
+      setShops(data);
+      setError(null);
+    } catch (err) {
+      setError("Failed to load shops");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchShops();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (submitting) return; // Prevent double submission

@@ -349,7 +349,6 @@ const Dashboard = () => {
       <div className="bg-white p-4 rounded-lg shadow mb-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
           <div className="flex flex-col gap-3 w-full lg:flex-row lg:items-center lg:w-auto">
-            <h2 className="text-xl font-bold text-gray-800">Shop Stock</h2>
             <select
               value={selectedShopId}
               onChange={(e) => setSelectedShopId(e.target.value)}

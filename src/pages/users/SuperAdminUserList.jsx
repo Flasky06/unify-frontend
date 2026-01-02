@@ -53,13 +53,16 @@ export const SuperAdminUserList = () => {
 
   const fetchBusinessOwners = async () => {
     try {
+      console.log("Fetching business owners...");
       setIsLoading(true);
+      setError(null);
       const data = await userService.getAllBusinessOwners();
+      console.log("Business owners fetched:", data);
       setUsers(data);
+      setIsLoading(false);
     } catch (err) {
-      setError("Failed to fetch business owners");
-      console.error(err);
-    } finally {
+      console.error("Error fetching business owners:", err);
+      setError(err.message || "Failed to fetch business owners");
       setIsLoading(false);
     }
   };

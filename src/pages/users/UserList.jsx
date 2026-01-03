@@ -20,6 +20,7 @@ export const UserList = () => {
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
   const [permissionsModal, setPermissionsModal] = useState({
     isOpen: false,
     userId: null,
@@ -103,18 +104,30 @@ export const UserList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await userService.createEmployee(formData);
-      setToast({
-        isOpen: true,
-        message: "User created successfully",
-        type: "success",
-      });
+      if (editingUser) {
+        // Update existing user
+        await userService.updateEmployee(editingUser.id, formData);
+        setToast({
+          isOpen: true,
+          message: "User updated successfully",
+          type: "success",
+        });
+      } else {
+        // Create new user
+        await userService.createEmployee(formData);
+        setToast({
+          isOpen: true,
+          message: "User created successfully",
+          type: "success",
+        });
+      }
       closeModal();
       fetchUsers();
     } catch (err) {
       setToast({
         isOpen: true,
-        message: err.message || "Failed to create user",
+        message:
+          err.message || `Failed to ${editingUser ? "update" : "create"} user`,
         type: "error",
       });
     }
@@ -122,6 +135,7 @@ export const UserList = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setEditingUser(null);
     setFormData({
       email: "",
       password: "",
@@ -167,6 +181,25 @@ export const UserList = () => {
       header: "Actions",
       render: (user) => (
         <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditingUser(user);
+              setFormData({
+                email: user.email,
+                password: "",
+                role: user.role,
+                phoneNo: user.phoneNo || "",
+                shopId: user.shopId || null,
+              });
+              setIsModalOpen(true);
+            }}
+            className="text-blue-600 hover:bg-blue-50 font-medium px-3"
+          >
+            Edit
+          </Button>
           {isBusinessOwner() && (
             <Button
               variant="ghost"
@@ -179,7 +212,7 @@ export const UserList = () => {
                   userName: user.email, // or user.name if available
                 });
               }}
-              className="text-blue-600 hover:bg-blue-50 font-medium px-3"
+              className="text-purple-600 hover:bg-purple-50 font-medium px-3"
             >
               Permissions
             </Button>
@@ -260,8 +293,12 @@ export const UserList = () => {
         </div>
       </div>
 
-      {/* Add User Modal */}
-      <Modal isOpen={isModalOpen} onClose={closeModal} title="Add New User">
+      {/* Add/Edit User Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={editingUser ? "Edit User" : "Add New User"}
+      >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Email"
@@ -269,6 +306,7 @@ export const UserList = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            disabled={editingUser !== null}
             required
           />
 
@@ -278,7 +316,10 @@ export const UserList = () => {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
-            required
+            required={!editingUser}
+            placeholder={
+              editingUser ? "Leave blank to keep current password" : ""
+            }
           />
 
           <Input
@@ -384,7 +425,9 @@ export const UserList = () => {
             <Button type="button" variant="outline" onClick={closeModal}>
               Cancel
             </Button>
-            <Button type="submit">Create User</Button>
+            <Button type="submit">
+              {editingUser ? "Update User" : "Create User"}
+            </Button>
           </div>
         </form>
       </Modal>

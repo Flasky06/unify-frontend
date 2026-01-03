@@ -609,7 +609,7 @@ const Dashboard = () => {
                         ).toLocaleString()}
                         {item.discount > 0 && (
                           <div className="text-xs text-green-600">
-                            Saved:{" "}
+                            Discount:{" "}
                             {(item.discount * item.quantity).toLocaleString()}
                           </div>
                         )}

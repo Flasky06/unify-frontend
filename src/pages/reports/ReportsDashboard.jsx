@@ -16,19 +16,38 @@ const ReportsDashboard = () => {
   const fetchDashboardReport = async () => {
     try {
       setLoading(true);
+      setError(null);
       const result = await reportService.getDashboardReport();
       setData(result);
     } catch (err) {
-      console.error(err);
-      setError("Failed to load report data");
+      console.error("Dashboard report error:", err);
+      setError(err.message || "Failed to load report data. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <div className="p-8 text-center">Loading Report...</div>;
-  if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
-  if (!data) return <div className="p-8 text-center">No data available</div>;
+  if (error)
+    return (
+      <div className="p-8 text-center">
+        <div className="text-red-500 mb-4">{error}</div>
+        <Button onClick={fetchDashboardReport}>Retry</Button>
+      </div>
+    );
+  if (!data)
+    return (
+      <div className="p-8 text-center">
+        <p className="text-gray-600 mb-4">
+          No data available. This could mean:
+        </p>
+        <ul className="text-sm text-gray-500 mb-4">
+          <li>• No sales have been recorded yet</li>
+          <li>• Backend is still deploying</li>
+        </ul>
+        <Button onClick={fetchDashboardReport}>Refresh</Button>
+      </div>
+    );
 
   return (
     <div className="p-6">

@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { reportService } from "../../services/reportService";
 import { shopService } from "../../services/shopService";
-import { useShopStore } from "../../store/shopStore";
+
 import { DateRangePicker } from "../../components/ui/DateRangePicker";
 
 const SummaryCard = ({ title, value, icon, isProfit }) => (
@@ -35,11 +35,19 @@ export const SalesReport = () => {
     endDate: new Date(),
   });
   const [selectedShopId, setSelectedShopId] = useState("");
-  const { shops, fetchShops } = useShopStore();
+  const [shops, setShops] = useState([]);
 
   useEffect(() => {
-    fetchShops();
-  }, [fetchShops]);
+    const loadShops = async () => {
+      try {
+        const data = await shopService.getAll();
+        setShops(data);
+      } catch (error) {
+        console.error("Failed to load shops", error);
+      }
+    };
+    loadShops();
+  }, []);
 
   // Period change handler
   const handlePeriodChange = (newPeriod) => {

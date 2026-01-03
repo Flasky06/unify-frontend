@@ -734,16 +734,6 @@ const Dashboard = () => {
             )}
           </div>
 
-          {/* Amount Paid for Credit Sales */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Amount Paid (Optional)
-            </label>
-            <p className="text-xs text-gray-500 mt-1">
-              Leave empty if paid in full. Enter less for Credit Sale.
-            </p>
-          </div>
-
           {/* Placeholder for future customer details */}
           {/* <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Customer (Optional)</label>

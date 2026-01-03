@@ -61,12 +61,20 @@ const ReportsDashboard = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Sales */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {/* Product Sales */}
         <div className="bg-white p-6 rounded-lg shadow border-l-4 border-blue-500">
-          <p className="text-sm text-gray-500 mb-1">Today's Sales</p>
+          <p className="text-sm text-gray-500 mb-1">Product Sales (Today)</p>
           <h2 className="text-2xl font-bold text-gray-800">
-            KSH {data.todaySales?.toLocaleString() || "0"}
+            KSH {data.todayProductSales?.toLocaleString() || "0"}
+          </h2>
+        </div>
+
+        {/* Service Sales */}
+        <div className="bg-white p-6 rounded-lg shadow border-l-4 border-purple-500">
+          <p className="text-sm text-gray-500 mb-1">Service Sales (Today)</p>
+          <h2 className="text-2xl font-bold text-gray-800">
+            KSH {data.todayServiceSales?.toLocaleString() || "0"}
           </h2>
         </div>
 
@@ -75,18 +83,6 @@ const ReportsDashboard = () => {
           <p className="text-sm text-gray-500 mb-1">Today's Expenses</p>
           <h2 className="text-2xl font-bold text-gray-800">
             KSH {data.todayExpenses?.toLocaleString() || "0"}
-          </h2>
-        </div>
-
-        {/* Profit */}
-        <div className="bg-white p-6 rounded-lg shadow border-l-4 border-green-500">
-          <p className="text-sm text-gray-500 mb-1">Estimated Profit (Today)</p>
-          <h2
-            className={`text-2xl font-bold ${
-              data.todayProfit >= 0 ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            KSH {data.todayProfit?.toLocaleString() || "0"}
           </h2>
         </div>
 

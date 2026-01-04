@@ -133,6 +133,11 @@ export const Sidebar = ({ isOpen, onClose }) => {
           permission: "VIEW_SALES",
         },
         {
+          name: "Invoices",
+          path: "/invoices",
+          permission: "VIEW_SALES",
+        },
+        {
           name: "Stock Movement",
           path: "/reports/stock-movement",
           permission: "VIEW_REPORTS",

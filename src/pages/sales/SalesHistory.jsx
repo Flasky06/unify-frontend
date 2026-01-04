@@ -530,7 +530,7 @@ const SalesHistory = () => {
                             {item.productName || item.serviceName}
                           </div>
                           <div className="text-gray-500 text-xs mt-0.5">
-                            @ KSH {finalPrice.toLocaleString()}
+                            @ KSH {(finalPrice || 0).toLocaleString()}
                             {hasDiscount && (
                               <span className="text-gray-400 line-through ml-1">
                                 {(item.unitPrice || 0).toLocaleString()}
@@ -542,7 +542,7 @@ const SalesHistory = () => {
                           {item.quantity}
                         </td>
                         <td className="py-1.5 text-right align-top pt-2 font-medium text-gray-900">
-                          KSH {itemTotal.toLocaleString()}
+                          KSH {(itemTotal || 0).toLocaleString()}
                           {hasDiscount && (
                             <div className="text-xs text-gray-500 line-through">
                               {(
@@ -580,7 +580,7 @@ const SalesHistory = () => {
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-gray-600">Subtotal</span>
                           <span className="text-gray-900">
-                            KSH {subtotal.toLocaleString()}
+                            KSH {(subtotal || 0).toLocaleString()}
                           </span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
@@ -588,7 +588,7 @@ const SalesHistory = () => {
                             Discount
                           </span>
                           <span className="text-green-600 font-medium">
-                            - KSH {totalDiscount.toLocaleString()}
+                            - KSH {(totalDiscount || 0).toLocaleString()}
                           </span>
                         </div>
                       </>
@@ -599,7 +599,8 @@ const SalesHistory = () => {
                           Sale Discount
                         </span>
                         <span className="text-green-600 font-medium">
-                          - KSH {selectedSale.discountAmount.toLocaleString()}
+                          - KSH{" "}
+                          {(selectedSale.discountAmount || 0).toLocaleString()}
                         </span>
                       </div>
                     )}
@@ -608,7 +609,7 @@ const SalesHistory = () => {
                         Grand Total
                       </span>
                       <span className="text-2xl font-bold text-gray-900">
-                        KSH {selectedSale.total.toLocaleString()}
+                        KSH {(selectedSale.total || 0).toLocaleString()}
                       </span>
                     </div>
                   </>

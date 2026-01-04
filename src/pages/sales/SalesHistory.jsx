@@ -256,7 +256,7 @@ const SalesHistory = () => {
     {
       header: "Total",
       accessor: "total",
-      render: (row) => `KSH ${row.total.toLocaleString()}`,
+      render: (row) => `KSH ${(row.total || 0).toLocaleString()}`,
     },
     {
       header: "Status",

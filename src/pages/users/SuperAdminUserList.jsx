@@ -96,25 +96,6 @@ export const SuperAdminUserList = () => {
     }
   };
 
-  const handleDelete = async (userId) => {
-    try {
-      await userService.deleteBusinessOwner(userId);
-      setToast({
-        isOpen: true,
-        message: "Business owner deleted successfully",
-        type: "success",
-      });
-      setConfirmDialog({ isOpen: false, userId: null, action: null });
-      fetchBusinessOwners();
-    } catch (err) {
-      setToast({
-        isOpen: true,
-        message: err.message || "Failed to delete business owner",
-        type: "error",
-      });
-    }
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -228,21 +209,6 @@ export const SuperAdminUserList = () => {
             }`}
           >
             {user.business?.isActive ?? true ? "Deactivate" : "Activate"}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              setConfirmDialog({
-                isOpen: true,
-                userId: user.id,
-                action: "delete",
-              });
-            }}
-            className="text-red-600 hover:bg-red-50 hover:text-red-700 font-medium px-3"
-          >
-            Delete
           </Button>
         </div>
       ),
@@ -505,18 +471,6 @@ export const SuperAdminUserList = () => {
         onClose={() => setToast({ ...toast, isOpen: false })}
         message={toast.message}
         type={toast.type}
-      />
-
-      <ConfirmDialog
-        isOpen={confirmDialog.isOpen}
-        onClose={() =>
-          setConfirmDialog({ isOpen: false, userId: null, action: null })
-        }
-        onConfirm={() => handleDelete(confirmDialog.userId)}
-        title="Delete Business Owner"
-        message="Are you sure you want to delete this business owner? This action cannot be undone and will delete all associated data including shops, products, and sales."
-        confirmText="Delete"
-        variant="danger"
       />
     </div>
   );

@@ -56,8 +56,25 @@ export const apiFetch = async (endpoint, options = {}) => {
     delete config.headers["Content-Type"];
   }
 
+  // Handle query parameters
+  let url = `${API_BASE_URL}${endpoint}`;
+  if (config.params) {
+    const searchParams = new URLSearchParams();
+    Object.entries(config.params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        searchParams.append(key, value);
+      }
+    });
+
+    const queryString = searchParams.toString();
+    if (queryString) {
+      url += (url.includes("?") ? "&" : "?") + queryString;
+    }
+    delete config.params;
+  }
+
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+    const response = await fetch(url, config);
 
     // Handle 401 Unauthorized - logout user (but not if already logging out)
     if (response.status === 401 && !endpoint.includes("/auth/")) {

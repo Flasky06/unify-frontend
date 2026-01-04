@@ -2,14 +2,17 @@ import { useState, useEffect } from "react";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import { permissionService } from "../../services/permissionService";
+import { userService } from "../../services/userService";
 import Toast from "../../components/ui/Toast";
 
 const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
   const [allPermissions, setAllPermissions] = useState([]);
+  const [rolePermissions, setRolePermissions] = useState(new Set());
   const [granted, setGranted] = useState(new Set());
   const [revoked, setRevoked] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     if (isOpen && userId) {
@@ -20,12 +23,25 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [enums, userPerms] = await Promise.all([
+      // Fetch user details to get their role
+      const user = await userService
+        .getEmployees()
+        .then((employees) => employees.find((emp) => emp.id === userId));
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      setUserRole(user.role);
+
+      const [enums, userPerms, rolePerms] = await Promise.all([
         permissionService.getAllPermissionEnums(),
         permissionService.getUserPermissions(userId),
+        permissionService.getRolePermissions(user.role),
       ]);
 
       setAllPermissions(enums);
+      setRolePermissions(new Set(rolePerms || []));
       setGranted(new Set(userPerms.grantedPermissions || []));
       setRevoked(new Set(userPerms.revokedPermissions || []));
     } catch (error) {
@@ -72,10 +88,13 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
         Array.from(granted),
         Array.from(revoked)
       );
-      showToast("Permissions updated successfully", "success");
+      showToast(
+        "Permissions updated successfully. User must log out and log back in for changes to take effect.",
+        "success"
+      );
       setTimeout(() => {
         onClose();
-      }, 1500);
+      }, 2000);
     } catch (error) {
       showToast("Failed to update permissions", "error");
     }
@@ -83,7 +102,7 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
 
   const showToast = (message, type) => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
+    setTimeout(() => setToast(null), 4000);
   };
 
   // Group permissions by module (e.g., VIEW_PRODUCTS -> PRODUCTS)
@@ -142,15 +161,38 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
                     {perms.map((perm) => {
                       const isGranted = granted.has(perm);
                       const isRevoked = revoked.has(perm);
+                      const hasFromRole = rolePermissions.has(perm);
+                      const effectivelyHas =
+                        (hasFromRole && !isRevoked) || isGranted;
 
                       return (
                         <div
                           key={perm}
                           className="flex flex-col justify-between text-xs sm:text-sm"
                         >
-                          <span className="font-medium text-gray-800 mb-1">
-                            {perm.replace(/_/g, " ")}
-                          </span>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-medium text-gray-800">
+                              {perm.replace(/_/g, " ")}
+                            </span>
+                            {hasFromRole && !isGranted && !isRevoked && (
+                              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">
+                                From Role
+                              </span>
+                            )}
+                            {effectivelyHas && (
+                              <svg
+                                className="w-4 h-4 text-green-600"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            )}
+                          </div>
                           <div className="flex gap-2">
                             <label
                               className={`flex-1 flex items-center justify-center gap-1 p-1 rounded cursor-pointer border ${

@@ -109,7 +109,8 @@ export const UserList = () => {
         await userService.updateEmployee(editingUser.id, formData);
         setToast({
           isOpen: true,
-          message: "User updated successfully",
+          message:
+            "User updated successfully. User must log out and log back in for role changes to take effect.",
           type: "success",
         });
       } else {

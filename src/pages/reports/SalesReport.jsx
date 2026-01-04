@@ -57,12 +57,22 @@ export const SalesReport = () => {
       format(dateRange.endDate, "yyyy-MM-dd"),
       selectedShopId,
     ],
-    queryFn: () =>
-      reportService.getSalesReport(
-        format(dateRange.startDate, "yyyy-MM-dd"),
-        format(dateRange.endDate, "yyyy-MM-dd"),
+    queryFn: () => {
+      const startDateStr = format(dateRange.startDate, "yyyy-MM-dd");
+      const endDateStr = format(dateRange.endDate, "yyyy-MM-dd");
+      console.log("Fetching sales report with:", {
+        startDate: startDateStr,
+        endDate: endDateStr,
+        shopId: selectedShopId || null,
+      });
+      return reportService.getSalesReport(
+        startDateStr,
+        endDateStr,
         selectedShopId || null
-      ),
+      );
+    },
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
 
   const formatCurrency = (val) =>

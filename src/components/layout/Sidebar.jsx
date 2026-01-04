@@ -128,6 +128,11 @@ export const Sidebar = ({ isOpen, onClose }) => {
           permission: "VIEW_REPORTS",
         },
         {
+          name: "Sales History",
+          path: "/sales",
+          permission: "VIEW_SALES",
+        },
+        {
           name: "Stock Movement",
           path: "/reports/stock-movement",
           permission: "VIEW_REPORTS",
@@ -208,10 +213,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
       ],
     },
 
-    // 4. RECORDS (Finance)
+    // 4. EXPENSES
     {
-      name: "Records",
-      permission: "VIEW_SALES", // Base permission for seeing records section
+      name: "Expenses",
+      permission: "VIEW_EXPENSES",
       icon: (
         <svg
           className="w-5 h-5"
@@ -228,8 +233,11 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Sales History", path: "/sales", permission: "VIEW_SALES" },
-        { name: "Expenses", path: "/expenses", permission: "VIEW_EXPENSES" },
+        {
+          name: "Expense List",
+          path: "/expenses",
+          permission: "VIEW_EXPENSES",
+        },
         {
           name: "Expense Categories",
           path: "/expenses/categories",

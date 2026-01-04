@@ -55,4 +55,13 @@ export const saleService = {
       method: "PUT",
     });
   },
+
+  addPayment: async (saleId, amount, paymentMethodId) => {
+    return await apiFetch(
+      `/sales/${saleId}/payments?amount=${amount}&paymentMethodId=${paymentMethodId}`,
+      {
+        method: "POST",
+      }
+    );
+  },
 };

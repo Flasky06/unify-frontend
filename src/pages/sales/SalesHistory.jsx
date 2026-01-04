@@ -27,6 +27,7 @@ const SalesHistory = () => {
   // Payment Modal State
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [paymentAmount, setPaymentAmount] = useState("");
   const [processingPayment, setProcessingPayment] = useState(false);
 
   const [auditModal, setAuditModal] = useState({
@@ -138,21 +139,26 @@ const SalesHistory = () => {
     if (paymentMethods.length > 0) {
       setSelectedPaymentMethod(paymentMethods[0].id);
     }
+    setPaymentAmount(
+      sale.balance !== undefined && sale.balance !== null
+        ? sale.balance
+        : sale.total
+    );
     setIsPayModalOpen(true);
   };
 
   const confirmPayment = async () => {
-    if (!selectedPaymentMethod) return;
+    if (!selectedPaymentMethod || !paymentAmount) return;
     setProcessingPayment(true);
     try {
-      await saleService.updateStatus(
+      await saleService.addPayment(
         selectedSale.id,
-        "COMPLETED",
+        paymentAmount,
         selectedPaymentMethod
       );
       setToast({
         isOpen: true,
-        message: "Invoice paid successfully!",
+        message: "Payment processed successfully!",
         type: "success",
       });
       setIsPayModalOpen(false);
@@ -695,11 +701,38 @@ const SalesHistory = () => {
         title="Collect Payment"
       >
         <div className="space-y-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
-            <p className="text-gray-600">Total Due</p>
-            <p className="text-3xl font-bold text-green-600">
-              KSH {selectedSale?.total.toLocaleString()}
-            </p>
+          <div className="bg-gray-50 p-4 rounded-lg text-center grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-gray-600">Total Due</p>
+              <p className="text-xl font-bold text-gray-800">
+                KSH {selectedSale?.total.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-gray-600">Balance</p>
+              <p className="text-xl font-bold text-green-600">
+                KSH{" "}
+                {(selectedSale?.balance !== undefined &&
+                selectedSale?.balance !== null
+                  ? selectedSale.balance
+                  : selectedSale?.total
+                ).toLocaleString()}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Payment Amount
+            </label>
+            <input
+              type="number"
+              value={paymentAmount}
+              onChange={(e) => setPaymentAmount(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Enter amount"
+              max={selectedSale?.balance || selectedSale?.total}
+            />
           </div>
 
           <div>
@@ -733,7 +766,9 @@ const SalesHistory = () => {
             </Button>
             <Button
               onClick={confirmPayment}
-              disabled={processingPayment || !selectedPaymentMethod}
+              disabled={
+                processingPayment || !selectedPaymentMethod || !paymentAmount
+              }
               className="flex-[2] bg-green-600 hover:bg-green-700"
             >
               {processingPayment ? "Processing..." : "Confirm Payment"}

@@ -732,24 +732,25 @@ const Dashboard = () => {
             </p>
           </div>
 
-            <div className="flex justify-between text-sm text-gray-500 mt-1">
-               <span>Subtotal: KSH {calculateSubTotal().toLocaleString()}</span>
-            </div>
+          <div className="flex justify-between text-sm text-gray-500 mt-1">
+            <span>Subtotal: KSH {calculateSubTotal().toLocaleString()}</span>
           </div>
 
           <div>
-             <label className="block text-sm font-medium text-gray-700 mb-1">Total Discount</label>
-             <Input 
-               type="number"
-               min="0"
-               placeholder="0.00"
-               value={saleDiscount > 0 ? saleDiscount : ""}
-               onChange={(e) => {
-                 const val = parseFloat(e.target.value);
-                 if (isNaN(val)) setSaleDiscount(0);
-                 else setSaleDiscount(val);
-               }}
-             />
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Total Discount
+            </label>
+            <Input
+              type="number"
+              min="0"
+              placeholder="0.00"
+              value={saleDiscount > 0 ? saleDiscount : ""}
+              onChange={(e) => {
+                const val = parseFloat(e.target.value);
+                if (isNaN(val)) setSaleDiscount(0);
+                else setSaleDiscount(val);
+              }}
+            />
           </div>
 
           <div>

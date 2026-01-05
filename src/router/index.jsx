@@ -36,6 +36,8 @@ import SalesAnalytics from "../pages/sales/SalesAnalytics";
 import ReportsDashboard from "../pages/reports/ReportsDashboard";
 import { SalesReport } from "../pages/reports/SalesReport";
 import StockMovementReport from "../pages/reports/StockMovementReport";
+import { EmployeeList } from "../pages/employees/EmployeeList";
+import { EmployeeDetails } from "../pages/employees/EmployeeDetails";
 
 export const router = createBrowserRouter([
   {
@@ -88,7 +90,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "employees",
-        element: <UserList />,
+        children: [
+          {
+            index: true,
+            element: <EmployeeList />,
+          },
+          {
+            path: ":id",
+            element: <EmployeeDetails />,
+          },
+        ],
       },
       {
         path: "users/roles",

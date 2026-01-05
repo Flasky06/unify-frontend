@@ -371,10 +371,7 @@ export const ExpenseList = () => {
       header: "Payee",
       accessor: "payee",
     },
-    {
-      header: "Method",
-      accessor: "paymentMethodName", // DTO should have this
-    },
+
     {
       header: "Amount",
       render: (expense) => (
@@ -410,28 +407,6 @@ export const ExpenseList = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-gray-600 hover:bg-gray-100 font-medium px-3"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleViewLogs(expense);
-                  }}
-                >
-                  History
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-purple-600 hover:bg-purple-50 font-medium px-3"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDuplicate(expense);
-                  }}
-                >
-                  Duplicate
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
                   className="text-blue-600 hover:bg-blue-50 font-medium px-3"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -463,59 +438,6 @@ export const ExpenseList = () => {
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-4 sm:gap-6">
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 gap-2">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-lg border border-blue-200">
-            <p className="text-sm text-blue-600 font-medium">Total Expenses</p>
-            <p className="text-xl font-bold text-blue-900">
-              KSH {summary.total.toFixed(2)}
-            </p>
-            <p className="text-xs text-blue-600 mt-1">
-              {summary.count} transactions
-            </p>
-          </div>
-        </div>
-
-        {/* Quick Filters */}
-        <div className="flex flex-wrap gap-2">
-          {/* ... (Filters unchanged mostly, just render logic) ... */}
-          {/* Reusing existing filter JSX logic for brevity, it relies on setQuickFilter which is preserved */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setQuickFilter("today")}
-            className="text-xs py-1"
-          >
-            Today
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setQuickFilter("week")}
-            className="text-xs py-1"
-          >
-            This Week
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setQuickFilter("month")}
-            className="text-xs py-1"
-          >
-            This Month
-          </Button>
-          {hasActiveFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearFilters}
-              className="text-xs py-1 text-red-600 hover:text-red-800 hover:bg-red-50"
-            >
-              Clear Filters
-            </Button>
-          )}
-        </div>
-
         {/* Filters Input Area */}
         <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-end lg:flex-wrap">
           <div className="w-full lg:w-48 lg:max-w-xs">
@@ -613,6 +535,7 @@ export const ExpenseList = () => {
               emptyMessage="No expenses found matching your criteria."
               showViewAction={false}
               searchable={false}
+              onView={(expense) => openEditModal(expense)}
               getRowClassName={(expense) =>
                 expense.voided
                   ? "opacity-60 bg-gray-50 line-through text-gray-500"
@@ -715,7 +638,7 @@ export const ExpenseList = () => {
             />
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Payment Method
+                Account From
               </label>
               <select
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
@@ -724,7 +647,7 @@ export const ExpenseList = () => {
                   setFormData({ ...formData, paymentMethodId: e.target.value })
                 }
               >
-                <option value="">Select Method</option>
+                <option value="">Select Account</option>
                 {paymentMethods.map((pm) => (
                   <option key={pm.id} value={pm.id}>
                     {pm.name}

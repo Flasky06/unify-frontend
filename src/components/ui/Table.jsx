@@ -6,6 +6,7 @@ const Table = ({
   columns,
   data = [],
   onRowClick,
+  onView,
   loading = false,
   emptyMessage = "No data available",
   showViewAction = true,
@@ -22,8 +23,12 @@ const Table = ({
   const [itemsPerPage, setItemsPerPage] = useState(pageSize);
 
   const handleViewRow = (row) => {
-    setSelectedRow(row);
-    setViewModalOpen(true);
+    if (onView) {
+      onView(row);
+    } else {
+      setSelectedRow(row);
+      setViewModalOpen(true);
+    }
   };
 
   // Filter data based on search query
@@ -139,9 +144,11 @@ const Table = ({
                     key={rowIndex}
                     onClick={() => onRowClick?.(row)}
                     className={`${
-                      onRowClick
-                        ? "cursor-pointer hover:bg-gray-50 transition"
-                        : ""
+                      rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50/50"
+                    } ${
+                      onView || onRowClick
+                        ? "cursor-pointer hover:bg-blue-50/80 transition-colors duration-150 ease-in-out"
+                        : "hover:bg-gray-50"
                     } ${getRowClassName ? getRowClassName(row) : ""}`}
                   >
                     {columns.map((column, colIndex) => (

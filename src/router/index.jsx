@@ -23,6 +23,9 @@ import StockList from "../pages/stocks/StockList";
 import StockReturnList from "../pages/stocks/StockReturnList";
 import StockTransfers from "../pages/stocks/StockTransfers";
 import AddStock from "../pages/stocks/AddStock";
+import { SupplierList } from "../pages/suppliers/SupplierList";
+import { PurchaseOrderList } from "../pages/suppliers/PurchaseOrderList";
+import { PurchaseOrderCreate } from "../pages/suppliers/PurchaseOrderCreate";
 import SalesHistory from "../pages/sales/SalesHistory";
 import { InvoiceList } from "../pages/sales/InvoiceList";
 import SalesByItem from "../pages/sales/SalesByItem";
@@ -141,6 +144,18 @@ export const router = createBrowserRouter([
       {
         path: "transfers",
         element: <StockTransfers />,
+      },
+      {
+        path: "suppliers",
+        element: <SupplierList />,
+      },
+      {
+        path: "purchase-orders",
+        element: <PurchaseOrderList />,
+      },
+      {
+        path: "purchase-orders/create",
+        element: <PurchaseOrderCreate />,
       },
       {
         path: "sales",

@@ -164,6 +164,12 @@ export const ExpenseList = () => {
     return { total, count, byCategory };
   }, [filteredExpenses]);
 
+  // Extract unique expense names for autocomplete
+  const uniqueExpenseNames = useMemo(() => {
+    const names = expenses.map((e) => e.name).filter(Boolean);
+    return [...new Set(names)].sort();
+  }, [expenses]);
+
   // Pagination
   const totalPages = Math.ceil(filteredExpenses.length / itemsPerPage);
   const paginatedExpenses = filteredExpenses.slice(
@@ -244,6 +250,65 @@ export const ExpenseList = () => {
     } catch (error) {
       console.error("Failed to fetch logs", error);
       setAuditModal((prev) => ({ ...prev, loading: false }));
+    }
+  };
+
+  const handleDuplicate = (expense) => {
+    setEditingExpense(null);
+    setFormData({
+      name: expense.name || "",
+      amount: expense.amount.toString(),
+      expenseDate: new Date().toISOString().split("T")[0],
+      categoryId: expense.categoryId?.toString() || "",
+      shopId: expense.shopId?.toString() || "",
+      payee: expense.payee || "",
+      paymentMethodId: expense.paymentMethodId?.toString() || "",
+    });
+    setIsModalOpen(true);
+    setError(null);
+    setToast({
+      isOpen: true,
+      message: "Expense duplicated. Please review and save.",
+      type: "success", // Using success or info
+    });
+  };
+
+  const handleNameChange = (e) => {
+    const newName = e.target.value;
+
+    // 1. Always update the name field first
+    setFormData((prev) => ({ ...prev, name: newName }));
+
+    // 2. If in "Create" mode (not editing), try to autofill
+    if (!editingExpense && newName) {
+      // Find all expenses that match the name
+      const matches = expenses.filter(
+        (exp) => exp.name.toLowerCase() === newName.toLowerCase()
+      );
+
+      if (matches.length > 0) {
+        // Sort by date descending (newest first) to get the latest amount/details
+        // If dates are equal, fallback to ID which usually correlates with time
+        matches.sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateB - dateA || b.id - a.id;
+        });
+
+        const match = matches[0];
+
+        // Found the latest match! Autofill other fields
+        setFormData((prev) => ({
+          ...prev,
+          name: newName,
+          amount: match.amount?.toString() || prev.amount,
+          categoryId: match.categoryId?.toString() || prev.categoryId,
+          shopId: match.shopId?.toString() || prev.shopId,
+          payee: match.payee || prev.payee,
+          paymentMethodId:
+            match.paymentMethodId?.toString() || prev.paymentMethodId,
+        }));
+      }
     }
   };
 
@@ -352,6 +417,17 @@ export const ExpenseList = () => {
                   }}
                 >
                   History
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-purple-600 hover:bg-purple-50 font-medium px-3"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDuplicate(expense);
+                  }}
+                >
+                  Duplicate
                 </Button>
                 <Button
                   variant="ghost"
@@ -592,10 +668,17 @@ export const ExpenseList = () => {
           <Input
             label="Expense Name"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={handleNameChange} // Use the new handler
             placeholder="e.g., Shop Rent, Vehicle Fuel"
             required
+            list="expense-names-list"
+            autoComplete="off"
           />
+          <datalist id="expense-names-list">
+            {uniqueExpenseNames.map((name) => (
+              <option key={name} value={name} />
+            ))}
+          </datalist>
 
           <div className="grid grid-cols-2 gap-4">
             <Input

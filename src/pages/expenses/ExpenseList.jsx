@@ -361,6 +361,11 @@ export const ExpenseList = () => {
       header: "Name",
       accessor: "name",
       triggerView: true,
+      render: (row) => (
+        <span className="font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer">
+          {row.name}
+        </span>
+      ),
     },
     {
       header: "Date",

@@ -34,6 +34,8 @@ const StockTransfers = () => {
     type: "info",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [viewTransfer, setViewTransfer] = useState(null);
+  const [isViewModalOpen, setViewModalOpen] = useState(false);
 
   useEffect(() => {
     // Load shops for Business Owner
@@ -207,7 +209,16 @@ const StockTransfers = () => {
 
   const columns = [
     { header: "ID", accessor: "id" },
-    { header: "Product", accessor: "productName", triggerView: true },
+    {
+      header: "Product",
+      accessor: "productName",
+      triggerView: true,
+      render: (row) => (
+        <span className="font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer">
+          {row.productName}
+        </span>
+      ),
+    },
     { header: "Quantity", accessor: "quantity" },
     // For Business Owner/Manager, show both From and To shops
     // For Shop Manager, only show From shop (they know it's coming to their shop)
@@ -345,7 +356,87 @@ const StockTransfers = () => {
         emptyMessage={`No ${activeTab} transfers found`}
         showViewAction={false}
         searchable={false}
+        onView={(row) => {
+          setViewTransfer(row);
+          setViewModalOpen(true);
+        }}
       />
+
+      {/* View Details Modal */}
+      <Modal
+        isOpen={isViewModalOpen}
+        onClose={() => setViewModalOpen(false)}
+        title="Transfer Details"
+      >
+        {viewTransfer && (
+          <div className="space-y-4 text-sm">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-gray-500">Transaction ID</p>
+                <p className="font-medium">{viewTransfer.id}</p>
+              </div>
+              <div>
+                <p className="text-gray-500">Date</p>
+                <p className="font-medium">
+                  {viewTransfer.createdAt
+                    ? new Date(viewTransfer.createdAt).toLocaleString()
+                    : "N/A"}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500">From Shop</p>
+                <p className="font-medium">{viewTransfer.sourceShopName}</p>
+              </div>
+              <div>
+                <p className="text-gray-500">To Shop</p>
+                <p className="font-medium">
+                  {viewTransfer.destinationShopName}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500">Product</p>
+                <p className="font-medium text-blue-600">
+                  {viewTransfer.productName}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500">Quantity</p>
+                <p className="font-bold">{viewTransfer.quantity}</p>
+              </div>
+            </div>
+
+            {viewTransfer.notes && (
+              <div className="bg-gray-50 p-3 rounded">
+                <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                  Notes
+                </p>
+                <p className="text-gray-700">{viewTransfer.notes}</p>
+              </div>
+            )}
+
+            <div className="border-t pt-3 flex justify-between items-center">
+              <span className="text-gray-500">Status</span>
+              <span
+                className={`px-2 py-1 rounded text-xs font-bold ${
+                  viewTransfer.status === "COMPLETED"
+                    ? "bg-green-100 text-green-800"
+                    : viewTransfer.status === "PENDING"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {viewTransfer.status}
+              </span>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <Button variant="outline" onClick={() => setViewModalOpen(false)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
       <Modal
         isOpen={isCreateModalOpen}

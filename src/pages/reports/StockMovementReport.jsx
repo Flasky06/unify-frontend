@@ -4,7 +4,7 @@ import { shopService } from "../../services/shopService";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import { Toast } from "../../components/ui/ConfirmDialog";
-import { format, subDays, startOfMonth, endOfMonth } from "date-fns";
+import { format } from "date-fns";
 import useAuthStore from "../../store/authStore";
 
 const StockMovementReport = () => {
@@ -174,10 +174,7 @@ const StockMovementReport = () => {
                     <th className="px-6 py-3 text-right">Sold</th>
                     <th className="px-6 py-3 text-right">Returns</th>
                     <th className="px-6 py-3 text-right">Closing</th>
-                    <th className="px-6 py-3 text-right">Revenue</th>
-                    <th className="px-6 py-3 text-right text-emerald-600">
-                      Profit
-                    </th>
+
                     <th className="px-6 py-3 text-right">Net Move</th>
                   </tr>
                 </thead>
@@ -203,12 +200,7 @@ const StockMovementReport = () => {
                         <td className="px-6 py-4 text-right font-medium text-gray-900">
                           {formatNumber(item.closingStock)}
                         </td>
-                        <td className="px-6 py-4 text-right text-yellow-600">
-                          {formatCurrency(item.salesRevenue)}
-                        </td>
-                        <td className="px-6 py-4 text-right text-emerald-600 font-medium">
-                          {formatCurrency(item.profit)}
-                        </td>
+
                         <td
                           className={`px-6 py-4 text-right font-medium ${
                             item.netMovement > 0

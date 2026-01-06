@@ -25,6 +25,7 @@ export const InvoiceList = () => {
     message: "",
     type: "success",
   });
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [filters, setFilters] = useState({
     startDate: new Date().toISOString().split("T")[0],
@@ -143,7 +144,9 @@ export const InvoiceList = () => {
       triggerView: true,
       render: (row) => (
         <div>
-          <div className="font-medium">{row.saleNumber}</div>
+          <div className="font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer">
+            {row.saleNumber}
+          </div>
           {row.customerName && (
             <div className="text-xs text-gray-500">{row.customerName}</div>
           )}
@@ -218,6 +221,16 @@ export const InvoiceList = () => {
         {/* Filters */}
         <div className="bg-white p-4 rounded-lg shadow">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="md:col-span-4 lg:col-span-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Search
+              </label>
+              <Input
+                placeholder="Invoice # or Customer..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Start Date
@@ -271,11 +284,23 @@ export const InvoiceList = () => {
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <Table
             columns={columns}
-            data={sales}
+            data={sales.filter(
+              (sale) =>
+                sale.saleNumber
+                  ?.toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                sale.customerName
+                  ?.toLowerCase()
+                  .includes(searchTerm.toLowerCase())
+            )}
             loading={loading}
             emptyMessage="No pending invoices found"
             showViewAction={false}
             searchable={false}
+            onView={(row) => {
+              setSelectedSale(row);
+              setDetailsModalOpen(true);
+            }}
           />
         </div>
       </div>

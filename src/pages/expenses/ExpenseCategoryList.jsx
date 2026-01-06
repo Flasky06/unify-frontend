@@ -115,7 +115,16 @@ export const ExpenseCategoryList = () => {
   };
 
   const columns = [
-    { header: "Name", accessor: "name", triggerView: true },
+    {
+      header: "Name",
+      accessor: "name",
+      triggerView: true,
+      render: (row) => (
+        <span className="font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer">
+          {row.name}
+        </span>
+      ),
+    },
     ...(user?.role === "SALES_REP"
       ? []
       : [
@@ -200,6 +209,7 @@ export const ExpenseCategoryList = () => {
               emptyMessage="No expense categories found. Create one to get started."
               showViewAction={false}
               searchable={false}
+              onView={(category) => openEditModal(category)}
             />
           )}
         </div>

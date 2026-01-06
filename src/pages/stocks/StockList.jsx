@@ -205,7 +205,16 @@ const StockList = () => {
   };
 
   const columns = [
-    { header: "Product", accessor: "productName", triggerView: true },
+    {
+      header: "Product",
+      accessor: "productName",
+      triggerView: true,
+      render: (row) => (
+        <span className="font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer">
+          {row.productName}
+        </span>
+      ),
+    },
     { header: "Shop", accessor: "shopName" },
     {
       header: "Quantity",
@@ -339,6 +348,7 @@ const StockList = () => {
             loading={loading}
             showViewAction={false}
             searchable={false}
+            onView={(row) => handleViewLogs(row._stock)}
           />
         </div>
       </div>

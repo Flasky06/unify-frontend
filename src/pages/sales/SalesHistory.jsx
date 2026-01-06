@@ -298,26 +298,6 @@ const SalesHistory = () => {
         );
       },
     },
-    {
-      header: "Actions",
-      render: (row) => (
-        <div className="flex gap-2">
-          {row.status !== "CANCELLED" && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                setConfirmDialog({ isOpen: true, saleId: row.id });
-              }}
-              className="text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-medium px-3"
-            >
-              Void
-            </Button>
-          )}
-        </div>
-      ),
-    },
   ];
 
   return (

@@ -9,20 +9,20 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 overflow-y-auto print:relative print:z-auto">
+      <div className="flex min-h-screen items-center justify-center p-4 print:block print:min-h-0 print:p-0">
         {/* Backdrop */}
         <div
-          className="fixed inset-0 bg-black/50 transition-opacity"
+          className="fixed inset-0 bg-black/50 transition-opacity print:hidden"
           onClick={onClose}
         ></div>
 
         {/* Modal */}
         <div
-          className={`relative bg-white rounded-xl shadow-xl ${sizes[size]} w-full transform transition-all`}
+          className={`relative bg-white rounded-xl shadow-xl ${sizes[size]} w-full transform transition-all print:shadow-none print:max-w-none`}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 print:hidden">
             <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
             <button
               onClick={onClose}
@@ -45,7 +45,7 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
           </div>
 
           {/* Content */}
-          <div className="px-6 py-4">{children}</div>
+          <div className="px-6 py-4 print:p-0">{children}</div>
         </div>
       </div>
     </div>

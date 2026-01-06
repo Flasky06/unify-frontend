@@ -52,6 +52,13 @@ export const purchaseOrderService = {
     });
   },
 
+  // Receive purchase order
+  receive: async (id) => {
+    return await apiFetch(`/purchase-orders/${id}/receive`, {
+      method: "POST",
+    });
+  },
+
   // Delete purchase order
   delete: async (id) => {
     return await apiFetch(`/purchase-orders/${id}`, {

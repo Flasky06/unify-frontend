@@ -193,6 +193,38 @@ const AddStock = () => {
           </Button>
         </div>
 
+        {/* Warning Banner */}
+        <div className="bg-orange-50 border-l-4 border-orange-400 p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg
+                className="h-5 w-5 text-orange-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-orange-700">
+                <span className="font-bold">Accounting Notice:</span> This page
+                is for initial stock setup only. Does NOT record expenses.{" "}
+                <a
+                  href="/purchase-orders/create"
+                  className="underline font-bold"
+                >
+                  Use Purchase Orders
+                </a>{" "}
+                to buy stock and track costs.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {error && (
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
             <p className="text-sm text-red-600">{error}</p>
@@ -252,6 +284,14 @@ const AddStock = () => {
               </div>
             </div>
           )}
+
+          <div className="bg-blue-50 p-3 rounded text-sm text-blue-800 mb-4">
+            If you are <strong>buying</strong> this stock, please use{" "}
+            <a href="/purchase-orders/create" className="underline font-bold">
+              Purchase Orders
+            </a>{" "}
+            to ensure your expenses are tracked correctly.
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">

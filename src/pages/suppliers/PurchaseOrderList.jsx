@@ -113,6 +113,24 @@ export const PurchaseOrderList = () => {
     }
   };
 
+  const handleReceiveOrder = async (id) => {
+    try {
+      await purchaseOrderService.receive(id);
+      fetchData();
+      setToast({
+        isOpen: true,
+        message: "Purchase order received and stock updated successfully",
+        type: "success",
+      });
+    } catch (err) {
+      setToast({
+        isOpen: true,
+        message: err.message || "Failed to receive order",
+        type: "error",
+      });
+    }
+  };
+
   const handleDeleteOrder = async (id) => {
     try {
       await purchaseOrderService.delete(id);
@@ -141,13 +159,32 @@ export const PurchaseOrderList = () => {
     });
   };
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (order) => {
+    const status = order.status;
     const styles = {
       PENDING: "bg-yellow-100 text-yellow-800",
       PARTIAL: "bg-blue-100 text-blue-800",
       PAID: "bg-green-100 text-green-800",
       CANCELLED: "bg-red-100 text-red-800",
     };
+
+    if (order.received) {
+      return (
+        <div className="flex flex-col gap-1 items-start">
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              styles[status] || "bg-gray-100 text-gray-800"
+            }`}
+          >
+            {status}
+          </span>
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+            Received
+          </span>
+        </div>
+      );
+    }
+
     return (
       <span
         className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -202,7 +239,7 @@ export const PurchaseOrderList = () => {
     },
     {
       header: "Status",
-      render: (order) => getStatusBadge(order.status),
+      render: (order) => getStatusBadge(order),
     },
     {
       header: "Actions",
@@ -219,6 +256,24 @@ export const PurchaseOrderList = () => {
               }}
             >
               Pay
+            </Button>
+          )}
+
+          {!order.received && order.status !== "CANCELLED" && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-blue-600 hover:bg-blue-50 font-medium px-3"
+              onClick={(e) => {
+                e.stopPropagation();
+                setConfirmDialog({
+                  isOpen: true,
+                  orderId: order.id,
+                  action: "receive",
+                });
+              }}
+            >
+              Receive
             </Button>
           )}
           {order.status === "PENDING" && (
@@ -471,21 +526,31 @@ export const PurchaseOrderList = () => {
             handleCancelOrder(confirmDialog.orderId);
           } else if (confirmDialog.action === "delete") {
             handleDeleteOrder(confirmDialog.orderId);
+          } else if (confirmDialog.action === "receive") {
+            handleReceiveOrder(confirmDialog.orderId);
           }
           setConfirmDialog({ isOpen: false, orderId: null, action: null });
         }}
         title={
           confirmDialog.action === "cancel"
             ? "Cancel Purchase Order"
-            : "Delete Purchase Order"
+            : confirmDialog.action === "delete"
+            ? "Delete Purchase Order"
+            : "Receive Stock"
         }
         message={
           confirmDialog.action === "cancel"
             ? "Are you sure you want to cancel this purchase order?"
-            : "Are you sure you want to delete this purchase order? This action cannot be undone."
+            : confirmDialog.action === "delete"
+            ? "Are you sure you want to delete this purchase order? This action cannot be undone."
+            : "Are you sure you want to mark this order as received? This will automatically update your stock quantities."
         }
         confirmText={
-          confirmDialog.action === "cancel" ? "Cancel Order" : "Delete"
+          confirmDialog.action === "cancel"
+            ? "Cancel Order"
+            : confirmDialog.action === "delete"
+            ? "Delete"
+            : "Receive Stock"
         }
         variant="danger"
       />

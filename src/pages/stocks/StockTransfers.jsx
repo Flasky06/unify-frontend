@@ -291,7 +291,7 @@ const StockTransfers = () => {
               onClick={openCreateModal}
               className="w-full sm:w-auto whitespace-nowrap"
             >
-              New Transfer
+              Move Stock (Inter-Branch)
             </Button>
           </div>
         </div>

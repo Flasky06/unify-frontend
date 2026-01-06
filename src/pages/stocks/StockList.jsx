@@ -243,6 +243,14 @@ const StockList = () => {
           >
             Delete
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleViewLogs(row._stock)}
+            className="text-gray-600 hover:bg-gray-50 font-medium px-3"
+          >
+            History
+          </Button>
         </div>
       ),
     },
@@ -432,6 +440,19 @@ const StockList = () => {
           </div>
         </form>
       </Modal>
+
+      {/* Audit Log Modal */}
+      <AuditLogModal
+        isOpen={auditModal.isOpen}
+        onClose={() => setAuditModal((prev) => ({ ...prev, isOpen: false }))}
+        logs={auditModal.logs}
+        loading={auditModal.loading}
+        title={
+          auditModal.stock
+            ? `Stock History - ${getProductName(auditModal.stock.productId)}`
+            : "Stock History"
+        }
+      />
     </div>
   );
 };

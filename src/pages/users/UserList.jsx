@@ -78,9 +78,11 @@ export const UserList = () => {
   const handleToggleStatus = async (user) => {
     try {
       const isActive = user.isActive || user.active;
-      await userService.updateEmployee(user.id, {
-        active: !isActive,
-      });
+      if (isActive) {
+        await userService.deactivateEmployee(user.id);
+      } else {
+        await userService.activateEmployee(user.id);
+      }
       setToast({
         isOpen: true,
         message: `User ${isActive ? "deactivated" : "activated"} successfully`,
@@ -166,7 +168,20 @@ export const UserList = () => {
     },
     {
       header: "Status",
-      render: (user) => (user.isActive || user.active ? "Active" : "Inactive"),
+      render: (user) => {
+        const isActive = user.isActive || user.active;
+        return (
+          <span
+            className={`px-2 py-1 text-xs rounded-full font-medium ${
+              isActive
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {isActive ? "Active" : "Deactivated"}
+          </span>
+        );
+      },
     },
     {
       header: "Assigned Shop",

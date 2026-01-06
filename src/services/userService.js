@@ -79,4 +79,22 @@ export const userService = {
     const data = await api.put(`/users/my-business/employees/${id}`, userData);
     return data;
   },
+
+  /**
+   * Deactivate employee (prevent login)
+   */
+  deactivateEmployee: async (id) => {
+    const data = await api.post(
+      `/users/my-business/employees/${id}/deactivate`
+    );
+    return data;
+  },
+
+  /**
+   * Activate employee (allow login)
+   */
+  activateEmployee: async (id) => {
+    const data = await api.post(`/users/my-business/employees/${id}/activate`);
+    return data;
+  },
 };

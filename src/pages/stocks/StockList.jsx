@@ -39,6 +39,7 @@ const StockList = () => {
     shopId: "",
     productId: "",
     quantity: 0,
+    reason: "Manual Update",
   });
 
   // ... (Effect hooks unchanged) ...
@@ -140,6 +141,7 @@ const StockList = () => {
       if (editingStock) {
         await stockService.updateStock(editingStock.id, {
           quantity: parseInt(formData.quantity),
+          reason: formData.reason,
         });
       } else {
         await stockService.createStock({
@@ -166,6 +168,7 @@ const StockList = () => {
       shopId: stock.shopId,
       productId: stock.productId,
       quantity: stock.quantity,
+      reason: "Manual Update",
     });
     setIsModalOpen(true);
   };
@@ -191,6 +194,7 @@ const StockList = () => {
       shopId: "",
       productId: "",
       quantity: 0,
+      reason: "Manual Update",
     });
   };
 
@@ -431,6 +435,25 @@ const StockList = () => {
             required
             min="0"
           />
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Reason for Change
+            </label>
+            <select
+              value={formData.reason}
+              onChange={(e) =>
+                setFormData({ ...formData, reason: e.target.value })
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="Manual Update">Manual Update (Generic)</option>
+              <option value="Stock Correction">Stock Correction / Count</option>
+              <option value="Damage/Expiry">Damage / Expiry</option>
+              <option value="Return">Customer Return</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
           <div className="flex justify-end gap-3 pt-4">
             <Button

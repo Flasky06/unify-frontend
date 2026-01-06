@@ -142,9 +142,7 @@ export const SupplierList = () => {
 
   const columns = [
     { header: "Name", accessor: "name", triggerView: true },
-    { header: "Contact Person", accessor: "contactPerson" },
     { header: "Phone", accessor: "phoneNumber" },
-    { header: "Email", accessor: "email" },
     {
       header: "Total Debt",
       render: (supplier) => `KES ${(supplier.totalDebt || 0).toLocaleString()}`,

@@ -183,22 +183,6 @@ export const InvoiceList = () => {
         </span>
       ),
     },
-    {
-      header: "Actions",
-      render: (row) => (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePayInvoice(row);
-          }}
-          className="text-green-600 hover:bg-green-50 font-medium px-3"
-        >
-          Pay
-        </Button>
-      ),
-    },
   ];
 
   return (

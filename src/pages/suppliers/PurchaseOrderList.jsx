@@ -6,12 +6,14 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { purchaseOrderService } from "../../services/purchaseOrderService";
 import { supplierService } from "../../services/supplierService";
+import { paymentMethodService } from "../../services/paymentMethodService";
 import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
 
 export const PurchaseOrderList = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -20,6 +22,8 @@ export const PurchaseOrderList = () => {
     isOpen: false,
     order: null,
     amount: "",
+    methodId: "",
+    notes: "",
   });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -40,12 +44,14 @@ export const PurchaseOrderList = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [ordersData, suppliersData] = await Promise.all([
+      const [ordersData, suppliersData, methodsData] = await Promise.all([
         purchaseOrderService.getAll(),
         supplierService.getAll(),
+        paymentMethodService.getAll(),
       ]);
       setOrders(ordersData || []);
       setSuppliers(suppliersData || []);
+      setPaymentMethods(methodsData || []);
     } catch (err) {
       console.error("Failed to fetch data", err);
     } finally {
@@ -58,12 +64,21 @@ export const PurchaseOrderList = () => {
 
     setSubmitting(true);
     try {
-      await purchaseOrderService.recordPayment(
-        paymentModal.order.id,
-        parseFloat(paymentModal.amount)
-      );
+      await purchaseOrderService.recordPayment(paymentModal.order.id, {
+        amount: parseFloat(paymentModal.amount),
+        paymentMethodId: paymentModal.methodId
+          ? parseInt(paymentModal.methodId)
+          : null,
+        notes: paymentModal.notes,
+      });
       fetchData();
-      setPaymentModal({ isOpen: false, order: null, amount: "" });
+      setPaymentModal({
+        isOpen: false,
+        order: null,
+        amount: "",
+        methodId: "",
+        notes: "",
+      });
       setToast({
         isOpen: true,
         message: "Payment recorded successfully",
@@ -121,6 +136,8 @@ export const PurchaseOrderList = () => {
       isOpen: true,
       order,
       amount: order.balance.toString(),
+      methodId: paymentMethods.length > 0 ? paymentMethods[0].id : "",
+      notes: "",
     });
   };
 
@@ -326,7 +343,13 @@ export const PurchaseOrderList = () => {
       <Modal
         isOpen={paymentModal.isOpen}
         onClose={() =>
-          setPaymentModal({ isOpen: false, order: null, amount: "" })
+          setPaymentModal({
+            isOpen: false,
+            order: null,
+            amount: "",
+            methodId: "",
+            notes: "",
+          })
         }
         title="Record Payment"
       >
@@ -377,12 +400,54 @@ export const PurchaseOrderList = () => {
               required
             />
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Payment Method
+              </label>
+              <select
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={paymentModal.methodId}
+                onChange={(e) =>
+                  setPaymentModal({ ...paymentModal, methodId: e.target.value })
+                }
+                required
+              >
+                <option value="">Select Method</option>
+                {paymentMethods.map((method) => (
+                  <option key={method.id} value={method.id}>
+                    {method.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Notes
+              </label>
+              <textarea
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                rows="3"
+                value={paymentModal.notes}
+                onChange={(e) =>
+                  setPaymentModal({ ...paymentModal, notes: e.target.value })
+                }
+                placeholder="Add payment notes..."
+              ></textarea>
+            </div>
+
             <div className="flex justify-end gap-3 pt-4">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() =>
-                  setPaymentModal({ isOpen: false, order: null, amount: "" })
+                  setPaymentModal({
+                    isOpen: false,
+                    order: null,
+                    amount: "",
+                    methodId: "",
+                    notes: "",
+                  })
                 }
               >
                 Cancel

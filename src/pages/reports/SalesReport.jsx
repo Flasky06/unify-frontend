@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { reportService } from "../../services/reportService";
 import { shopService } from "../../services/shopService";
+import { paymentMethodService } from "../../services/paymentMethodService";
 
 import { DateRangePicker } from "../../components/ui/DateRangePicker";
 
@@ -37,17 +38,23 @@ export const SalesReport = () => {
   });
   const [selectedShopId, setSelectedShopId] = useState("");
   const [shops, setShops] = useState([]);
+  const [selectedAccountId, setSelectedAccountId] = useState("");
+  const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
-    const loadShops = async () => {
+    const fetchData = async () => {
       try {
-        const data = await shopService.getAll();
-        setShops(data);
+        const [shopsData, accountsData] = await Promise.all([
+          shopService.getAll(),
+          paymentMethodService.getAll(),
+        ]);
+        setShops(shopsData);
+        setAccounts(accountsData);
       } catch (error) {
-        console.error("Failed to load shops", error);
+        console.error("Failed to load filter data", error);
       }
     };
-    loadShops();
+    fetchData();
   }, []);
 
   const { data, isLoading, error } = useQuery({
@@ -55,7 +62,10 @@ export const SalesReport = () => {
       "salesReport",
       format(dateRange.startDate, "yyyy-MM-dd"),
       format(dateRange.endDate, "yyyy-MM-dd"),
+      format(dateRange.startDate, "yyyy-MM-dd"),
+      format(dateRange.endDate, "yyyy-MM-dd"),
       selectedShopId,
+      selectedAccountId,
     ],
     queryFn: () => {
       const startDateStr = format(dateRange.startDate, "yyyy-MM-dd");
@@ -68,7 +78,8 @@ export const SalesReport = () => {
       return reportService.getSalesReport(
         startDateStr,
         endDateStr,
-        selectedShopId || null
+        selectedShopId || null,
+        selectedAccountId || null
       );
     },
     refetchOnMount: true,
@@ -102,7 +113,7 @@ export const SalesReport = () => {
       {/* Header & Filters */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-lg shadow border border-gray-200">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Sales Report</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Sales Summary</h1>
           <p className="text-sm text-gray-600 mt-1">
             {format(dateRange.startDate, "MMM d, yyyy")} -{" "}
             {format(dateRange.endDate, "MMM d, yyyy")}
@@ -129,6 +140,20 @@ export const SalesReport = () => {
             {shops.map((shop) => (
               <option key={shop.id} value={shop.id}>
                 {shop.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Account Selector */}
+          <select
+            value={selectedAccountId}
+            onChange={(e) => setSelectedAccountId(e.target.value)}
+            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+          >
+            <option value="">All Accounts</option>
+            {accounts.map((account) => (
+              <option key={account.id} value={account.id}>
+                {account.name}
               </option>
             ))}
           </select>

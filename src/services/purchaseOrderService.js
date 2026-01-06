@@ -38,9 +38,10 @@ export const purchaseOrderService = {
   },
 
   // Record payment
-  recordPayment: async (id, amount) => {
-    return await apiFetch(`/purchase-orders/${id}/payment?amount=${amount}`, {
+  recordPayment: async (id, data) => {
+    return await apiFetch(`/purchase-orders/${id}/payment`, {
       method: "POST",
+      body: data,
     });
   },
 

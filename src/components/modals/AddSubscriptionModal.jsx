@@ -12,7 +12,7 @@ export const AddSubscriptionModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     shopLimit: 1,
-    pricePerPeriod: 0,
+    pricePerPeriod: 1500,
     billingPeriod: "MONTHLY",
     startDate: new Date().toISOString().split("T")[0],
     endDate: "",

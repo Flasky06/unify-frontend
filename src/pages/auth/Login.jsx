@@ -33,8 +33,6 @@ const Login = () => {
       if (isLoading) return;
       try {
         const user = await login(values);
-        console.log("Login User Response:", user);
-        console.log("User Role:", user?.role);
 
         // Role-based redirect
         if (user?.role === "SUPER_ADMIN") {

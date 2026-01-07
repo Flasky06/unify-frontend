@@ -22,25 +22,19 @@ const AddStock = () => {
   });
 
   useEffect(() => {
-    console.log("AddStock component mounted");
     fetchProducts();
     fetchShops();
   }, []);
 
   const fetchProducts = async () => {
-    console.log("Fetching products...");
     setLoading(true);
     try {
       const data = await productService.getAll();
-      console.log("Products fetched:", data);
-      console.log("Number of products:", data?.length);
       setProducts(data);
     } catch (error) {
-      console.error("Failed to fetch products:", error);
       setError("Failed to load products");
     } finally {
       setLoading(false);
-      console.log("Loading complete");
     }
   };
 
@@ -48,9 +42,7 @@ const AddStock = () => {
     try {
       const data = await shopService.getAll();
       setShops(data);
-    } catch (error) {
-      console.error("Failed to fetch shops:", error);
-    }
+    } catch (error) {}
   };
 
   const handleSelectProduct = (product) => {
@@ -80,13 +72,6 @@ const AddStock = () => {
     setError(null);
 
     try {
-      console.log("Creating stock:", {
-        shopId: parseInt(formData.shopId),
-        productId: selectedProduct.id,
-        quantity: parseInt(formData.quantity),
-        reason: formData.reason,
-      });
-
       await stockService.createStock({
         shopId: parseInt(formData.shopId),
         productId: selectedProduct.id,
@@ -101,15 +86,11 @@ const AddStock = () => {
         `Successfully added ${formData.quantity} units of "${selectedProduct.name}" to ${shopName}!`
       );
 
-      console.log("Stock created successfully!");
-
       // Close modal and reset
       setIsModalOpen(false);
       setSelectedProduct(null);
       setFormData({ shopId: "", quantity: 0, reason: "Opening Stock" });
     } catch (err) {
-      console.error("Failed to add stock:", err);
-
       // Show error but close modal
       setError(
         err.message ||
@@ -169,9 +150,6 @@ const AddStock = () => {
     price: product.price?.toLocaleString() || "0",
     _product: product, // Store full product object for the button
   }));
-
-  console.log("Table data:", tableData);
-  console.log("Products state:", products);
 
   return (
     <div className="p-2 md:p-6">

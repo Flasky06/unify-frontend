@@ -67,20 +67,16 @@ export const SalesReport = () => {
       selectedShopId,
       selectedAccountId,
     ],
-    queryFn: () => {
+    queryFn: async () => {
       const startDateStr = format(dateRange.startDate, "yyyy-MM-dd");
       const endDateStr = format(dateRange.endDate, "yyyy-MM-dd");
-      console.log("Fetching sales report with:", {
-        startDate: startDateStr,
-        endDate: endDateStr,
-        shopId: selectedShopId || null,
-      });
-      return reportService.getSalesReport(
+      const data = await reportService.getSalesReport(
         startDateStr,
         endDateStr,
         selectedShopId || null,
         selectedAccountId || null
       );
+      return data;
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,

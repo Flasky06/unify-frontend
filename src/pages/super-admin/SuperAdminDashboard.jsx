@@ -12,11 +12,9 @@ const SuperAdminDashboard = () => {
 
   const fetchPlatformStats = async () => {
     try {
-      console.log("Fetching platform stats...");
       setIsLoading(true);
       setError(null);
       const data = await platformService.getPlatformStats();
-      console.log("Platform stats fetched:", data);
       setStats(data);
       setIsLoading(false);
     } catch (err) {

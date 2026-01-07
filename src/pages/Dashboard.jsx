@@ -152,7 +152,6 @@ const Dashboard = () => {
   useEffect(() => {
     const init = async () => {
       try {
-        console.log("Fetching initial data...");
         const [shopsData, productsData, paymentMethodsData] = await Promise.all(
           [
             shopService.getAll(),
@@ -160,7 +159,7 @@ const Dashboard = () => {
             paymentMethodService.getAll(),
           ]
         );
-        console.log("Payment methods fetched:", paymentMethodsData);
+
         setShops(shopsData);
         setProducts(productsData);
 
@@ -168,7 +167,7 @@ const Dashboard = () => {
         const activeMethods = (paymentMethodsData || []).filter(
           (pm) => pm.isActive
         );
-        console.log("Active payment methods:", activeMethods);
+
         setPaymentMethods(activeMethods);
         if (activeMethods.length > 0) {
           setPaymentMethod(activeMethods[0].id);

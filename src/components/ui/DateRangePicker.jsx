@@ -7,13 +7,7 @@ export const DateRangePicker = ({ startDate, endDate, onChange }) => {
       // Parse the date string as local date (not UTC)
       const [year, month, day] = e.target.value.split("-").map(Number);
       const newDate = new Date(year, month - 1, day);
-      console.log(
-        "Start date changed to:",
-        newDate,
-        "formatted:",
-        format(newDate, "yyyy-MM-dd")
-      );
-      onChange(newDate, endDate);
+      onChange({ startDate: newDate, endDate });
     }
   };
 
@@ -22,13 +16,7 @@ export const DateRangePicker = ({ startDate, endDate, onChange }) => {
       // Parse the date string as local date (not UTC)
       const [year, month, day] = e.target.value.split("-").map(Number);
       const newDate = new Date(year, month - 1, day);
-      console.log(
-        "End date changed to:",
-        newDate,
-        "formatted:",
-        format(newDate, "yyyy-MM-dd")
-      );
-      onChange(startDate, newDate);
+      onChange({ startDate, endDate: newDate });
     }
   };
 

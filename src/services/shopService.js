@@ -33,4 +33,11 @@ export const shopService = {
       method: "DELETE",
     });
   },
+
+  // Toggle shop status (Activate/Deactivate)
+  toggleStatus: async (id) => {
+    return await apiFetch(`/shops/${id}/toggle-status`, {
+      method: "PATCH",
+    });
+  },
 };

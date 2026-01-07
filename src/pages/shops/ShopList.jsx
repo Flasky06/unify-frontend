@@ -213,6 +213,20 @@ export const ShopList = () => {
               ),
             },
             {
+              header: "Status",
+              render: (shop) => (
+                <span
+                  className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${
+                    shop.isActive !== false
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-800"
+                  }`}
+                >
+                  {shop.isActive !== false ? "Active" : "Inactive"}
+                </span>
+              ),
+            },
+            {
               header: "Actions",
               render: (shop) => (
                 <div className="flex gap-2">
@@ -227,19 +241,56 @@ export const ShopList = () => {
                   >
                     Edit
                   </Button>
+
                   {user?.role !== "SHOP_MANAGER" &&
                     user?.role !== "SALES_REP" && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-red-600 hover:bg-red-50 hover:text-red-700 font-medium px-3"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setConfirmDialog({ isOpen: true, shopId: shop.id });
-                        }}
-                      >
-                        Delete
-                      </Button>
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className={
+                            shop.isActive !== false
+                              ? "text-orange-600 hover:bg-orange-50"
+                              : "text-green-600 hover:bg-green-50"
+                          }
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                              await shopService.toggleStatus(shop.id);
+                              fetchShops(); // Refresh list to update counts
+                              setToast({
+                                isOpen: true,
+                                message:
+                                  shop.isActive !== false
+                                    ? "Shop deactivated"
+                                    : "Shop activated",
+                                type: "success",
+                              });
+                            } catch (err) {
+                              setToast({
+                                isOpen: true,
+                                message:
+                                  err.message || "Failed to update status",
+                                type: "error",
+                              });
+                            }
+                          }}
+                        >
+                          {shop.isActive !== false ? "Deactivate" : "Activate"}
+                        </Button>
+
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-600 hover:bg-red-50 hover:text-red-700 font-medium px-3"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setConfirmDialog({ isOpen: true, shopId: shop.id });
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </>
                     )}
                 </div>
               ),

@@ -12,9 +12,9 @@ const Home = () => {
 
   const faqs = [
     {
-      question: "Can I use UNIFY for multiple separate businesses?",
+      question: "Can I use mflow for multiple separate businesses?",
       answer:
-        "UNIFY is designed for a single business entity but supports multiple locations and shops, giving you a centralized view of your entire operation.",
+        "mflow is designed for a single business entity but supports multiple locations and shops, giving you a centralized view of your entire operation.",
     },
     {
       question: "Who has access to my data?",
@@ -27,12 +27,12 @@ const Home = () => {
         "Absolutely. You can export detailed sales, expense, and profit reports to help with accounting and performance analysis.",
     },
     {
-      question: "Does UNIFY work offline?",
+      question: "Does mflow work offline?",
       answer:
         "Yes, keep selling even without internet. Your sales data syncs automatically the moment you're back online, so business never stops.",
     },
     {
-      question: "Is it hard to switch to UNIFY?",
+      question: "Is it hard to switch to mflow?",
       answer:
         "Not at all. We offer seamless data migration tools and dedicated support to ensure a smooth, zero-downtime transition from your old system.",
     },
@@ -50,10 +50,10 @@ const Home = () => {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-              <span className="text-white font-bold text-2xl">U</span>
+              <span className="text-white font-bold text-2xl">m</span>
             </div>
             <span className="text-2xl font-bold text-gray-900 tracking-tight">
-              UNIFY
+              mflow
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -328,10 +328,10 @@ const Home = () => {
             <div className="col-span-1">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">U</span>
+                  <span className="text-white font-bold text-xl">m</span>
                 </div>
                 <h2 className="text-2xl font-bold text-white tracking-tight">
-                  UNIFY
+                  mflow
                 </h2>
               </div>
               <p className="text-gray-400 mb-6 max-w-sm">
@@ -363,7 +363,7 @@ const Home = () => {
 
           <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-500">
-              &copy; {new Date().getFullYear()} UNIFY. All rights reserved.
+              &copy; {new Date().getFullYear()} mflow. All rights reserved.
             </p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <Link

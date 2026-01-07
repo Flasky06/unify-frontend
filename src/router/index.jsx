@@ -85,6 +85,10 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+        path: "subscription", // New route for Business Owners
+        element: <MySubscription />,
+      },
+      {
         path: "dashboard",
         element: <Dashboard />,
       },

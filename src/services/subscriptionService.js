@@ -64,13 +64,26 @@ export const subscriptionService = {
   },
 
   /**
-   * Create subscription
-   */
-  createSubscription: async (subscriptionData) => {
+   // Create subscription (Super Admin)
+  createSubscription: async (data) => {
     return await apiFetch("/super-admin/subscriptions", {
       method: "POST",
-      body: subscriptionData,
+      body: data,
     });
+  },
+
+  // ----------------------------------------------------
+  // User Methods (Business Owner)
+  // ----------------------------------------------------
+
+  // Get My Subscription
+  getMySubscription: async () => {
+    return await apiFetch("/subscriptions/current");
+  },
+
+  // Get My Payments
+  getMyPayments: async () => {
+    return await apiFetch("/subscriptions/payments");
   },
 
   /**

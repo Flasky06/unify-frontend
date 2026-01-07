@@ -64,7 +64,7 @@ export const subscriptionService = {
   },
 
   /**
-   // Create subscription (Super Admin)
+   * Create subscription (Super Admin)
   createSubscription: async (data) => {
     return await apiFetch("/super-admin/subscriptions", {
       method: "POST",

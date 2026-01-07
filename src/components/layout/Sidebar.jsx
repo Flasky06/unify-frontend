@@ -594,7 +594,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
         <div className="p-5 border-b border-gray-700 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              UNIFY
+              mflow
             </h1>
             <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">
               {isSuperAdmin() ? "Admin Panel" : "Business Management"}

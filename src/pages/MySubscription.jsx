@@ -55,13 +55,31 @@ export const MySubscription = () => {
   if (!subscription) {
     return (
       <div className="p-8">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
-          <h3 className="text-lg font-medium text-yellow-800 mb-2">
+        <div className="bg-red-50 border-2 border-red-300 rounded-lg p-6 text-center">
+          <div className="flex justify-center mb-4">
+            <svg
+              className="w-16 h-16 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-xl font-bold text-red-800 mb-2">
             No Active Subscription
           </h3>
-          <p className="text-yellow-600 mb-4">
-            Your business does not have a formal subscription record yet (Legacy
-            Mode). You have unlimited access for now.
+          <p className="text-red-700 mb-4 font-medium">
+            Your business account is currently blocked from all operations.
+          </p>
+          <p className="text-red-600 text-sm">
+            Please contact your system administrator to set up a subscription
+            plan.
           </p>
         </div>
       </div>

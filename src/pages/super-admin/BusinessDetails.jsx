@@ -388,15 +388,18 @@ const StatCard = ({ title, value, icon, color }) => {
 const SubscriptionCard = ({ subscription, onAddClick }) => {
   if (!subscription) {
     return (
-      <div className="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-400">
+      <div className="bg-white rounded-lg shadow p-6 border-l-4 border-red-400">
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
               Subscription Status
             </h2>
-            <p className="mt-1 text-sm text-yellow-700">
-              No active subscription found. This business is running in legacy
-              mode (Unlimited).
+            <p className="mt-1 text-sm text-red-700 font-medium">
+              ⚠️ No active subscription found. This business is BLOCKED from all
+              operations.
+            </p>
+            <p className="mt-1 text-xs text-gray-600">
+              Grant a subscription to allow this business to operate.
             </p>
           </div>
           <Button onClick={onAddClick} variant="primary">

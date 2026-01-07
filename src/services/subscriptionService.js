@@ -142,7 +142,7 @@ export const subscriptionService = {
       `/super-admin/subscriptions/${subscriptionId}/payments`,
       {
         method: "POST",
-        body: paymentData,
+        body: { ...paymentData, subscriptionId },
       }
     );
   },

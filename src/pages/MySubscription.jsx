@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { subscriptionService } from "../../services/subscriptionService";
+import { subscriptionService } from "../services/subscriptionService";
 import Card from "../../components/ui/Card";
 import Table from "../../components/ui/Table";
 

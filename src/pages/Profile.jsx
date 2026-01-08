@@ -59,7 +59,7 @@ const Profile = () => {
         (user.role === "BUSINESS_OWNER" || user.role === "BUSINESS_MANAGER")
       ) {
         updatedBusiness = await businessService.updateBusiness({
-          name: businessData.businessName,
+          businessName: businessData.businessName,
           businessType: businessData.businessType,
           address: businessData.address,
         });

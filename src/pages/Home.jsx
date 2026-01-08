@@ -286,24 +286,24 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Starter Plan */}
+            {/* Monthly Plan */}
             <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 transition hover:shadow-lg flex flex-col">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Starter</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Monthly</h3>
               <div className="flex items-baseline mb-6">
                 <span className="text-4xl font-bold text-gray-900">
-                  KSH 2,000
+                  KSH 1,500
                 </span>
-                <span className="text-gray-500 ml-2">/month</span>
+                <span className="text-gray-500 ml-2">/shop</span>
               </div>
               <p className="text-gray-600 mb-8">
-                Perfect for small businesses just getting started.
+                Flexible pay-as-you-go billing. Cancel anytime.
               </p>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
-                  "1 Shop Location",
-                  "2 Staff Accounts",
-                  "Basic Reporting",
+                  "Full POS Features",
                   "Inventory Management",
+                  "Unlimited Staff",
+                  "Sales Analytics",
                   "Email Support",
                 ].map((feature) => (
                   <li key={feature} className="flex items-center text-gray-600">
@@ -325,33 +325,35 @@ const Home = () => {
                 ))}
               </ul>
               <a
-                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Starter Plan"
+                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Monthly Plan"
                 className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
               >
-                Contact Sales
+                Choose Monthly
               </a>
             </div>
 
-            {/* Growth Plan */}
+            {/* Quarterly Plan */}
             <div className="bg-blue-600 rounded-2xl p-8 shadow-xl transform md:scale-105 relative flex flex-col z-10">
               <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
-                MOST POPULAR
+                POPULAR
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Growth</h3>
-              <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-white">KSH 5,000</span>
-                <span className="text-blue-100 ml-2">/month</span>
+              <h3 className="text-xl font-bold text-white mb-2">Quarterly</h3>
+              <div className="flex items-baseline mb-1">
+                <span className="text-4xl font-bold text-white">KSH 4,000</span>
+                <span className="text-blue-100 ml-2">/shop</span>
               </div>
+              <p className="text-yellow-300 text-sm font-bold mb-6">
+                Save KSH 500 every 3 months
+              </p>
               <p className="text-blue-100 mb-8">
-                Everything you need to expand your operations.
+                Perfect for growing businesses. Billed every 3 months.
               </p>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
-                  "Up to 3 Shop Locations",
-                  "10 Staff Accounts",
-                  "Advanced Analytics",
-                  "Stock Transfers",
+                  "All Monthly Features",
                   "Priority Support",
+                  "Advanced Reporting",
+                  "Stock Transfers",
                   "Employee Permissions",
                 ].map((feature) => (
                   <li key={feature} className="flex items-center text-blue-50">
@@ -373,31 +375,34 @@ const Home = () => {
                 ))}
               </ul>
               <a
-                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Growth Plan"
+                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Quarterly Plan"
                 className="block w-full py-3 px-4 bg-white text-blue-600 font-bold rounded-xl text-center hover:bg-gray-50 transition shadow-lg"
               >
-                Contact Sales
+                Choose Quarterly
               </a>
             </div>
 
-            {/* Enterprise Plan */}
+            {/* Annual Plan */}
             <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 transition hover:shadow-lg flex flex-col">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                Enterprise
-              </h3>
-              <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-gray-900">Custom</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Annually</h3>
+              <div className="flex items-baseline mb-1">
+                <span className="text-4xl font-bold text-gray-900">
+                  KSH 15,000
+                </span>
+                <span className="text-gray-500 ml-2">/shop</span>
               </div>
+              <p className="text-green-600 text-sm font-bold mb-6">
+                Save KSH 3,000 per year
+              </p>
               <p className="text-gray-600 mb-8">
-                For large organizations with specific requirements.
+                Best value for established businesses. Billed annually.
               </p>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
-                  "Unlimited Locations",
-                  "Unlimited Staff",
-                  "Custom Reporting",
+                  "All Quarterly Features",
                   "Dedicated Account Manager",
-                  "API Access",
+                  "Custom Training",
+                  "Data Migration Support",
                   "SLA Guarantee",
                 ].map((feature) => (
                   <li key={feature} className="flex items-center text-gray-600">
@@ -419,10 +424,10 @@ const Home = () => {
                 ))}
               </ul>
               <a
-                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Enterprise Plan"
+                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Annual Plan"
                 className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
               >
-                Contact Sales
+                Choose Annually
               </a>
             </div>
           </div>

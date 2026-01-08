@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { subscriptionService } from "../../services/subscriptionService";
 import { Toast } from "../../components/ui/ConfirmDialog";
 import { RecordPaymentModal } from "../../components/modals/RecordPaymentModal";
+import StatCard from "../../components/ui/StatCard";
+import StatusBadge from "../../components/ui/StatusBadge";
 
 const SubscriptionsManagement = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -264,42 +266,6 @@ const SubscriptionsManagement = () => {
         message={toastState.message}
         type={toastState.type}
       />
-    </div>
-  );
-};
-
-// Status Badge Component
-const StatusBadge = ({ status }) => {
-  const colors = {
-    ACTIVE: "bg-green-100 text-green-800",
-    TRIAL: "bg-yellow-100 text-yellow-800",
-    EXPIRED: "bg-red-100 text-red-800",
-    SUSPENDED: "bg-orange-100 text-orange-800",
-    CANCELLED: "bg-gray-100 text-gray-800",
-  };
-
-  return (
-    <span
-      className={`px-2 py-1 text-xs font-semibold rounded-full ${colors[status]}`}
-    >
-      {status}
-    </span>
-  );
-};
-
-// Stat Card Component
-const StatCard = ({ title, value, color }) => {
-  const colors = {
-    blue: "bg-blue-50 text-blue-600",
-    green: "bg-green-50 text-green-600",
-    yellow: "bg-yellow-50 text-yellow-600",
-    red: "bg-red-50 text-red-600",
-  };
-
-  return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <p className="text-sm font-medium text-gray-500">{title}</p>
-      <p className={`mt-2 text-3xl font-bold ${colors[color]}`}>{value}</p>
     </div>
   );
 };

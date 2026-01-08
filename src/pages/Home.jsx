@@ -99,12 +99,7 @@ const Home = () => {
                 </Link>
               ) : (
                 <>
-                  <Link
-                    to="/login"
-                    className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-200 transform hover:-translate-y-1"
-                  >
-                    Sign In
-                  </Link>
+                  <></>
                 </>
               )}
             </div>
@@ -112,323 +107,328 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Features Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 -mt-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Feature 1: Advanced Inventory */}
-          <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
-              <svg
-                className="w-6 h-6 text-blue-600 group-hover:text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                />
-              </svg>
+      {/* Pricing Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10 mb-20">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 bg-white/80 inline-block px-6 py-2 rounded-full backdrop-blur-sm border border-gray-100 shadow-sm">
+            Simple, Transparent Pricing
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Monthly Plan */}
+          <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition duration-300">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Monthly</h3>
+            <div className="flex items-baseline mb-6">
+              <span className="text-4xl font-bold text-gray-900">
+                KSH 1,500
+              </span>
+              <span className="text-gray-500 ml-2">/shop</span>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Advanced Inventory
-            </h3>
-            <p className="text-gray-600">
-              Take full control of your stock. Real-time tracking across all
-              your locations ensures you never run out of what sells best.
+            <p className="text-gray-600 mb-8">
+              Flexible pay-as-you-go billing. Cancel anytime.
             </p>
+            <ul className="space-y-4 mb-8 flex-1">
+              {[
+                "Full POS Features",
+                "Inventory Management",
+                "Unlimited Staff",
+                "Sales Analytics",
+                "Email Support",
+              ].map((feature) => (
+                <li key={feature} className="flex items-center text-gray-600">
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Monthly Plan"
+              className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
+            >
+              Choose Monthly
+            </a>
           </div>
 
-          {/* Feature 2: Performance Analytics */}
-          <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
-              <svg
-                className="w-6 h-6 text-blue-600 group-hover:text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
+          {/* Quarterly Plan */}
+          <div className="bg-blue-600 rounded-2xl p-8 shadow-2xl transform md:scale-110 relative flex flex-col z-20">
+            <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
+              POPULAR
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Performance Analytics
-            </h3>
-            <p className="text-gray-600">
-              Make data-driven decisions. Uncover trends and insights that drive
-              growth with powerful, easy-to-understand dashboards.
+            <h3 className="text-xl font-bold text-white mb-2">Quarterly</h3>
+            <div className="flex items-baseline mb-1">
+              <span className="text-4xl font-bold text-white">KSH 4,000</span>
+              <span className="text-blue-100 ml-2">/shop</span>
+            </div>
+            <p className="text-yellow-300 text-sm font-bold mb-6">
+              Save KSH 500 every 3 months
             </p>
+            <p className="text-blue-100 mb-8">
+              Perfect for growing businesses. Billed every 3 months.
+            </p>
+            <ul className="space-y-4 mb-8 flex-1">
+              {[
+                "All Monthly Features",
+                "Priority Support",
+                "Advanced Reporting",
+                "Stock Transfers",
+                "Employee Permissions",
+              ].map((feature) => (
+                <li key={feature} className="flex items-center text-blue-50">
+                  <svg
+                    className="w-5 h-5 text-blue-300 mr-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Quarterly Plan"
+              className="block w-full py-3 px-4 bg-white text-blue-600 font-bold rounded-xl text-center hover:bg-gray-50 transition shadow-lg"
+            >
+              Choose Quarterly
+            </a>
           </div>
 
-          {/* Feature 3: Multi-Shop Support */}
-          <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
-              <svg
-                className="w-6 h-6 text-blue-600 group-hover:text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                />
-              </svg>
+          {/* Annual Plan */}
+          <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition duration-300">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Annually</h3>
+            <div className="flex items-baseline mb-1">
+              <span className="text-4xl font-bold text-gray-900">
+                KSH 15,000
+              </span>
+              <span className="text-gray-500 ml-2">/shop</span>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Multi-Shop Support
-            </h3>
-            <p className="text-gray-600">
-              Expand your empire. Seamlessly manage multiple branches from one
-              central hub, no matter where you are.
+            <p className="text-green-600 text-sm font-bold mb-6">
+              Save KSH 3,000 per year
             </p>
-          </div>
-
-          {/* Feature 4: Expense Tracking */}
-          <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
-              <svg
-                className="w-6 h-6 text-blue-600 group-hover:text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Expense Tracking
-            </h3>
-            <p className="text-gray-600">
-              Maximize your profits. Keep a pulse on every penny spent and
-              optimize your operational costs for a healthier bottom line.
+            <p className="text-gray-600 mb-8">
+              Best value for established businesses. Billed annually.
             </p>
-          </div>
-
-          {/* Feature 5: Staff Permissions */}
-          <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
-              <svg
-                className="w-6 h-6 text-blue-600 group-hover:text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Staff Permissions
-            </h3>
-            <p className="text-gray-600">
-              Empower your team safely. Give staff the exact tools they need
-              while keeping sensitive business data secure.
-            </p>
-          </div>
-
-          {/* Feature 6: Products & Services */}
-          <div className="p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 transition duration-300 group text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
-              <svg
-                className="w-6 h-6 text-blue-600 group-hover:text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Products & Services
-            </h3>
-            <p className="text-gray-600">
-              Create and manage your offerings with ease. Organize products and
-              services to speed up checkout and delight customers.
-            </p>
+            <ul className="space-y-4 mb-8 flex-1">
+              {[
+                "All Quarterly Features",
+                "Dedicated Account Manager",
+                "Custom Training",
+                "Data Migration Support",
+                "SLA Guarantee",
+              ].map((feature) => (
+                <li key={feature} className="flex items-center text-gray-600">
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Annual Plan"
+              className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
+            >
+              Choose Annually
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Pricing Section */}
-      <div className="bg-white py-20 border-t border-gray-100">
+      {/* Features Grid */}
+      <div className="bg-gray-50 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Simple, Transparent Pricing
+              Everything you need to run your business
             </h2>
             <p className="text-xl text-gray-600">
-              Choose the plan that's right for your business
+              Powerful features built for modern retailers
             </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Monthly Plan */}
-            <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 transition hover:shadow-lg flex flex-col">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Monthly</h3>
-              <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-gray-900">
-                  KSH 1,500
-                </span>
-                <span className="text-gray-500 ml-2">/shop</span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Feature 1: Advanced Inventory */}
+            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+                <svg
+                  className="w-6 h-6 text-blue-600 group-hover:text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  />
+                </svg>
               </div>
-              <p className="text-gray-600 mb-8">
-                Flexible pay-as-you-go billing. Cancel anytime.
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Advanced Inventory
+              </h3>
+              <p className="text-gray-600">
+                Take full control of your stock. Real-time tracking across all
+                your locations ensures you never run out of what sells best.
               </p>
-              <ul className="space-y-4 mb-8 flex-1">
-                {[
-                  "Full POS Features",
-                  "Inventory Management",
-                  "Unlimited Staff",
-                  "Sales Analytics",
-                  "Email Support",
-                ].map((feature) => (
-                  <li key={feature} className="flex items-center text-gray-600">
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Monthly Plan"
-                className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
-              >
-                Choose Monthly
-              </a>
             </div>
 
-            {/* Quarterly Plan */}
-            <div className="bg-blue-600 rounded-2xl p-8 shadow-xl transform md:scale-105 relative flex flex-col z-10">
-              <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
-                POPULAR
+            {/* Feature 2: Performance Analytics */}
+            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+                <svg
+                  className="w-6 h-6 text-blue-600 group-hover:text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Quarterly</h3>
-              <div className="flex items-baseline mb-1">
-                <span className="text-4xl font-bold text-white">KSH 4,000</span>
-                <span className="text-blue-100 ml-2">/shop</span>
-              </div>
-              <p className="text-yellow-300 text-sm font-bold mb-6">
-                Save KSH 500 every 3 months
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Performance Analytics
+              </h3>
+              <p className="text-gray-600">
+                Make data-driven decisions. Uncover trends and insights that
+                drive growth with powerful, easy-to-understand dashboards.
               </p>
-              <p className="text-blue-100 mb-8">
-                Perfect for growing businesses. Billed every 3 months.
-              </p>
-              <ul className="space-y-4 mb-8 flex-1">
-                {[
-                  "All Monthly Features",
-                  "Priority Support",
-                  "Advanced Reporting",
-                  "Stock Transfers",
-                  "Employee Permissions",
-                ].map((feature) => (
-                  <li key={feature} className="flex items-center text-blue-50">
-                    <svg
-                      className="w-5 h-5 text-blue-300 mr-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Quarterly Plan"
-                className="block w-full py-3 px-4 bg-white text-blue-600 font-bold rounded-xl text-center hover:bg-gray-50 transition shadow-lg"
-              >
-                Choose Quarterly
-              </a>
             </div>
 
-            {/* Annual Plan */}
-            <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 transition hover:shadow-lg flex flex-col">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Annually</h3>
-              <div className="flex items-baseline mb-1">
-                <span className="text-4xl font-bold text-gray-900">
-                  KSH 15,000
-                </span>
-                <span className="text-gray-500 ml-2">/shop</span>
+            {/* Feature 3: Multi-Shop Support */}
+            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+                <svg
+                  className="w-6 h-6 text-blue-600 group-hover:text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
+                </svg>
               </div>
-              <p className="text-green-600 text-sm font-bold mb-6">
-                Save KSH 3,000 per year
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Multi-Shop Support
+              </h3>
+              <p className="text-gray-600">
+                Expand your empire. Seamlessly manage multiple branches from one
+                central hub, no matter where you are.
               </p>
-              <p className="text-gray-600 mb-8">
-                Best value for established businesses. Billed annually.
+            </div>
+
+            {/* Feature 4: Expense Tracking */}
+            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+                <svg
+                  className="w-6 h-6 text-blue-600 group-hover:text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Expense Tracking
+              </h3>
+              <p className="text-gray-600">
+                Maximize your profits. Keep a pulse on every penny spent and
+                optimize your operational costs for a healthier bottom line.
               </p>
-              <ul className="space-y-4 mb-8 flex-1">
-                {[
-                  "All Quarterly Features",
-                  "Dedicated Account Manager",
-                  "Custom Training",
-                  "Data Migration Support",
-                  "SLA Guarantee",
-                ].map((feature) => (
-                  <li key={feature} className="flex items-center text-gray-600">
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="mailto:bonnienjuguna106@gmail.com?subject=Enquiry about Annual Plan"
-                className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
-              >
-                Choose Annually
-              </a>
+            </div>
+
+            {/* Feature 5: Staff Permissions */}
+            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+                <svg
+                  className="w-6 h-6 text-blue-600 group-hover:text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Staff Permissions
+              </h3>
+              <p className="text-gray-600">
+                Empower your team safely. Give staff the exact tools they need
+                while keeping sensitive business data secure.
+              </p>
+            </div>
+
+            {/* Feature 6: Products & Services */}
+            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+                <svg
+                  className="w-6 h-6 text-blue-600 group-hover:text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Products & Services
+              </h3>
+              <p className="text-gray-600">
+                Create and manage your offerings with ease. Organize products
+                and services to speed up checkout and delight customers.
+              </p>
             </div>
           </div>
         </div>

@@ -249,6 +249,23 @@ export const PurchaseOrderList = () => {
       header: "Actions",
       render: (order) => (
         <div className="flex gap-2">
+          {!order.received && order.status !== "CANCELLED" && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-blue-600 hover:bg-blue-50 font-medium px-3"
+              onClick={(e) => {
+                e.stopPropagation();
+                setConfirmDialog({
+                  isOpen: true,
+                  orderId: order.id,
+                  action: "receive",
+                });
+              }}
+            >
+              Receive
+            </Button>
+          )}
           {order.status === "PENDING" && (
             <>
               <Button
@@ -662,6 +679,22 @@ export const PurchaseOrderList = () => {
               >
                 Close
               </Button>
+              {!viewModal.order.received &&
+                viewModal.order.status !== "CANCELLED" && (
+                  <Button
+                    className="bg-green-600 hover:bg-green-700 text-white"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        orderId: viewModal.order.id,
+                        action: "receive",
+                      });
+                      setViewModal({ isOpen: false, order: null });
+                    }}
+                  >
+                    Receive Stock
+                  </Button>
+                )}
               {viewModal.order.balance > 0 &&
                 viewModal.order.status !== "CANCELLED" && (
                   <Button

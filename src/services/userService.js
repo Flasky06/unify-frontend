@@ -34,6 +34,29 @@ export const userService = {
   },
 
   /**
+   * Get user by ID (SUPER_ADMIN only)
+   */
+  getUserById: async (id) => {
+    const data = await api.get(`/users/${id}`);
+    return data;
+  },
+
+  /**
+   * Update user (SUPER_ADMIN only)
+   */
+  updateUser: async (id, userData) => {
+    const data = await api.put(`/users/${id}`, userData);
+    return data;
+  },
+
+  /**
+   * Delete user (SUPER_ADMIN only)
+   */
+  deleteUser: async (id) => {
+    await api.delete(`/users/${id}`);
+  },
+
+  /**
    * Get all business owners (SUPER_ADMIN only)
    */
   getAllBusinessOwners: async () => {

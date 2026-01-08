@@ -4,7 +4,7 @@ import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { userService } from "../../services/userService";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import { Toast, ConfirmDialog } from "../../components/ui/ConfirmDialog";
 import useAuthStore from "../../store/authStore";
 
 const AdminUsers = () => {
@@ -14,7 +14,9 @@ const AdminUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Modal State
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -24,6 +26,7 @@ const AdminUsers = () => {
     businessName: "",
     businessType: "",
     address: "",
+    active: true,
   });
 
   // UI State
@@ -31,6 +34,11 @@ const AdminUsers = () => {
     isOpen: false,
     message: "",
     type: "info",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    user: null,
   });
 
   const { isSuperAdmin } = useAuthStore();
@@ -54,32 +62,16 @@ const AdminUsers = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await userService.createUser(formData);
-      setToast({
-        isOpen: true,
-        message: "User created successfully",
-        type: "success",
-      });
-      closeCreateModal();
-      fetchUsers();
-    } catch (err) {
-      setToast({
-        isOpen: true,
-        message: err.message || "Failed to create user",
-        type: "error",
-      });
-    }
-  };
-
-  const closeCreateModal = () => {
-    setIsCreateModalOpen(false);
+  const openCreateModal = () => {
+    setIsEditing(false);
+    setSelectedUser(null);
     setFormData({
       email: "",
       password: "",
@@ -88,7 +80,96 @@ const AdminUsers = () => {
       businessName: "",
       businessType: "",
       address: "",
+      active: true,
     });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (user) => {
+    setIsEditing(true);
+    setSelectedUser(user);
+    setFormData({
+      email: user.email,
+      password: "", // Password not editable directly here usually
+      role: user.role,
+      phoneNo: user.phoneNo || "",
+      businessName: user.businessName || "",
+      businessType: "", // Not available in basic UserDTO usually unless business owner
+      address: "",
+      active: user.active,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsEditing(false);
+    setSelectedUser(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (isEditing) {
+        // Edit Logic
+        const updateData = {
+          phoneNo: formData.phoneNo,
+          role: formData.role,
+          active: formData.active,
+        };
+        await userService.updateUser(selectedUser.id, updateData);
+        setToast({
+          isOpen: true,
+          message: "User updated successfully",
+          type: "success",
+        });
+      } else {
+        // Create Logic
+        await userService.createUser(formData);
+        setToast({
+          isOpen: true,
+          message: "User created successfully",
+          type: "success",
+        });
+      }
+      handleCloseModal();
+      fetchUsers();
+    } catch (err) {
+      setToast({
+        isOpen: true,
+        message:
+          err.message || `Failed to ${isEditing ? "update" : "create"} user`,
+        type: "error",
+      });
+    }
+  };
+
+  const initiateDelete = (user) => {
+    setConfirmDialog({
+      isOpen: true,
+      user: user,
+    });
+  };
+
+  const confirmDelete = async () => {
+    if (!confirmDialog.user) return;
+    try {
+      await userService.deleteUser(confirmDialog.user.id);
+      setToast({
+        isOpen: true,
+        message: "User deleted successfully",
+        type: "success",
+      });
+      fetchUsers();
+    } catch (err) {
+      setToast({
+        isOpen: true,
+        message: err.message || "Failed to delete user",
+        type: "error",
+      });
+    } finally {
+      setConfirmDialog({ isOpen: false, user: null });
+    }
   };
 
   const columns = [
@@ -113,7 +194,7 @@ const AdminUsers = () => {
       ),
     },
     {
-      header: "Business Information",
+      header: "Business",
       render: (user) => {
         if (user.businessName) return user.businessName;
         if (user.business?.businessName) return user.business?.businessName;
@@ -126,21 +207,7 @@ const AdminUsers = () => {
       render: (user) => user.phoneNo || "-",
     },
     {
-      header: "Validation Status",
-      render: (user) => (
-        <span
-          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-            user.verified
-              ? "bg-green-100 text-green-800"
-              : "bg-yellow-100 text-yellow-800"
-          }`}
-        >
-          {user.verified ? "Verified" : "Pending"}
-        </span>
-      ),
-    },
-    {
-      header: "Account Status",
+      header: "Status",
       render: (user) => (
         <span
           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -157,6 +224,34 @@ const AdminUsers = () => {
       header: "Created",
       render: (user) =>
         user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "-",
+    },
+    {
+      header: "Actions",
+      render: (user) => (
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={(e) => {
+              e.stopPropagation();
+              openEditModal(user);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            size="sm"
+            variant="danger" // Assuming Button supports 'danger' or fallback to a className
+            className="bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
+            onClick={(e) => {
+              e.stopPropagation();
+              initiateDelete(user);
+            }}
+          >
+            Delete
+          </Button>
+        </div>
+      ),
     },
   ];
 
@@ -213,7 +308,7 @@ const AdminUsers = () => {
               className="w-full sm:w-64"
             />
             <Button
-              onClick={() => setIsCreateModalOpen(true)}
+              onClick={openCreateModal}
               className="w-full sm:w-auto whitespace-nowrap py-1.5"
             >
               <svg
@@ -259,11 +354,11 @@ const AdminUsers = () => {
         </div>
       </div>
 
-      {/* Create User Modal */}
+      {/* Create/Edit User Modal */}
       <Modal
-        isOpen={isCreateModalOpen}
-        onClose={closeCreateModal}
-        title="Add New User"
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title={isEditing ? "Edit User" : "Add New User"}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
@@ -273,16 +368,19 @@ const AdminUsers = () => {
             value={formData.email}
             onChange={handleInputChange}
             required
+            disabled={isEditing} // Email cannot be changed
           />
 
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
+          {!isEditing && (
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          )}
 
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-1">
@@ -296,6 +394,7 @@ const AdminUsers = () => {
             >
               <option value="SUPER_ADMIN">Super Admin</option>
               <option value="BUSINESS_OWNER">Business Owner</option>
+              {/* Add other roles if needed, though usually these are top level */}
             </select>
           </div>
 
@@ -307,7 +406,26 @@ const AdminUsers = () => {
             onChange={handleInputChange}
           />
 
-          {formData.role === "BUSINESS_OWNER" && (
+          {isEditing && (
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="active"
+                name="active"
+                checked={formData.active}
+                onChange={handleInputChange}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label
+                htmlFor="active"
+                className="text-sm font-medium text-gray-700"
+              >
+                Active Account
+              </label>
+            </div>
+          )}
+
+          {!isEditing && formData.role === "BUSINESS_OWNER" && (
             <div className="border-t pt-4 mt-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Business Information
@@ -346,13 +464,25 @@ const AdminUsers = () => {
           )}
 
           <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={closeCreateModal}>
+            <Button type="button" variant="outline" onClick={handleCloseModal}>
               Cancel
             </Button>
-            <Button type="submit">Create User</Button>
+            <Button type="submit">
+              {isEditing ? "Update User" : "Create User"}
+            </Button>
           </div>
         </form>
       </Modal>
+
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog({ isOpen: false, user: null })}
+        onConfirm={confirmDelete}
+        title="Delete User"
+        message={`Are you sure you want to delete user ${confirmDialog.user?.email}? This action cannot be undone.`}
+        confirmText="Delete"
+        variant="danger"
+      />
 
       <Toast
         isOpen={toast.isOpen}

@@ -75,7 +75,7 @@ const Home = () => {
           </div>
         </nav>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32 lg:h-[80vh] lg:flex lg:items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-48">
           <div className="text-center w-full">
             <h1 className="text-4xl md:text-7xl font-extrabold text-gray-900 mb-12 md:mb-8 tracking-tight leading-tight md:leading-tight">
               Manage Your Entire Business

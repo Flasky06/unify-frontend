@@ -12,7 +12,6 @@ import AdminDashboard from "../pages/super-admin/SuperAdminDashboard";
 import AdminUsers from "../pages/super-admin/AdminUsers";
 import Profile from "../pages/Profile";
 import { UserList } from "../pages/users/UserList";
-import { SuperAdminUserList } from "../pages/users/SuperAdminUserList";
 import { BusinessDetails } from "../pages/super-admin/BusinessDetails";
 import SubscriptionsManagement from "../pages/super-admin/SubscriptionsManagement";
 import RoleManagement from "../pages/users/RoleManagement";
@@ -228,10 +227,7 @@ export const router = createBrowserRouter([
         path: "users",
         element: <AdminUsers />,
       },
-      {
-        path: "business-owners",
-        element: <SuperAdminUserList />,
-      },
+
       {
         path: "business/:id",
         element: <BusinessDetails />,

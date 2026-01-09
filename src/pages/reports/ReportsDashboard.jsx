@@ -111,6 +111,26 @@ const ReportsDashboard = () => {
             </h2>
           </div>
         </Link>
+
+        {/* Accounts Summary */}
+        <Link to="/reports/accounts-summary" className="block">
+          <div className="bg-white p-6 rounded-lg shadow border-l-4 border-indigo-500 hover:shadow-lg transition-shadow cursor-pointer">
+            <p className="text-sm text-gray-500 mb-1">Accounts Summary</p>
+            <h2 className="text-lg font-bold text-gray-800">
+              View Financial Report
+            </h2>
+          </div>
+        </Link>
+
+        {/* Stock Movement */}
+        <Link to="/reports/stock-movement" className="block">
+          <div className="bg-white p-6 rounded-lg shadow border-l-4 border-teal-500 hover:shadow-lg transition-shadow cursor-pointer">
+            <p className="text-sm text-gray-500 mb-1">Stock Movement</p>
+            <h2 className="text-lg font-bold text-gray-800">
+              View Stock Report
+            </h2>
+          </div>
+        </Link>
       </div>
 
       {/* Last 7 Days (Optional Visualization - List for now) */}

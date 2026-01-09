@@ -41,6 +41,7 @@ import { SalesReport } from "../pages/reports/SalesReport";
 import StockMovementReport from "../pages/reports/StockMovementReport";
 import { EmployeeList } from "../pages/employees/EmployeeList";
 import { EmployeeDetails } from "../pages/employees/EmployeeDetails";
+import { AccountsSummaryReport } from "../pages/reports/AccountsSummaryReport";
 import NotFound from "../pages/NotFound";
 
 export const router = createBrowserRouter([
@@ -205,6 +206,10 @@ export const router = createBrowserRouter([
       {
         path: "reports/stock-movement",
         element: <StockMovementReport />,
+      },
+      {
+        path: "reports/accounts-summary",
+        element: <AccountsSummaryReport />,
       },
       {
         path: "payment-methods",

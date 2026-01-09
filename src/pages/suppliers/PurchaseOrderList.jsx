@@ -249,23 +249,6 @@ export const PurchaseOrderList = () => {
       header: "Actions",
       render: (order) => (
         <div className="flex gap-2">
-          {!order.received && order.status !== "CANCELLED" && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-blue-600 hover:bg-blue-50 font-medium px-3"
-              onClick={(e) => {
-                e.stopPropagation();
-                setConfirmDialog({
-                  isOpen: true,
-                  orderId: order.id,
-                  action: "receive",
-                });
-              }}
-            >
-              Receive
-            </Button>
-          )}
           {order.status === "PENDING" && (
             <>
               <Button

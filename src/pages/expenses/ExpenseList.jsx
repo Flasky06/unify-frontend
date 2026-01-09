@@ -135,9 +135,9 @@ export const ExpenseList = () => {
         (!startDate || expense.date >= startDate) && // expenseDate -> date (DTO)
         (!endDate || expense.date <= endDate);
 
-      const matchesSearch = expense.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      const matchesSearch =
+        expense.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        expense.payee?.toLowerCase().includes(searchTerm.toLowerCase());
 
       return (
         matchesCategory && matchesShop && matchesDateRange && matchesSearch
@@ -454,7 +454,7 @@ export const ExpenseList = () => {
         <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-end lg:flex-wrap">
           <div className="w-full lg:w-48 lg:max-w-xs">
             <Input
-              placeholder="Search expenses..."
+              placeholder="Search name or payee..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="py-1.5 text-sm"

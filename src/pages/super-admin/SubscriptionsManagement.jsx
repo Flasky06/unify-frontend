@@ -151,109 +151,113 @@ const SubscriptionsManagement = () => {
       </div>
 
       {/* Subscriptions Table */}
-      <div className="bg-white rounded-lg shadow flex-1 h-full overflow-y-auto min-h-0">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Business
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Plan
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Shops
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Expires
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {subscriptions.map((sub) => (
-                <tr key={sub.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div
-                      className="text-sm font-medium text-blue-600 cursor-pointer hover:underline"
+      {/* Subscriptions Grid */}
+      <div className="flex-1 overflow-y-auto min-h-0 bg-gray-50 p-1 rounded-lg">
+        {subscriptions.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+            <p>No subscriptions found</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4">
+            {subscriptions.map((sub) => (
+              <div
+                key={sub.id}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200"
+              >
+                {/* Card Header */}
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3
+                      className="text-lg font-semibold text-gray-900 cursor-pointer hover:text-blue-600 transition-colors"
                       onClick={() =>
                         navigate(`/super-admin/business/${sub.businessId}`)
                       }
                     >
                       {sub.businessName}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{sub.planName}</div>
-                    <div className="text-xs text-gray-500">
-                      {sub.billingPeriod}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                    </h3>
+                    <p className="text-sm text-gray-500">{sub.planName}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
                     <StatusBadge status={sub.status} />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {sub.currentShopCount} / {sub.shopLimit}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    KSH {sub.pricePerPeriod.toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
+                    <span className="text-xs text-gray-400">
+                      {sub.billingPeriod}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Card Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-4 py-3 border-t border-b border-gray-100">
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Shops
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-gray-900">
+                      {sub.currentShopCount}{" "}
+                      <span className="text-gray-400 font-normal">
+                        / {sub.shopLimit}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Price
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-gray-900">
+                      KSH {sub.pricePerPeriod.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Expiry Info */}
+                <div className="flex justify-between items-center mb-4 text-sm">
+                  <span className="text-gray-500">Expires:</span>
+                  <div className="text-right">
+                    <span className="font-medium text-gray-900 block">
                       {new Date(sub.subscriptionEndDate).toLocaleDateString()}
-                    </div>
-                    <div
+                    </span>
+                    <span
                       className={`text-xs ${
                         sub.daysUntilExpiry < 7
-                          ? "text-red-600"
+                          ? "text-red-600 font-medium"
                           : "text-gray-500"
                       }`}
                     >
                       {sub.daysUntilExpiry} days left
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedSubscription(sub);
-                          setShowPaymentModal(true);
-                        }}
-                        className="text-blue-600 hover:text-blue-900"
-                      >
-                        Pay
-                      </button>
-                      {sub.status === "ACTIVE" || sub.status === "TRIAL" ? (
-                        <button
-                          onClick={() => handleSuspend(sub.id)}
-                          className="text-orange-600 hover:text-orange-900"
-                        >
-                          Suspend
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleReactivate(sub.id)}
-                          className="text-green-600 hover:text-green-900"
-                        >
-                          Reactivate
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-2 mt-auto pt-2">
+                  <button
+                    onClick={() => {
+                      setSelectedSubscription(sub);
+                      setShowPaymentModal(true);
+                    }}
+                    className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-md text-sm font-medium hover:bg-blue-100 transition-colors"
+                  >
+                    Pay
+                  </button>
+                  {sub.status === "ACTIVE" || sub.status === "TRIAL" ? (
+                    <button
+                      onClick={() => handleSuspend(sub.id)}
+                      className="flex-1 px-3 py-2 bg-orange-50 text-orange-600 rounded-md text-sm font-medium hover:bg-orange-100 transition-colors"
+                    >
+                      Suspend
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleReactivate(sub.id)}
+                      className="flex-1 px-3 py-2 bg-green-50 text-green-600 rounded-md text-sm font-medium hover:bg-green-100 transition-colors"
+                    >
+                      Reactivate
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Record Payment Modal */}

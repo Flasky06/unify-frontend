@@ -14,6 +14,7 @@ const CreateBusiness = () => {
     businessName: "",
     businessType: "",
     address: "",
+    shopLimit: 1,
   });
 
   const handleSubmit = async (e) => {
@@ -90,6 +91,22 @@ const CreateBusiness = () => {
               setFormData({ ...formData, address: e.target.value })
             }
             placeholder="Business Address"
+          />
+
+          <Input
+            label="Number of Shops (Trial)"
+            type="number"
+            min="1"
+            value={formData.shopLimit}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                shopLimit: parseInt(e.target.value) || 1,
+              })
+            }
+            placeholder="How many shops do you have?"
+            required
+            helperText="You will get a free trial for this many shops"
           />
 
           <Button type="submit" disabled={loading} className="w-full">

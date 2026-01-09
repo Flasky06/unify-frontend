@@ -43,6 +43,7 @@ export const PurchaseOrderCreate = () => {
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [productSearch, setProductSearch] = useState("");
   const [toast, setToast] = useState({
     isOpen: false,
     message: "",
@@ -389,7 +390,16 @@ export const PurchaseOrderCreate = () => {
 
         {/* Items Table */}
         <div>
-          <h3 className="text-lg font-medium text-gray-800 mb-2">Items</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-medium text-gray-800">Items</h3>
+            <div className="w-64">
+              <Input
+                placeholder="Search products..."
+                value={productSearch}
+                onChange={(e) => setProductSearch(e.target.value)}
+              />
+            </div>
+          </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -410,64 +420,70 @@ export const PurchaseOrderCreate = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {items.map((item, index) => (
-                  <tr key={index}>
-                    <td className="px-3 py-2">
-                      <select
-                        className="w-full text-sm border-gray-300 rounded focus:ring-blue-500"
-                        value={item.productId}
-                        onChange={(e) =>
-                          handleItemChange(index, "productId", e.target.value)
-                        }
-                        required
-                      >
-                        <option value="">Select Product...</option>
-                        {products.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-3 py-2">
-                      <Input
-                        type="number"
-                        min="1"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          handleItemChange(index, "quantity", e.target.value)
-                        }
-                        className="h-8 text-sm"
-                      />
-                    </td>
-                    <td className="px-3 py-2">
-                      <Input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={item.unitPrice}
-                        onChange={(e) =>
-                          handleItemChange(index, "unitPrice", e.target.value)
-                        }
-                        className="h-8 text-sm"
-                      />
-                    </td>
-                    <td className="px-3 py-2 text-right font-medium text-gray-700">
-                      {item.total.toLocaleString()}
-                    </td>
-                    <td className="px-3 py-2 text-center">
-                      {items.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeItemRow(index)}
-                          className="text-red-500 hover:text-red-700"
+                {items.map((item, index) => {
+                  const filteredProducts = products.filter((p) =>
+                    p.name?.toLowerCase().includes(productSearch.toLowerCase())
+                  );
+
+                  return (
+                    <tr key={index}>
+                      <td className="px-3 py-2">
+                        <select
+                          className="w-full text-sm border-gray-300 rounded focus:ring-blue-500"
+                          value={item.productId}
+                          onChange={(e) =>
+                            handleItemChange(index, "productId", e.target.value)
+                          }
+                          required
                         >
-                          &times;
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                          <option value="">Select Product...</option>
+                          {filteredProducts.map((p) => (
+                            <option key={p.id} value={p.id}>
+                              {p.name}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-3 py-2">
+                        <Input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            handleItemChange(index, "quantity", e.target.value)
+                          }
+                          className="h-8 text-sm"
+                        />
+                      </td>
+                      <td className="px-3 py-2">
+                        <Input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={item.unitPrice}
+                          onChange={(e) =>
+                            handleItemChange(index, "unitPrice", e.target.value)
+                          }
+                          className="h-8 text-sm"
+                        />
+                      </td>
+                      <td className="px-3 py-2 text-right font-medium text-gray-700">
+                        {item.total.toLocaleString()}
+                      </td>
+                      <td className="px-3 py-2 text-center">
+                        {items.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeItemRow(index)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            &times;
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
               <tfoot>
                 <tr>

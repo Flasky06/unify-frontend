@@ -186,7 +186,7 @@ const Home = () => {
               ))}
             </ul>
             <Link
-              to="/register"
+              to="/register?plan=MONTHLY"
               className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
             >
               Choose Monthly
@@ -237,7 +237,7 @@ const Home = () => {
               ))}
             </ul>
             <Link
-              to="/register"
+              to="/register?plan=QUARTERLY"
               className="block w-full py-3 px-4 bg-white text-blue-600 font-bold rounded-xl text-center hover:bg-gray-50 transition shadow-lg"
             >
               Choose Quarterly
@@ -287,7 +287,7 @@ const Home = () => {
               ))}
             </ul>
             <Link
-              to="/register"
+              to="/register?plan=ANNUALLY"
               className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
             >
               Choose Annually

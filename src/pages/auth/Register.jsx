@@ -1,13 +1,23 @@
 import { useFormik } from "formik";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { registerSchema } from "../../schemas/authSchemas";
 
 const Register = () => {
   const { register, isLoading, error } = useAuth();
+  const location = useLocation();
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+
+  /* Capture Plan Preference */
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const plan = params.get("plan");
+    if (plan) {
+      sessionStorage.setItem("preferredPlan", plan);
+    }
+  }, [location]);
 
   const formik = useFormik({
     initialValues: {

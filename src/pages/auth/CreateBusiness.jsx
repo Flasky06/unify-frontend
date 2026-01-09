@@ -15,6 +15,7 @@ const CreateBusiness = () => {
     businessType: "",
     address: "",
     shopLimit: 1,
+    preferredPlan: sessionStorage.getItem("preferredPlan") || "",
   });
 
   const handleSubmit = async (e) => {

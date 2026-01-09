@@ -298,9 +298,6 @@ export const InvoiceList = () => {
                       {selectedSale.businessName || "Miale"}
                     </h1>
                     <p className="text-gray-600">{selectedSale.shopName}</p>
-                    <p className="text-sm text-gray-500">
-                      Main Branch, Nairobi
-                    </p>
                   </div>
                   <div className="text-right">
                     <h2 className="text-2xl font-bold text-blue-600 mb-2 print:text-xl">

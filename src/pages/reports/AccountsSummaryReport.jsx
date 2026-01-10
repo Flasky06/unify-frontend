@@ -29,9 +29,12 @@ const MetricCard = ({ title, value, subtitle, type = "default" }) => {
       className={`p-6 rounded-lg border-2 ${colorClasses[type]} transition-transform hover:scale-105`}
     >
       <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-      <h3 className={`text-3xl font-bold ${textColorClasses[type]} mb-1`}>
-        {value}
-      </h3>
+      <div
+        className={`flex items-baseline gap-1 ${textColorClasses[type]} mb-1`}
+      >
+        <span className="text-sm font-semibold opacity-60">KSH</span>
+        <h3 className="text-3xl font-bold tracking-tight truncate">{value}</h3>
+      </div>
       {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
     </div>
   );
@@ -78,10 +81,10 @@ export const AccountsSummaryReport = () => {
     refetchOnWindowFocus: false,
   });
 
-  const formatCurrency = (val) =>
+  const formatAmount = (val) =>
     new Intl.NumberFormat("en-KE", {
-      style: "currency",
-      currency: "KSH",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(val || 0);
 
   if (error) {
@@ -145,8 +148,8 @@ export const AccountsSummaryReport = () => {
           {/* Net Profit/Loss - Highlighted */}
           <div className="grid grid-cols-1">
             <MetricCard
-              title="Net Profit / Loss"
-              value={formatCurrency(data?.netProfit)}
+              title="Net Profit / Loss (KSH)"
+              value={formatAmount(data?.netProfit)}
               subtitle="Total Income - Total Expenses"
               type="profit"
             />
@@ -172,20 +175,20 @@ export const AccountsSummaryReport = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <MetricCard
-                title="Cash & Credit Sales"
-                value={formatCurrency(data?.totalCashSales)}
+                title="Cash & Credit Sales (KSH)"
+                value={formatAmount(data?.totalCashSales)}
                 subtitle="Payments collected"
                 type="income"
               />
               <MetricCard
-                title="Invoice Payments"
-                value={formatCurrency(data?.totalInvoicePayments)}
+                title="Invoice Payments (KSH)"
+                value={formatAmount(data?.totalInvoicePayments)}
                 subtitle="Past debts collected"
                 type="income"
               />
               <MetricCard
-                title="Total Income"
-                value={formatCurrency(data?.totalIncome)}
+                title="Total Income (KSH)"
+                value={formatAmount(data?.totalIncome)}
                 subtitle="All money received"
                 type="income"
               />
@@ -212,8 +215,8 @@ export const AccountsSummaryReport = () => {
             </h2>
             <div className="grid grid-cols-1">
               <MetricCard
-                title="Pending Invoices"
-                value={formatCurrency(data?.totalPendingInvoices)}
+                title="Pending Invoices (KSH)"
+                value={formatAmount(data?.totalPendingInvoices)}
                 subtitle="Unpaid customer debts"
                 type="receivable"
               />
@@ -240,26 +243,26 @@ export const AccountsSummaryReport = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <MetricCard
-                title="Operational Expenses"
-                value={formatCurrency(data?.totalOperationalExpenses)}
+                title="Operational Expenses (KSH)"
+                value={formatAmount(data?.totalOperationalExpenses)}
                 subtitle="Rent, utilities, etc."
                 type="expense"
               />
               <MetricCard
-                title="Salaries Paid"
-                value={formatCurrency(data?.totalSalariesPaid)}
+                title="Salaries Paid (KSH)"
+                value={formatAmount(data?.totalSalariesPaid)}
                 subtitle="Employee payroll"
                 type="expense"
               />
               <MetricCard
-                title="Purchase Payments"
-                value={formatCurrency(data?.totalPurchasePayments)}
+                title="Purchase Payments (KSH)"
+                value={formatAmount(data?.totalPurchasePayments)}
                 subtitle="Supplier payments"
                 type="expense"
               />
               <MetricCard
-                title="Total Outflows"
-                value={formatCurrency(data?.totalOutflows)}
+                title="Total Outflows (KSH)"
+                value={formatAmount(data?.totalOutflows)}
                 subtitle="All money spent"
                 type="expense"
               />
@@ -286,8 +289,8 @@ export const AccountsSummaryReport = () => {
             </h2>
             <div className="grid grid-cols-1">
               <MetricCard
-                title="Pending Purchase Orders"
-                value={formatCurrency(data?.totalPendingPurchaseOrders)}
+                title="Pending Purchase Orders (KSH)"
+                value={formatAmount(data?.totalPendingPurchaseOrders)}
                 subtitle="Unpaid supplier bills"
                 type="payable"
               />

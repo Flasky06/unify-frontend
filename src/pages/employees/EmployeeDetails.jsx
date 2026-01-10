@@ -6,6 +6,7 @@ import Input from "../../components/ui/Input";
 import Table from "../../components/ui/Table";
 import { employeeService } from "../../services/employeeService";
 import { salaryService } from "../../services/salaryService";
+import { expenseService } from "../../services/expenseService";
 import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
 import useAuthStore from "../../store/authStore";
 
@@ -15,6 +16,7 @@ export const EmployeeDetails = () => {
   const { user } = useAuthStore();
   const [employee, setEmployee] = useState(null);
   const [salaryRecords, setSalaryRecords] = useState([]);
+  const [paymentHistory, setPaymentHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSalaryModalOpen, setIsSalaryModalOpen] = useState(false);
   const [editingSalary, setEditingSalary] = useState(null);
@@ -51,12 +53,14 @@ export const EmployeeDetails = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [employeeData, salaryData] = await Promise.all([
+      const [employeeData, salaryData, paymentsData] = await Promise.all([
         employeeService.getById(id),
         salaryService.getByEmployee(id),
+        expenseService.getByEmployee(id),
       ]);
       setEmployee(employeeData);
       setSalaryRecords(salaryData || []);
+      setPaymentHistory(paymentsData || []);
     } catch (err) {
       console.error("Failed to fetch employee data", err);
       setToast({
@@ -481,6 +485,56 @@ export const EmployeeDetails = () => {
               columns={salaryColumns}
               data={salaryRecords}
               emptyMessage="No salary records found"
+              showViewAction={false}
+              searchable={false}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Payment History */}
+      <div className="bg-white rounded-lg shadow">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Payment History
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            All salary payments made to this employee
+          </p>
+        </div>
+        <div className="p-6">
+          {paymentHistory.length === 0 ? (
+            <p className="text-center text-gray-500 py-8">
+              No payments recorded yet
+            </p>
+          ) : (
+            <Table
+              columns={[
+                {
+                  header: "Date",
+                  render: (payment) =>
+                    new Date(payment.date).toLocaleDateString(),
+                },
+                {
+                  header: "Amount",
+                  render: (payment) => (
+                    <span className="font-semibold">
+                      KSH {payment.amount?.toFixed(2) || "0.00"}
+                    </span>
+                  ),
+                },
+                {
+                  header: "Payment Method",
+                  accessor: "paymentMethodName",
+                },
+                {
+                  header: "Notes",
+                  accessor: "notes",
+                  truncate: true,
+                },
+              ]}
+              data={paymentHistory}
+              emptyMessage="No payments found"
               showViewAction={false}
               searchable={false}
             />

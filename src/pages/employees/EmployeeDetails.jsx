@@ -21,7 +21,6 @@ export const EmployeeDetails = () => {
 
   const [salaryFormData, setSalaryFormData] = useState({
     amount: "",
-    effectiveDate: "",
     reason: "",
     notes: "",
   });
@@ -85,7 +84,6 @@ export const EmployeeDetails = () => {
       const submitData = {
         employeeId: parseInt(id),
         amount: parseFloat(salaryFormData.amount),
-        effectiveDate: salaryFormData.effectiveDate,
         reason: salaryFormData.reason || null,
         notes: salaryFormData.notes || null,
       };
@@ -196,7 +194,6 @@ export const EmployeeDetails = () => {
     setEditingSalary(null);
     setSalaryFormData({
       amount: "",
-      effectiveDate: new Date().toISOString().split("T")[0],
       reason: "",
       notes: "",
     });
@@ -207,7 +204,6 @@ export const EmployeeDetails = () => {
     setEditingSalary(salary);
     setSalaryFormData({
       amount: salary.amount?.toString() || "",
-      effectiveDate: salary.effectiveDate || "",
       reason: salary.reason || "",
       notes: salary.notes || "",
     });
@@ -219,7 +215,6 @@ export const EmployeeDetails = () => {
     setEditingSalary(null);
     setSalaryFormData({
       amount: "",
-      effectiveDate: "",
       reason: "",
       notes: "",
     });
@@ -509,19 +504,6 @@ export const EmployeeDetails = () => {
               setSalaryFormData({ ...salaryFormData, amount: e.target.value })
             }
             placeholder="0.00"
-            required
-          />
-
-          <Input
-            label="Effective Date"
-            type="date"
-            value={salaryFormData.effectiveDate}
-            onChange={(e) =>
-              setSalaryFormData({
-                ...salaryFormData,
-                effectiveDate: e.target.value,
-              })
-            }
             required
           />
 

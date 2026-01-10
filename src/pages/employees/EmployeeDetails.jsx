@@ -245,10 +245,7 @@ export const EmployeeDetails = () => {
           <p className="text-sm opacity-90 mt-1">Monthly agreed amount</p>
         </div>
         {user?.role !== "SALES_REP" && (
-          <Button
-            className="bg-white text-blue-600 hover:bg-blue-50 border-transparent shadow"
-            onClick={openPaySalaryModal}
-          >
+          <Button variant="white" onClick={openPaySalaryModal}>
             Pay Salary
           </Button>
         )}

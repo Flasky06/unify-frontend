@@ -22,6 +22,8 @@ const Button = ({
       "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 shadow-sm hover:shadow-md",
     outline:
       "border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500",
+    white:
+      "bg-white text-blue-600 hover:bg-blue-50 focus:ring-white shadow-sm hover:shadow-md",
     ghost: "text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
   };
 

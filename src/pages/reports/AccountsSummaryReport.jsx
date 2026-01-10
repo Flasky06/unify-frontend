@@ -176,7 +176,7 @@ export const AccountsSummaryReport = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <MetricCard
-                title="Cash & Credit Sales (KSH)"
+                title="Collected Revenue (Sales & Services)"
                 value={formatAmount(data?.totalCashSales)}
                 subtitle="Payments collected"
                 type="income"
@@ -212,11 +212,11 @@ export const AccountsSummaryReport = () => {
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              Assets (Stock & Receivables)
+              Assets (Inventory & Receivables)
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <MetricCard
-                title="Total Stock Value (KSH)"
+                title="Inventory Value (KSH)"
                 value={formatAmount(data?.totalStockValue)}
                 subtitle="Cost value of inventory"
                 type="receivable"

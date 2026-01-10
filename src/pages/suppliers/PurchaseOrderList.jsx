@@ -135,24 +135,6 @@ export const PurchaseOrderList = () => {
     }
   };
 
-  const handleDeleteOrder = async (id) => {
-    try {
-      await purchaseOrderService.delete(id);
-      fetchData();
-      setToast({
-        isOpen: true,
-        message: "Purchase order deleted successfully",
-        type: "success",
-      });
-    } catch (err) {
-      setToast({
-        isOpen: true,
-        message: err.message || "Failed to delete order",
-        type: "error",
-      });
-    }
-  };
-
   const openPaymentModal = (order) => {
     setPaymentModal({
       isOpen: true,
@@ -457,8 +439,6 @@ export const PurchaseOrderList = () => {
         onConfirm={() => {
           if (confirmDialog.action === "cancel") {
             handleCancelOrder(confirmDialog.orderId);
-          } else if (confirmDialog.action === "delete") {
-            handleDeleteOrder(confirmDialog.orderId);
           } else if (confirmDialog.action === "receive") {
             handleReceiveOrder(confirmDialog.orderId);
           }
@@ -467,23 +447,15 @@ export const PurchaseOrderList = () => {
         title={
           confirmDialog.action === "cancel"
             ? "Cancel Purchase Order"
-            : confirmDialog.action === "delete"
-            ? "Delete Purchase Order"
             : "Receive Stock"
         }
         message={
           confirmDialog.action === "cancel"
             ? "Are you sure you want to cancel this purchase order?"
-            : confirmDialog.action === "delete"
-            ? "Are you sure you want to delete this purchase order? This action cannot be undone."
             : "Are you sure you want to mark this order as received? This will automatically update your stock quantities."
         }
         confirmText={
-          confirmDialog.action === "cancel"
-            ? "Cancel Order"
-            : confirmDialog.action === "delete"
-            ? "Delete"
-            : "Receive Stock"
+          confirmDialog.action === "cancel" ? "Cancel Order" : "Receive Stock"
         }
         variant="danger"
       />
@@ -636,20 +608,6 @@ export const PurchaseOrderList = () => {
                     }}
                   >
                     Cancel Order
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="text-red-600 border-red-200 hover:bg-red-50"
-                    onClick={() => {
-                      setConfirmDialog({
-                        isOpen: true,
-                        orderId: viewModal.order.id,
-                        action: "delete",
-                      });
-                      setViewModal({ isOpen: false, order: null });
-                    }}
-                  >
-                    Delete
                   </Button>
                 </>
               )}

@@ -95,6 +95,12 @@ export const ProductList = () => {
     return matchesSearch && matchesBrand && matchesCategory;
   });
 
+  const [printModalOpen, setPrintModalOpen] = useState(false);
+
+  const handlePrint = () => {
+    setPrintModalOpen(true);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (submitting) return;
@@ -308,9 +314,10 @@ export const ProductList = () => {
               </select>
             </div>
           </div>
-          {user?.role !== "SALES_REP" && (
+          <div className="flex gap-2">
             <Button
-              onClick={openCreateModal}
+              variant="outline"
+              onClick={handlePrint}
               className="w-full lg:w-auto py-1.5"
             >
               <svg
@@ -323,12 +330,33 @@ export const ProductList = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M12 4v16m8-8H4"
+                  d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
                 />
               </svg>
-              Add Product
+              Print
             </Button>
-          )}
+            {user?.role !== "SALES_REP" && (
+              <Button
+                onClick={openCreateModal}
+                className="w-full lg:w-auto py-1.5"
+              >
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                Add Product
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow">
@@ -482,6 +510,121 @@ export const ProductList = () => {
         message={toast.message}
         type={toast.type}
       />
+
+      {/* Print Products Modal */}
+      <Modal
+        isOpen={printModalOpen}
+        onClose={() => setPrintModalOpen(false)}
+        title="Products List"
+      >
+        <div id="printable-products-list" className="print:p-8">
+          {/* Header */}
+          <div className="text-center pb-4 border-b-2 border-dashed border-gray-300 mb-4 print:pb-2 print:mb-2">
+            <h1 className="text-xl font-bold text-gray-900 uppercase tracking-wide">
+              Products Catalog
+            </h1>
+            <div className="mt-2 text-sm text-gray-600">
+              <p>
+                {new Date().toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              {(selectedCategory || selectedBrand || searchTerm) && (
+                <p className="text-xs mt-1">
+                  {selectedCategory &&
+                    `Category: ${
+                      categories.find(
+                        (c) => c.id.toString() === selectedCategory
+                      )?.name
+                    } `}
+                  {selectedBrand &&
+                    `Brand: ${
+                      brands.find((b) => b.id.toString() === selectedBrand)
+                        ?.name
+                    } `}
+                  {searchTerm && `Search: "${searchTerm}"`}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Products Table */}
+          <table className="w-full text-sm mb-4">
+            <thead>
+              <tr className="border-b border-gray-900">
+                <th className="py-1 text-left w-[35%]">Product Name</th>
+                <th className="py-1 text-left w-[15%]">Category</th>
+                <th className="py-1 text-left w-[15%]">Brand</th>
+                <th className="py-1 text-right w-[17.5%]">Cost Price</th>
+                <th className="py-1 text-right w-[17.5%]">Selling Price</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-dashed divide-gray-200">
+              {filteredProducts.map((product) => (
+                <tr key={product.id} className="print:leading-tight">
+                  <td className="py-2 pr-1 align-top">
+                    <div className="font-medium text-gray-900">
+                      {product.name}
+                    </div>
+                  </td>
+                  <td className="py-2 pr-1 align-top text-gray-700">
+                    {product.categoryName || "N/A"}
+                  </td>
+                  <td className="py-2 pr-1 align-top text-gray-700">
+                    {product.brandName || "N/A"}
+                  </td>
+                  <td className="py-2 text-right align-top font-medium">
+                    KSH {product.costPrice?.toFixed(2) || "0.00"}
+                  </td>
+                  <td className="py-2 text-right align-top font-medium">
+                    KSH {product.sellingPrice?.toFixed(2) || "0.00"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Total */}
+          <div className="border-t-2 border-gray-900 pt-3 border-dashed">
+            <div className="flex justify-between items-center text-base font-bold text-gray-900">
+              <span className="uppercase">Total Products</span>
+              <span>{filteredProducts.length}</span>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center pt-6 border-t-2 border-dashed border-gray-200 mt-4 print:mt-2 print:pt-2">
+            <p className="text-xs text-gray-500">
+              Generated on {new Date().toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        {/* Actions - HIDDEN ON PRINT */}
+        <div className="flex justify-end gap-3 pt-6 border-t border-gray-100 mt-4 print:hidden">
+          <Button variant="outline" onClick={() => setPrintModalOpen(false)}>
+            Close
+          </Button>
+          <Button onClick={() => window.print()} className="gap-2">
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+              />
+            </svg>
+            Print
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -290,8 +290,10 @@ const StockList = () => {
     ? shops.find((s) => s.id === parseInt(selectedShopId))?.name || "All Shops"
     : "All Shops";
 
+  const [printModalOpen, setPrintModalOpen] = useState(false);
+
   const handlePrint = () => {
-    window.print();
+    setPrintModalOpen(true);
   };
 
   return (
@@ -544,95 +546,93 @@ const StockList = () => {
         }
       />
 
-      {/* Print-Only Section */}
-      <div
-        id="printable-stock-list"
-        style={{ display: "none" }}
-        className="print:block"
+      {/* Print Stock List Modal */}
+      <Modal
+        isOpen={printModalOpen}
+        onClose={() => setPrintModalOpen(false)}
+        title="Stock List"
       >
-        <style>{`
-          @media print {
-            body * {
-              visibility: hidden;
-            }
-            #printable-stock-list,
-            #printable-stock-list * {
-              visibility: visible;
-            }
-            #printable-stock-list {
-              position: absolute;
-              left: 0;
-              top: 0;
-              width: 100%;
-              display: block !important;
-              padding: 20px;
-            }
-          }
-        `}</style>
+        <div id="printable-stock-list">
+          {/* Header */}
+          <div className="text-center pb-4 border-b-2 border-dashed border-gray-300 mb-4 print:pb-2 print:mb-2">
+            <h1 className="text-xl font-bold text-gray-900 uppercase tracking-wide">
+              {selectedShopName}
+            </h1>
+            <h2 className="text-sm font-semibold text-gray-700">Stock List</h2>
+            <div className="mt-2 text-sm text-gray-600">
+              <p>
+                {new Date().toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
 
-        <div style={{ textAlign: "center", marginBottom: "30px" }}>
-          <h1
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              color: "#111",
-              marginBottom: "10px",
-            }}
-          >
-            {selectedShopName} - Stock List
-          </h1>
-          <p style={{ color: "#666", fontSize: "14px" }}>
-            {new Date().toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
+          {/* Stock Table */}
+          <table className="w-full text-sm mb-4">
+            <thead>
+              <tr className="border-b border-gray-900">
+                <th className="py-1 text-left w-[70%]">Product</th>
+                <th className="py-1 text-right w-[30%]">Quantity</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-dashed divide-gray-200">
+              {filteredStocks.map((stock) => (
+                <tr key={stock.id} className="print:leading-tight">
+                  <td className="py-2 pr-1 align-top">
+                    <div className="font-medium text-gray-900">
+                      {stock.productName}
+                    </div>
+                  </td>
+                  <td className="py-2 text-right align-top font-medium">
+                    {stock.quantity}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Total */}
+          <div className="border-t-2 border-gray-900 pt-3 border-dashed">
+            <div className="flex justify-between items-center text-base font-bold text-gray-900">
+              <span className="uppercase">Total Items</span>
+              <span>{filteredStocks.length}</span>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center pt-6 border-t-2 border-dashed border-gray-200 mt-4 print:mt-2 print:pt-2">
+            <p className="text-xs text-gray-500">
+              Generated on {new Date().toLocaleString()}
+            </p>
+          </div>
         </div>
 
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ borderBottom: "2px solid #000" }}>
-              <th
-                style={{
-                  textAlign: "left",
-                  padding: "8px 16px",
-                  fontWeight: "bold",
-                }}
-              >
-                Product
-              </th>
-              <th
-                style={{
-                  textAlign: "right",
-                  padding: "8px 16px",
-                  fontWeight: "bold",
-                }}
-              >
-                Quantity
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredStocks.map((stock) => (
-              <tr key={stock.id} style={{ borderBottom: "1px solid #ccc" }}>
-                <td style={{ padding: "8px 16px" }}>{stock.productName}</td>
-                <td style={{ textAlign: "right", padding: "8px 16px" }}>
-                  {stock.quantity}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr style={{ borderTop: "2px solid #000", fontWeight: "bold" }}>
-              <td style={{ padding: "8px 16px" }}>Total Items</td>
-              <td style={{ textAlign: "right", padding: "8px 16px" }}>
-                {filteredStocks.length}
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+        {/* Actions - HIDDEN ON PRINT */}
+        <div className="flex justify-end gap-3 pt-6 border-t border-gray-100 mt-4 print:hidden">
+          <Button variant="outline" onClick={() => setPrintModalOpen(false)}>
+            Close
+          </Button>
+          <Button onClick={() => window.print()} className="gap-2">
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+              />
+            </svg>
+            Print
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

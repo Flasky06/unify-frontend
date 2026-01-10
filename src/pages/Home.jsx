@@ -479,26 +479,27 @@ const Home = () => {
       </section>
 
       {/* FAQ Section */}
+      {/* FAQ Section */}
       <section
         id="faq"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-10"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 mb-8"
       >
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
           Frequently Asked Questions
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-4">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition cursor-pointer"
+              className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer"
               onClick={() => toggleFaq(index)}
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-bold text-gray-900">
+              <div className="flex justify-between items-center bg-gray-50/50 p-2 rounded-lg">
+                <h3 className="text-base font-semibold text-gray-900 pr-4">
                   {faq.question}
                 </h3>
                 <svg
-                  className={`w-6 h-6 text-blue-600 transform transition-transform duration-300 ${
+                  className={`w-5 h-5 text-blue-600 flex-shrink-0 transform transition-transform duration-300 ${
                     openFaqIndex === index ? "rotate-180" : ""
                   }`}
                   fill="none"
@@ -514,7 +515,7 @@ const Home = () => {
                 </svg>
               </div>
               {openFaqIndex === index && (
-                <p className="text-gray-600 mt-4 animate-fadeIn">
+                <p className="text-sm text-gray-600 mt-2 px-2 animate-fadeIn">
                   {faq.answer}
                 </p>
               )}

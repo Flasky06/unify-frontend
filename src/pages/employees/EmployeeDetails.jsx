@@ -7,7 +7,7 @@ import Table from "../../components/ui/Table";
 import { employeeService } from "../../services/employeeService";
 import { expenseService } from "../../services/expenseService";
 import { paymentMethodService } from "../../services/paymentMethodService";
-import Select from "../../components/ui/Select";
+import { Select } from "../../components/ui/Select";
 import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
 import useAuthStore from "../../store/authStore";
 

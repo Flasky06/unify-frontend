@@ -27,19 +27,19 @@ const Home = () => {
         "You can manage multiple shops under one business, transfer stock between them, and view reports per shop or combined—all from one account.",
     },
     {
-      question: "Does mflow work offline?",
+      question: "Do I need an internet connection?",
       answer:
-        "Yes, keep selling even without internet. Your sales data syncs automatically the moment you're back online, so business never stops.",
+        "Yes. mflow is a cloud-based platform. This ensures your data is always secure, automatically backed up, and accessible from any device.",
     },
     {
-      question: "Can I export my data?",
+      question: "Can I generate reports?",
       answer:
-        "Absolutely. You can export detailed sales, expense, and profit reports to help with accounting and performance analysis.",
+        "Yes. Instantly generate detailed sales, expense, and profit reports. You can view, print, or save them as PDF for your records.",
     },
     {
       question: "What kind of support do you offer?",
       answer:
-        "We provide 24/7 priority support via chat and email. Our expert team is ready to help you resolve any issues quickly.",
+        "We provide priority support via phone and email. Our team is always ready to help you resolve any issues quickly.",
     },
   ];
 

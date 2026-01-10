@@ -295,6 +295,17 @@ export const EmployeeList = () => {
                 <Button
                   variant="ghost"
                   size="sm"
+                  className="text-green-600 hover:bg-green-50 font-medium px-3"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/employees/${employee.id}`);
+                  }}
+                >
+                  Pay
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className="text-blue-600 hover:bg-blue-50 font-medium px-3"
                   onClick={(e) => {
                     e.stopPropagation();

@@ -229,26 +229,16 @@ export const EmployeeDetails = () => {
       ),
     },
     {
-      header: "Effective Date",
+      header: "Date Paid",
       render: (record) =>
-        record.effectiveDate
-          ? new Date(record.effectiveDate).toLocaleDateString()
+        record.createdAt
+          ? new Date(record.createdAt).toLocaleDateString()
           : "-",
     },
     {
-      header: "End Date",
-      render: (record) =>
-        record.endDate ? (
-          new Date(record.endDate).toLocaleDateString()
-        ) : (
-          <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">
-            CURRENT
-          </span>
-        ),
-    },
-    {
-      header: "Reason",
-      accessor: "reason",
+      header: "Notes",
+      accessor: "notes",
+      truncate: true,
     },
     {
       header: "Status",

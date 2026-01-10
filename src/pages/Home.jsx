@@ -47,7 +47,7 @@ const Home = () => {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="bg-gradient-to-b from-blue-50 to-white">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
               <span className="text-white font-bold text-2xl">m</span>
@@ -83,7 +83,7 @@ const Home = () => {
           </div>
         </nav>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-48">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-32">
           <div className="text-center w-full">
             <div className="flex justify-center mb-8">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100">
@@ -101,14 +101,14 @@ const Home = () => {
                 Trusted by growing retail businesses in Kenya
               </span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-extrabold text-gray-900 mb-12 md:mb-8 tracking-tight leading-tight md:leading-tight">
+            <h1 className="text-3xl md:text-6xl font-extrabold text-gray-900 mb-8 tracking-tight leading-tight">
               Manage Stock, Sales & Expenses
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 {" "}
                 With Automated Reports
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed max-w-4xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
               The simple{" "}
               <span className="font-semibold text-gray-800">
                 Retail POS System
@@ -142,7 +142,7 @@ const Home = () => {
       {/* Pricing Section */}
       <section
         id="pricing"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10 mb-20"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-10 mb-16"
       >
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 bg-white/80 inline-block px-6 py-2 rounded-full backdrop-blur-sm border border-gray-100 shadow-sm">
@@ -155,18 +155,18 @@ const Home = () => {
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Monthly Plan */}
-          <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition duration-300">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Monthly</h3>
-            <div className="flex items-baseline mb-6">
-              <span className="text-4xl font-bold text-gray-900">
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition duration-300">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Monthly</h3>
+            <div className="flex items-baseline mb-4">
+              <span className="text-3xl font-bold text-gray-900">
                 KES 1,500
               </span>
               <span className="text-gray-500 ml-2">/shop</span>
             </div>
-            <p className="text-gray-600 mb-8">
+            <p className="text-gray-600 mb-6 text-sm">
               Flexible pay-as-you-go billing. Cancel anytime.
             </p>
-            <ul className="space-y-4 mb-8 flex-1">
+            <ul className="space-y-3 mb-6 flex-1 text-sm">
               {[
                 "Sales, stock, expenses & staff management",
                 "Inventory Management",
@@ -176,7 +176,7 @@ const Home = () => {
               ].map((feature) => (
                 <li key={feature} className="flex items-center text-gray-600">
                   <svg
-                    className="w-5 h-5 text-green-500 mr-3"
+                    className="w-4 h-4 text-green-500 mr-2"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -194,30 +194,30 @@ const Home = () => {
             </ul>
             <Link
               to="/register?plan=MONTHLY"
-              className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
+              className="block w-full py-2 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
             >
               Choose Monthly
             </Link>
           </div>
 
           {/* Quarterly Plan */}
-          <div className="bg-blue-600 rounded-2xl p-8 shadow-2xl transform md:scale-110 relative flex flex-col z-20">
+          <div className="bg-blue-600 rounded-2xl p-6 shadow-2xl transform md:scale-105 relative flex flex-col z-20">
             <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
               POPULAR
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Quarterly</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Quarterly</h3>
             <div className="flex items-baseline mb-1">
-              <span className="text-4xl font-bold text-white">KES 4,000</span>
+              <span className="text-3xl font-bold text-white">KES 4,000</span>
               <span className="text-blue-100 ml-2">/shop</span>
             </div>
-            <p className="text-yellow-300 text-sm font-bold mb-6">
+            <p className="text-yellow-300 text-xs font-bold mb-4">
               Save KES 500 every 3 months
             </p>
-            <p className="text-blue-100 mb-8">
+            <p className="text-blue-100 mb-6 text-sm">
               Perfect for growing businesses. Billed every 3 months. Cancel
               anytime.
             </p>
-            <ul className="space-y-4 mb-8 flex-1">
+            <ul className="space-y-3 mb-6 flex-1 text-sm">
               {[
                 "All Monthly Features",
                 "Priority Support",
@@ -227,7 +227,7 @@ const Home = () => {
               ].map((feature) => (
                 <li key={feature} className="flex items-center text-blue-50">
                   <svg
-                    className="w-5 h-5 text-blue-300 mr-3"
+                    className="w-4 h-4 text-blue-300 mr-2"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -245,29 +245,29 @@ const Home = () => {
             </ul>
             <Link
               to="/register?plan=QUARTERLY"
-              className="block w-full py-3 px-4 bg-white text-blue-600 font-bold rounded-xl text-center hover:bg-gray-50 transition shadow-lg"
+              className="block w-full py-2 px-4 bg-white text-blue-600 font-bold rounded-xl text-center hover:bg-gray-50 transition shadow-lg"
             >
               Choose Quarterly
             </Link>
           </div>
 
           {/* Annual Plan */}
-          <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition duration-300">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Annually</h3>
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition duration-300">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Annually</h3>
             <div className="flex items-baseline mb-1">
-              <span className="text-4xl font-bold text-gray-900">
+              <span className="text-3xl font-bold text-gray-900">
                 KES 15,000
               </span>
               <span className="text-gray-500 ml-2">/shop</span>
             </div>
-            <p className="text-green-600 text-sm font-bold mb-6">
+            <p className="text-green-600 text-xs font-bold mb-4">
               Save KES 3,000 per year
             </p>
-            <p className="text-gray-600 mb-8">
+            <p className="text-gray-600 mb-6 text-sm">
               Best value for established businesses. Billed annually. Cancel
               anytime.
             </p>
-            <ul className="space-y-4 mb-8 flex-1">
+            <ul className="space-y-3 mb-6 flex-1 text-sm">
               {[
                 "All Quarterly Features",
                 "Dedicated Account Manager",
@@ -277,7 +277,7 @@ const Home = () => {
               ].map((feature) => (
                 <li key={feature} className="flex items-center text-gray-600">
                   <svg
-                    className="w-5 h-5 text-green-500 mr-3"
+                    className="w-4 h-4 text-green-500 mr-2"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -295,7 +295,7 @@ const Home = () => {
             </ul>
             <Link
               to="/register?plan=ANNUALLY"
-              className="block w-full py-3 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
+              className="block w-full py-2 px-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl text-center hover:bg-blue-50 transition"
             >
               Choose Annually
             </Link>
@@ -304,20 +304,20 @@ const Home = () => {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="bg-gray-50 py-24">
+      <section id="features" className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
               Comprehensive Tools for Modern Retail
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg text-gray-600">
               Powerful features built for modern retailers
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Feature 1: Advanced Inventory */}
-            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+            <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition duration-300 mx-auto">
                 <svg
                   className="w-6 h-6 text-blue-600 group-hover:text-white"
                   fill="none"
@@ -343,8 +343,8 @@ const Home = () => {
             </div>
 
             {/* Feature 2: Performance Analytics */}
-            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+            <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition duration-300 mx-auto">
                 <svg
                   className="w-6 h-6 text-blue-600 group-hover:text-white"
                   fill="none"
@@ -359,18 +359,18 @@ const Home = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
                 Performance Analytics
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm text-gray-600">
                 Make data-driven decisions. Uncover trends and insights that
                 drive growth with powerful, easy-to-understand dashboards.
               </p>
             </div>
 
             {/* Feature 3: Multi-Shop Support */}
-            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+            <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition duration-300 mx-auto">
                 <svg
                   className="w-6 h-6 text-blue-600 group-hover:text-white"
                   fill="none"
@@ -385,18 +385,18 @@ const Home = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
                 Multi-Shop Support
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm text-gray-600">
                 Expand your empire. Seamlessly manage multiple branches from one
                 central hub, no matter where you are.
               </p>
             </div>
 
             {/* Feature 4: Expense Tracking */}
-            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+            <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition duration-300 mx-auto">
                 <svg
                   className="w-6 h-6 text-blue-600 group-hover:text-white"
                   fill="none"
@@ -411,10 +411,10 @@ const Home = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
                 Expense Tracking
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm text-gray-600">
                 See where your money actually goes. Record rent, labour,
                 transport, utilities, and daily expenses. Know your real profit
                 — not just sales.
@@ -422,8 +422,8 @@ const Home = () => {
             </div>
 
             {/* Feature 5: Staff Permissions */}
-            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+            <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition duration-300 mx-auto">
                 <svg
                   className="w-6 h-6 text-blue-600 group-hover:text-white"
                   fill="none"
@@ -438,18 +438,18 @@ const Home = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
                 Staff Permissions
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm text-gray-600">
                 Empower your team safely. Give staff the exact tools they need
                 while keeping sensitive business data secure.
               </p>
             </div>
 
             {/* Feature 6: Products & Services */}
-            <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition duration-300 mx-auto">
+            <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition duration-300 group text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition duration-300 mx-auto">
                 <svg
                   className="w-6 h-6 text-blue-600 group-hover:text-white"
                   fill="none"
@@ -464,10 +464,10 @@ const Home = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
                 Products & Services
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm text-gray-600">
                 Create and manage your offerings with ease. Organize products
                 and services to speed up checkout and delight customers.
               </p>
@@ -479,7 +479,7 @@ const Home = () => {
       {/* FAQ Section */}
       <section
         id="faq"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 mb-20"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-10"
       >
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           Frequently Asked Questions
@@ -522,7 +522,7 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-20">
+      <footer className="bg-gray-900 text-gray-300 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
             <div className="col-span-1">

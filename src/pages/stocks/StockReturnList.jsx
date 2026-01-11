@@ -168,7 +168,15 @@ const StockReturnList = () => {
             {
               header: "Date",
               accessor: "date",
-              render: (item) => new Date(item.date).toLocaleDateString(),
+              render: (item) => {
+                try {
+                  return item.date
+                    ? new Date(item.date).toLocaleDateString()
+                    : "-";
+                } catch (e) {
+                  return "-";
+                }
+              },
             },
             {
               header: "Product",

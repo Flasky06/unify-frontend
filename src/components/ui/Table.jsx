@@ -12,8 +12,8 @@ const Table = ({
   showViewAction = true,
   searchable = true,
   searchPlaceholder = "Search...",
-  pageSize = 10,
-  pageSizeOptions = [10, 25, 50, 100],
+  pageSize = 20,
+  pageSizeOptions = [20, 50, 100],
   getRowClassName,
 }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
@@ -228,7 +228,7 @@ const Table = ({
 
       {/* Pagination Controls */}
       {!loading && filteredData.length > 0 && (
-        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-gray-700">
             <span>Show</span>
             <select

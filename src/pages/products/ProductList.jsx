@@ -359,7 +359,7 @@ export const ProductList = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg shadow flex-1 flex flex-col min-h-0">
           {loading ? (
             <div className="p-8 text-center text-gray-500">
               Loading products...

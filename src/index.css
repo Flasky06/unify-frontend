@@ -36,7 +36,9 @@ body {
   #printable-expenses-list,
   #printable-expenses-list *,
   #printable-purchase-orders-list,
-  #printable-purchase-orders-list * {
+  #printable-purchase-orders-list *,
+  #printable-employee-list,
+  #printable-employee-list * {
     visibility: visible;
   }
 
@@ -46,7 +48,8 @@ body {
   #printable-products-list,
   #printable-stock-list,
   #printable-expenses-list,
-  #printable-purchase-orders-list {
+  #printable-purchase-orders-list,
+  #printable-employee-list {
     position: fixed !important;
     left: 0 !important;
     top: 0 !important;

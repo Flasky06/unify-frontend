@@ -16,6 +16,7 @@ export const EmployeeList = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [printModalOpen, setPrintModalOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -377,12 +378,34 @@ export const EmployeeList = () => {
           </div>
         </div>
         {user?.role !== "SALES_REP" && (
-          <Button
-            onClick={openCreateModal}
-            className="w-full lg:w-auto whitespace-nowrap py-1.5"
-          >
-            Add Employee
-          </Button>
+          <div className="flex gap-2 w-full lg:w-auto">
+            <Button
+              variant="outline"
+              onClick={() => setPrintModalOpen(true)}
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 whitespace-nowrap py-1.5"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                />
+              </svg>
+              Print List
+            </Button>
+            <Button
+              onClick={openCreateModal}
+              className="flex-1 lg:flex-none whitespace-nowrap py-1.5"
+            >
+              Add Employee
+            </Button>
+          </div>
         )}
       </div>
 
@@ -630,6 +653,107 @@ export const EmployeeList = () => {
         message={toast.message}
         type={toast.type}
       />
+
+      {/* Print Modal */}
+      <Modal
+        isOpen={printModalOpen}
+        onClose={() => setPrintModalOpen(false)}
+        title="Print Employee List"
+        maxWidth="max-w-[210mm]"
+      >
+        <div className="space-y-4 print:p-0">
+          <div className="flex justify-between items-center print:hidden">
+            <p className="text-gray-500 text-sm">
+              This will print a list of all <strong>active</strong> employees.
+            </p>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setPrintModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => window.print()}
+                className="flex items-center gap-2"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                  />
+                </svg>
+                Print
+              </Button>
+            </div>
+          </div>
+
+          <div id="printable-employee-list" className="bg-white p-4">
+            {/* Header */}
+            <div className="text-center mb-6 hidden print:block">
+              <h1 className="text-xl font-bold text-gray-900 uppercase tracking-wide">
+                Employee List
+              </h1>
+              <p className="text-sm text-gray-500 mt-1">
+                Generated on {new Date().toLocaleDateString()}
+              </p>
+            </div>
+
+            {/* Table */}
+            <table className="w-full text-sm mb-4 border-collapse">
+              <thead>
+                <tr className="border-b-2 border-gray-800">
+                  <th className="py-2 text-left w-[30%]">Name</th>
+                  <th className="py-2 text-left w-[20%]">ID Number</th>
+                  <th className="py-2 text-left w-[20%]">Phone</th>
+                  <th className="py-2 text-left w-[30%]">Position</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {employees
+                  .filter((emp) => emp.active)
+                  .map((employee) => (
+                    <tr key={employee.id} className="print:leading-tight">
+                      <td className="py-2 pr-2 align-top font-medium text-gray-900">
+                        {employee.fullName}
+                      </td>
+                      <td className="py-2 pr-2 align-top text-gray-700">
+                        {employee.idNumber || "-"}
+                      </td>
+                      <td className="py-2 pr-2 align-top text-gray-700">
+                        {employee.phoneNumber || "-"}
+                      </td>
+                      <td className="py-2 text-left align-top text-gray-700">
+                        {employee.position || "Staff"}
+                      </td>
+                    </tr>
+                  ))}
+                {employees.filter((emp) => emp.active).length === 0 && (
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="py-4 text-center text-gray-500 italic"
+                    >
+                      No active employees found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+
+            <div className="hidden print:block text-xs text-gray-400 mt-4 text-center border-t border-gray-200 pt-2">
+              Page 1 of 1
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

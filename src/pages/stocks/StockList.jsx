@@ -562,6 +562,7 @@ const StockList = () => {
 
           {/* Stock Table */}
           <table className="w-full text-sm mb-4">
+            <thead>
               <tr className="border-b border-gray-900">
                 <th className="py-1 text-left w-[40%]">Product</th>
                 <th className="py-1 text-left w-[20%]">Category</th>
@@ -592,7 +593,6 @@ const StockList = () => {
           </table>
 
           {/* Total */}
-
 
           {/* Footer */}
           <div className="text-center pt-6 border-t-2 border-dashed border-gray-200 mt-4 print:mt-2 print:pt-2">

@@ -182,18 +182,24 @@ export const PurchaseOrderList = () => {
     );
   };
 
-  const filteredOrders = orders.filter((order) => {
-    const matchesSupplier = selectedSupplier
-      ? order.supplierId.toString() === selectedSupplier
-      : true;
-    const matchesStatus = selectedStatus
-      ? order.status === selectedStatus
-      : true;
-    const matchesSearch = order.orderNumber
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchesSupplier && matchesStatus && matchesSearch;
-  });
+  const filteredOrders = orders
+    .filter((order) => {
+      const matchesSupplier = selectedSupplier
+        ? order.supplierId.toString() === selectedSupplier
+        : true;
+      const matchesStatus = selectedStatus
+        ? order.status === selectedStatus
+        : true;
+      const matchesSearch = order.orderNumber
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return matchesSupplier && matchesStatus && matchesSearch;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.orderDate);
+      const dateB = new Date(b.orderDate);
+      return dateB - dateA || b.id - a.id;
+    });
 
   const columns = [
     { header: "Order #", accessor: "orderNumber", triggerView: true },

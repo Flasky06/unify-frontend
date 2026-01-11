@@ -208,11 +208,15 @@ const StockReturnList = () => {
               accessor: "userName",
             },
           ]}
-          data={(returns || []).filter(
-            (r) =>
-              r.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              r.type?.toLowerCase().includes(searchTerm.toLowerCase())
-          )}
+          data={(returns || [])
+            .filter(
+              (r) =>
+                r.productName
+                  ?.toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                r.type?.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .sort((a, b) => new Date(b.date) - new Date(a.date) || b.id - a.id)}
           loading={loading}
           emptyMessage="No returns found"
           showViewAction={false}

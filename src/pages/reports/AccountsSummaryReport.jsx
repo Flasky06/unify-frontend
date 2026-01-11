@@ -43,8 +43,8 @@ const MetricCard = ({ title, value, subtitle, type = "default" }) => {
 
 export const AccountsSummaryReport = () => {
   const [dateRange, setDateRange] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: null,
+    endDate: null,
   });
   const [selectedShopId, setSelectedShopId] = useState("");
   const [shops, setShops] = useState([]);
@@ -64,13 +64,22 @@ export const AccountsSummaryReport = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: [
       "accountsSummary",
-      format(dateRange.startDate, "yyyy-MM-dd"),
-      format(dateRange.endDate, "yyyy-MM-dd"),
+      dateRange.startDate
+        ? format(dateRange.startDate, "yyyy-MM-dd")
+        : "all-time",
+      dateRange.endDate ? format(dateRange.endDate, "yyyy-MM-dd") : "today",
       selectedShopId,
     ],
     queryFn: async () => {
-      const startDateStr = format(dateRange.startDate, "yyyy-MM-dd");
-      const endDateStr = format(dateRange.endDate, "yyyy-MM-dd");
+      // If startDate is null (empty), default to beginning of time
+      const startDateStr = dateRange.startDate
+        ? format(dateRange.startDate, "yyyy-MM-dd")
+        : "2000-01-01";
+      // If endDate is null (empty), default to today
+      const endDateStr = dateRange.endDate
+        ? format(dateRange.endDate, "yyyy-MM-dd")
+        : format(new Date(), "yyyy-MM-dd");
+
       const data = await reportService.getAccountsSummary(
         startDateStr,
         endDateStr,
@@ -109,8 +118,14 @@ export const AccountsSummaryReport = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Accounts Summary</h1>
           <p className="text-sm text-gray-600 mt-1">
-            {format(dateRange.startDate, "MMM d, yyyy")} -{" "}
-            {format(dateRange.endDate, "MMM d, yyyy")}
+            {dateRange.startDate
+              ? format(dateRange.startDate, "MMM d, yyyy")
+              : "All Time"}{" "}
+            -{" "}
+            {dateRange.endDate
+              ? format(dateRange.endDate, "MMM d, yyyy")
+              : "Today"}{" "}
+            (As of Today)
           </p>
         </div>
 

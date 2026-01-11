@@ -202,16 +202,20 @@ export const PurchaseOrderList = () => {
       // Date filtering
       let matchesDateRange = true;
       if (startDate || endDate) {
-        const orderDate = new Date(order.orderDate);
-        if (startDate) {
-          const start = new Date(startDate);
-          start.setHours(0, 0, 0, 0);
-          if (orderDate < start) matchesDateRange = false;
-        }
-        if (endDate) {
-          const end = new Date(endDate);
-          end.setHours(23, 59, 59, 999);
-          if (orderDate > end) matchesDateRange = false;
+        if (!order.orderDate) {
+          matchesDateRange = false;
+        } else {
+          const orderDate = new Date(order.orderDate);
+          if (startDate) {
+            const start = new Date(startDate);
+            start.setHours(0, 0, 0, 0);
+            if (orderDate < start) matchesDateRange = false;
+          }
+          if (endDate) {
+            const end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+            if (orderDate > end) matchesDateRange = false;
+          }
         }
       }
 

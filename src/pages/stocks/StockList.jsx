@@ -402,7 +402,6 @@ const StockList = () => {
               loading={loading}
               showViewAction={false}
               searchable={false}
-              onView={(row) => handleViewLogs(row._stock)}
             />
           </div>
         </div>

@@ -304,7 +304,7 @@ const Table = ({
       )}
 
       {/* View Details Modal */}
-      {showViewAction && (
+      {(showViewAction || viewModalOpen) && (
         <Modal
           isOpen={viewModalOpen}
           onClose={() => setViewModalOpen(false)}

@@ -290,7 +290,7 @@ const StockList = () => {
 
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
-      <div className="print:hidden">
+      <div className="print:hidden flex flex-col h-full">
         {error && (
           <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
             <div className="flex">
@@ -313,7 +313,7 @@ const StockList = () => {
             </div>
           </div>
         )}
-        <div className="flex flex-col gap-2 sm:gap-4">
+        <div className="flex flex-col gap-2 sm:gap-4 flex-1 min-h-0">
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-end">
             <div className="flex flex-col gap-2 sm:flex-row sm:flex-1 sm:gap-3">
               <div className="w-full sm:w-48">
@@ -395,7 +395,7 @@ const StockList = () => {
           </div>
 
           {/* Stock Table */}
-          <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="bg-white rounded-lg shadow flex-1 flex flex-col min-h-0 overflow-hidden">
             <Table
               columns={columns}
               data={filteredStocks}

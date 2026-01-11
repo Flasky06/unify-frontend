@@ -801,7 +801,7 @@ export const PurchaseOrderList = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-dashed divide-gray-200">
-                {filteredOrders
+                {(filteredOrders || [])
                   .filter((o) => o.status !== "CANCELLED")
                   .map((order) => (
                     <tr key={order.id} className="print:leading-tight">
@@ -839,7 +839,7 @@ export const PurchaseOrderList = () => {
                 <span>Total Amount:</span>
                 <span>
                   KES{" "}
-                  {filteredOrders
+                  {(filteredOrders || [])
                     .filter((o) => o.status !== "CANCELLED")
                     .reduce((sum, o) => sum + (o.total || 0), 0)
                     .toLocaleString()}
@@ -849,7 +849,7 @@ export const PurchaseOrderList = () => {
                 <span>Total Paid:</span>
                 <span>
                   KES{" "}
-                  {filteredOrders
+                  {(filteredOrders || [])
                     .filter((o) => o.status !== "CANCELLED")
                     .reduce((sum, o) => sum + (o.paidAmount || 0), 0)
                     .toLocaleString()}
@@ -859,7 +859,7 @@ export const PurchaseOrderList = () => {
                 <span className="uppercase">Total Outstanding:</span>
                 <span>
                   KES{" "}
-                  {filteredOrders
+                  {(filteredOrders || [])
                     .filter((o) => o.status !== "CANCELLED")
                     .reduce((sum, o) => sum + (o.balance || 0), 0)
                     .toLocaleString()}

@@ -264,13 +264,18 @@ const StockList = () => {
     },
   ];
 
-  const tableData = stocks.map((stock) => ({
-    id: stock.id,
-    productName: getProductName(stock.productId),
-    shopName: getShopName(stock.shopId),
-    quantity: stock.quantity,
-    _stock: stock, // Store full stock object for actions
-  }));
+  const tableData = stocks.map((stock) => {
+    const product = products.find((p) => p.id === stock.productId);
+    return {
+      id: stock.id,
+      productName: product ? product.name : "Unknown",
+      brandName: product ? product.brandName : "N/A",
+      categoryName: product ? product.categoryName : "N/A",
+      shopName: getShopName(stock.shopId),
+      quantity: stock.quantity,
+      _stock: stock,
+    };
+  });
 
   const filteredStocks = tableData.filter(
     (stock) =>
@@ -553,10 +558,11 @@ const StockList = () => {
 
           {/* Stock Table */}
           <table className="w-full text-sm mb-4">
-            <thead>
               <tr className="border-b border-gray-900">
-                <th className="py-1 text-left w-[70%]">Product</th>
-                <th className="py-1 text-right w-[30%]">Quantity</th>
+                <th className="py-1 text-left w-[40%]">Product</th>
+                <th className="py-1 text-left w-[20%]">Category</th>
+                <th className="py-1 text-left w-[20%]">Brand</th>
+                <th className="py-1 text-right w-[20%]">Quantity</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-dashed divide-gray-200">
@@ -567,6 +573,12 @@ const StockList = () => {
                       {stock.productName}
                     </div>
                   </td>
+                  <td className="py-2 pr-1 align-top text-gray-700">
+                    {stock.categoryName}
+                  </td>
+                  <td className="py-2 pr-1 align-top text-gray-700">
+                    {stock.brandName}
+                  </td>
                   <td className="py-2 text-right align-top font-medium">
                     {stock.quantity}
                   </td>
@@ -576,12 +588,7 @@ const StockList = () => {
           </table>
 
           {/* Total */}
-          <div className="border-t-2 border-gray-900 pt-3 border-dashed">
-            <div className="flex justify-between items-center text-base font-bold text-gray-900">
-              <span className="uppercase">Total Items</span>
-              <span>{filteredStocks.length}</span>
-            </div>
-          </div>
+
 
           {/* Footer */}
           <div className="text-center pt-6 border-t-2 border-dashed border-gray-200 mt-4 print:mt-2 print:pt-2">

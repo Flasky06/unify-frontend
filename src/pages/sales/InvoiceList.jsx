@@ -190,7 +190,7 @@ export const InvoiceList = () => {
 
   return (
     <div className="flex flex-col h-full max-w-full overflow-hidden">
-      <div className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col gap-4 sm:gap-6 flex-1 min-h-0">
         {/* Filters */}
         <div className="bg-white p-4 rounded-lg shadow">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -254,7 +254,7 @@ export const InvoiceList = () => {
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-lg shadow flex-1 flex flex-col min-h-0 overflow-hidden">
           <Table
             columns={columns}
             data={sales.filter(

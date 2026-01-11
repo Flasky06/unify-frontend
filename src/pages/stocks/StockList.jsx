@@ -378,7 +378,11 @@ const StockList = () => {
                 Print
               </Button>
               <Button
-                onClick={() => navigate("/stocks/add")}
+                onClick={() => {
+                  resetForm();
+                  setEditingStock(null);
+                  setIsModalOpen(true);
+                }}
                 className="w-full sm:w-auto whitespace-nowrap py-1.5"
               >
                 <svg

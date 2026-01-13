@@ -5,7 +5,7 @@ import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { userService } from "../../services/userService";
-import { Toast, ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import { Toast } from "../../components/ui/ConfirmDialog";
 import useAuthStore from "../../store/authStore";
 
 const AdminUsers = () => {
@@ -35,11 +35,6 @@ const AdminUsers = () => {
     isOpen: false,
     message: "",
     type: "info",
-  });
-
-  const [confirmDialog, setConfirmDialog] = useState({
-    isOpen: false,
-    user: null,
   });
 
   const navigate = useNavigate();
@@ -147,34 +142,6 @@ const AdminUsers = () => {
     }
   };
 
-  const initiateDelete = (user) => {
-    setConfirmDialog({
-      isOpen: true,
-      user: user,
-    });
-  };
-
-  const confirmDelete = async () => {
-    if (!confirmDialog.user) return;
-    try {
-      await userService.deleteUser(confirmDialog.user.id);
-      setToast({
-        isOpen: true,
-        message: "User deleted successfully",
-        type: "success",
-      });
-      fetchUsers();
-    } catch (err) {
-      setToast({
-        isOpen: true,
-        message: err.message || "Failed to delete user",
-        type: "error",
-      });
-    } finally {
-      setConfirmDialog({ isOpen: false, user: null });
-    }
-  };
-
   const columns = [
     {
       header: "Email",
@@ -263,17 +230,6 @@ const AdminUsers = () => {
             }}
           >
             Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="danger" // Assuming Button supports 'danger' or fallback to a className
-            className="bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              initiateDelete(user);
-            }}
-          >
-            Delete
           </Button>
         </div>
       ),
@@ -492,16 +448,6 @@ const AdminUsers = () => {
           </div>
         </form>
       </Modal>
-
-      <ConfirmDialog
-        isOpen={confirmDialog.isOpen}
-        onClose={() => setConfirmDialog({ isOpen: false, user: null })}
-        onConfirm={confirmDelete}
-        title="Delete User"
-        message={`Are you sure you want to delete user ${confirmDialog.user?.email}? This action cannot be undone.`}
-        confirmText="Delete"
-        variant="danger"
-      />
 
       <Toast
         isOpen={toast.isOpen}

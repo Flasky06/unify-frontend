@@ -115,9 +115,9 @@ export const AccountsSummaryReport = () => {
   }
 
   return (
-    <div className="p-2 md:p-6 space-y-6">
+    <div className="p-3 md:p-6 space-y-6">
       {/* Header & Filters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-lg shadow border border-gray-200">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Accounts Summary</h1>
           <p className="text-sm text-gray-600 mt-1">
@@ -175,7 +175,7 @@ export const AccountsSummaryReport = () => {
           </div>
 
           {/* Money In Section */}
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
               <svg
                 className="w-6 h-6 text-emerald-600"

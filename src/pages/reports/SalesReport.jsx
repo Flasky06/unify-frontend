@@ -103,9 +103,9 @@ export const SalesReport = () => {
   }
 
   return (
-    <div className="p-2 md:p-6 space-y-6">
+    <div className="p-3 md:p-6 space-y-6">
       {/* Header & Filters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-lg shadow border border-gray-200">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Sales Summary</h1>
           <p className="text-sm text-gray-600 mt-1">
@@ -223,7 +223,7 @@ export const SalesReport = () => {
           </div>
 
           {/* Top Products */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-medium text-gray-900">
                 Top Selling Products
@@ -233,22 +233,22 @@ export const SalesReport = () => {
               <table className="w-full text-left text-sm text-gray-700">
                 <thead className="text-xs uppercase bg-gray-50 text-gray-700">
                   <tr>
-                    <th className="px-6 py-3">Product Name</th>
-                    <th className="px-6 py-3 text-right">Qty Sold</th>
-                    <th className="px-6 py-3 text-right">Revenue</th>
+                    <th className="px-3 md:px-6 py-3">Product Name</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Qty Sold</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Revenue</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {data?.topProducts?.length > 0 ? (
                     data.topProducts.map((product, idx) => (
                       <tr key={idx} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 font-medium text-gray-900">
+                        <td className="px-3 md:px-6 py-4 font-medium text-gray-900">
                           {product.productName}
                         </td>
-                        <td className="px-6 py-4 text-right">
+                        <td className="px-3 md:px-6 py-4 text-right">
                           {product.quantity}
                         </td>
-                        <td className="px-6 py-4 text-right text-yellow-600">
+                        <td className="px-3 md:px-6 py-4 text-right text-yellow-600">
                           {formatCurrency(product.revenue)}
                         </td>
                       </tr>

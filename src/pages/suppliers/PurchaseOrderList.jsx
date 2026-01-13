@@ -367,24 +367,24 @@ export const PurchaseOrderList = () => {
               New Purchase Order
             </Button>
           </div>
+        </div>
 
-          {/* Table */}
-          <div className="bg-white rounded-lg shadow flex-1 flex flex-col min-h-0 overflow-hidden">
-            {loading ? (
-              <div className="p-8 text-center text-gray-500">
-                Loading purchase orders...
-              </div>
-            ) : (
-              <Table
-                columns={columns}
-                data={filteredOrders}
-                emptyMessage="No purchase orders found. Create one to get started."
-                showViewAction={false}
-                searchable={false}
-                onView={(order) => setViewModal({ isOpen: true, order })}
-              />
-            )}
-          </div>
+        {/* Table */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex-1 flex flex-col min-h-0 overflow-hidden">
+          {loading ? (
+            <div className="p-8 text-center text-gray-500">
+              Loading purchase orders...
+            </div>
+          ) : (
+            <Table
+              columns={columns}
+              data={filteredOrders}
+              emptyMessage="No purchase orders found. Create one to get started."
+              showViewAction={false}
+              searchable={false}
+              onView={(order) => setViewModal({ isOpen: true, order })}
+            />
+          )}
         </div>
 
         {/* Payment Modal */}

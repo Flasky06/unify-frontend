@@ -573,7 +573,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
       <div
         className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex-shrink-0 shadow-2xl lg:shadow-none
+        fixed inset-y-0 left-0 z-50 w-[85%] sm:w-80 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex-shrink-0 shadow-2xl lg:shadow-none lg:w-64
         ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}
       >
@@ -587,7 +587,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
               {isSuperAdmin()
                 ? "Admin Panel"
                 : user?.businessName ||
-                  user?.business?.name ||
+                  user?.business?.businessName ||
                   "Business Management"}
             </p>
           </div>

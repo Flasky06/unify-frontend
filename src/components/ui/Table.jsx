@@ -230,7 +230,7 @@ const Table = ({
 
       {/* Pagination Controls */}
       {!loading && filteredData.length > 0 && (
-        <div className="mt-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-4 py-4 flex flex-row flex-wrap items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 text-sm text-gray-700">
             <span>Show</span>
             <select

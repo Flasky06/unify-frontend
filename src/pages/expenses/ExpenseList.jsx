@@ -59,6 +59,12 @@ export const ExpenseList = () => {
   const itemsPerPage = 20;
   const [printModalOpen, setPrintModalOpen] = useState(false);
 
+  // Quick Add State
+  const [quickAddCategoryModalOpen, setQuickAddCategoryModalOpen] =
+    useState(false);
+  const [newQuickCategoryName, setNewQuickCategoryName] = useState("");
+  const [quickAddLoading, setQuickAddLoading] = useState(false);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -235,6 +241,34 @@ export const ExpenseList = () => {
       });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleQuickAddCategory = async (e) => {
+    e.preventDefault();
+    if (!newQuickCategoryName.trim()) return;
+    setQuickAddLoading(true);
+    try {
+      const newCategory = await expenseCategoryService.create({
+        name: newQuickCategoryName,
+      });
+      setCategories([...categories, newCategory]);
+      setFormData({ ...formData, categoryId: newCategory.id });
+      setQuickAddCategoryModalOpen(false);
+      setNewQuickCategoryName("");
+      setToast({
+        isOpen: true,
+        message: "Category created successfully!",
+        type: "success",
+      });
+    } catch (err) {
+      setToast({
+        isOpen: true,
+        message: err.message || "Failed to create category",
+        type: "error",
+      });
+    } finally {
+      setQuickAddLoading(false);
     }
   };
 
@@ -687,9 +721,18 @@ export const ExpenseList = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Category
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Category
+              </label>
+              <button
+                type="button"
+                onClick={() => setQuickAddCategoryModalOpen(true)}
+                className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+              >
+                + Add New
+              </button>
+            </div>
             <select
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               value={formData.categoryId}
@@ -737,6 +780,36 @@ export const ExpenseList = () => {
                 : editingExpense
                 ? "Update Expense"
                 : "Create Expense"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Quick Add Category Modal */}
+      <Modal
+        isOpen={quickAddCategoryModalOpen}
+        onClose={() => setQuickAddCategoryModalOpen(false)}
+        title="Quick Add Category"
+      >
+        <form onSubmit={handleQuickAddCategory} className="space-y-4">
+          <Input
+            label="Category Name"
+            value={newQuickCategoryName}
+            onChange={(e) => setNewQuickCategoryName(e.target.value)}
+            placeholder="e.g. Utilities"
+            required
+            autoFocus
+          />
+          <div className="flex justify-end gap-3 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setQuickAddCategoryModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={quickAddLoading}>
+              {quickAddLoading ? "Saving..." : "Save Category"}
             </Button>
           </div>
         </form>

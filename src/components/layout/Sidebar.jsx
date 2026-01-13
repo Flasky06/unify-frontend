@@ -103,56 +103,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
     },
-    {
-      name: "Reports",
-      permission: "VIEW_REPORTS",
-      icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
-        </svg>
-      ),
-      children: [
-        {
-          name: "Sales",
-          path: "/reports/sales",
-          permission: "VIEW_REPORTS",
-        },
-        {
-          name: "Accounts Summary",
-          path: "/reports/accounts-summary",
-          permission: "VIEW_REPORTS",
-        },
-        {
-          name: "Sales History",
-          path: "/sales",
-          permission: "VIEW_SALES",
-        },
-        {
-          name: "Invoices",
-          path: "/invoices",
-          permission: "VIEW_SALES",
-        },
-        {
-          name: "Stock Movement",
-          path: "/reports/stock-movement",
-          permission: "VIEW_REPORTS",
-        },
-      ],
-    },
 
-    // 2. PRODUCTS
+    // 2. CATALOG (Products & Services)
     {
-      name: "Products",
+      name: "Catalog",
       permission: "VIEW_PRODUCTS",
       icon: (
         <svg
@@ -171,8 +125,13 @@ export const Sidebar = ({ isOpen, onClose }) => {
       ),
       children: [
         {
-          name: "Product List",
+          name: "All Products",
           path: "/products",
+          permission: "VIEW_PRODUCTS",
+        },
+        {
+          name: "All Services",
+          path: "/services/products",
           permission: "VIEW_PRODUCTS",
         },
         {
@@ -181,14 +140,19 @@ export const Sidebar = ({ isOpen, onClose }) => {
           permission: "MANAGE_PRODUCT_CATEGORIES",
         },
         {
-          name: "Brands",
+          name: "Service Categories",
+          path: "/services/categories",
+          permission: "MANAGE_PRODUCT_CATEGORIES",
+        },
+        {
+          name: "Brands / Manufacturers",
           path: "/products/brands",
           permission: "MANAGE_PRODUCTS",
         },
       ],
     },
 
-    // 3. INVENTORY
+    // 4. INVENTORY
     {
       name: "Inventory",
       permission: "VIEW_STOCK",
@@ -208,7 +172,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Stock List", path: "/stocks", permission: "VIEW_STOCK" },
+        { name: "All Inventory", path: "/stocks", permission: "VIEW_STOCK" },
         {
           name: "Stock Returns",
           path: "/stocks/returns",
@@ -222,7 +186,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
       ],
     },
 
-    // 4. SUPPLIERS
+    // 5. SUPPLIERS
     {
       name: "Suppliers",
       permission: "VIEW_STOCK",
@@ -242,7 +206,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       ),
       children: [
-        { name: "Supplier List", path: "/suppliers", permission: "VIEW_STOCK" },
+        { name: "All Suppliers", path: "/suppliers", permission: "VIEW_STOCK" },
         {
           name: "Purchase Orders",
           path: "/purchase-orders",
@@ -251,7 +215,40 @@ export const Sidebar = ({ isOpen, onClose }) => {
       ],
     },
 
-    // 4. EXPENSES
+    // 6. SALES (New Section)
+    {
+      name: "Sales",
+      permission: "VIEW_SALES",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      ),
+      children: [
+        {
+          name: "Sales History",
+          path: "/sales",
+          permission: "VIEW_SALES",
+        },
+        {
+          name: "Invoices",
+          path: "/invoices",
+          permission: "VIEW_SALES",
+        },
+      ],
+    },
+
+    // 7. EXPENSES
     {
       name: "Expenses",
       permission: "VIEW_EXPENSES",
@@ -284,10 +281,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
       ],
     },
 
-    // 5. SERVICES
+    // 8. REPORTS
     {
-      name: "Services",
-      permission: "VIEW_PRODUCTS", // Services are treated as products in this system
+      name: "Reports",
+      permission: "VIEW_REPORTS",
       icon: (
         <svg
           className="w-5 h-5"
@@ -299,25 +296,30 @@ export const Sidebar = ({ isOpen, onClose }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
           />
         </svg>
       ),
       children: [
         {
-          name: "Service List",
-          path: "/services/products",
-          permission: "VIEW_PRODUCTS",
+          name: "Sales Summary",
+          path: "/reports/sales",
+          permission: "VIEW_REPORTS",
         },
         {
-          name: "Service Categories",
-          path: "/services/categories",
-          permission: "MANAGE_PRODUCT_CATEGORIES",
+          name: "Accounts Summary",
+          path: "/reports/accounts-summary",
+          permission: "VIEW_REPORTS",
+        },
+        {
+          name: "Stock Movement",
+          path: "/reports/stock-movement",
+          permission: "VIEW_REPORTS",
         },
       ],
     },
 
-    // 6. ADMIN
+    // 8. ADMIN
     {
       name: "Admin",
       permission: "MANAGE_BUSINESS_SETTINGS", // Or check if ANY child is visible
@@ -353,14 +355,14 @@ export const Sidebar = ({ isOpen, onClose }) => {
           name: "Users",
           path: "/users",
           permission: "MANAGE_BUSINESS_SETTINGS",
-        }, // Assuming Users = Business Settings scope for now
+        },
         {
-          name: "Accounts",
+          name: "Payment Accounts",
           path: "/payment-methods",
           permission: "MANAGE_BUSINESS_SETTINGS",
         },
         {
-          name: "Role Permissions",
+          name: "Roles & Permissions",
           path: "/users/roles",
           permission: "MANAGE_BUSINESS_SETTINGS",
         },
@@ -571,8 +573,8 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
       <div
         className={`
-        fixed inset-y-0 right-0 z-50 w-[90vw] max-w-sm bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col transition-transform duration-300 ease-in-out md:w-64 lg:static lg:translate-x-0 lg:w-60 lg:left-0 lg:right-auto flex-shrink-0
-        ${isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"}
+        fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex-shrink-0 shadow-2xl lg:shadow-none
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}
       >
         {/* Header with Close Button */}

@@ -7,12 +7,12 @@ import { DateRangePicker } from "../../components/ui/DateRangePicker";
 
 const MetricCard = ({ title, value, subtitle, type = "default" }) => {
   const colorClasses = {
-    income: "bg-emerald-50 border-emerald-200",
-    expense: "bg-red-50 border-red-200",
-    receivable: "bg-blue-50 border-blue-200",
-    payable: "bg-orange-50 border-orange-200",
-    profit: "bg-purple-50 border-purple-200",
-    default: "bg-gray-50 border-gray-200",
+    income: "bg-emerald-50/50 border-emerald-100",
+    expense: "bg-red-50/50 border-red-100",
+    receivable: "bg-blue-50/50 border-blue-100",
+    payable: "bg-orange-50/50 border-orange-100",
+    profit: "bg-purple-50/50 border-purple-100",
+    default: "bg-gray-50/50 border-gray-100",
   };
 
   const textColorClasses = {
@@ -26,17 +26,20 @@ const MetricCard = ({ title, value, subtitle, type = "default" }) => {
 
   return (
     <div
-      className={`p-6 rounded-lg border-2 ${colorClasses[type]} transition-transform hover:scale-105`}
+      className={`p-6 rounded-xl border ${colorClasses[type]} shadow-sm transition-all hover:shadow-md`}
     >
-      <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
+      <p className="text-sm font-medium text-gray-500 mb-1">{title}</p>
       <div
         className={`flex items-baseline gap-1 ${textColorClasses[type]} mb-1`}
       >
-        <h3 className="text-xl font-bold tracking-tight truncate" title={value}>
+        <h3
+          className="text-2xl font-bold tracking-tight truncate"
+          title={value}
+        >
           {value}
         </h3>
       </div>
-      {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
+      {subtitle && <p className="text-xs text-gray-400">{subtitle}</p>}
     </div>
   );
 };

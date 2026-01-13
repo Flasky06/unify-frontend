@@ -103,14 +103,14 @@ const Table = ({
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase tracking-wider bg-gray-50"
+                    className="px-3 md:px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase tracking-wider bg-gray-50"
                     style={{ minWidth: column.width || "auto" }}
                   >
                     {column.header}
                   </th>
                 ))}
                 {showViewAction && (
-                  <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  <th className="px-3 md:px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
                     Actions
                   </th>
                 )}
@@ -121,7 +121,7 @@ const Table = ({
                 <tr>
                   <td
                     colSpan={columns.length + (showViewAction ? 1 : 0)}
-                    className="px-6 py-12 text-center text-gray-500"
+                    className="px-3 md:px-6 py-12 text-center text-gray-500"
                   >
                     <div className="flex justify-center items-center gap-3">
                       <Spinner size="sm" />
@@ -133,7 +133,7 @@ const Table = ({
                 <tr>
                   <td
                     colSpan={columns.length + (showViewAction ? 1 : 0)}
-                    className="px-6 py-8 text-center text-gray-500"
+                    className="px-3 md:px-6 py-8 text-center text-gray-500"
                   >
                     {searchQuery ? "No results found" : emptyMessage}
                   </td>
@@ -154,7 +154,7 @@ const Table = ({
                     {columns.map((column, colIndex) => (
                       <td
                         key={colIndex}
-                        className={`px-6 py-2 text-sm text-gray-700 ${
+                        className={`px-3 md:px-6 py-2 text-sm text-gray-700 ${
                           column.truncate ? "" : "whitespace-nowrap"
                         }`}
                         style={{
@@ -206,7 +206,7 @@ const Table = ({
                       </td>
                     ))}
                     {showViewAction && (
-                      <td className="px-6 py-2.5 text-base font-medium">
+                      <td className="px-3 md:px-6 py-2.5 text-base font-medium">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

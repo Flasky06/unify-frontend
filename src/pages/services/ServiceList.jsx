@@ -39,6 +39,12 @@ export const ServiceList = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Quick Add State
+  const [quickAddCategoryModalOpen, setQuickAddCategoryModalOpen] =
+    useState(false);
+  const [newQuickCategoryName, setNewQuickCategoryName] = useState("");
+  const [quickAddLoading, setQuickAddLoading] = useState(false);
+
   useEffect(() => {
     fetchData();
   }, [selectedCategory]);
@@ -107,6 +113,34 @@ export const ServiceList = () => {
       });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleQuickAddCategory = async (e) => {
+    e.preventDefault();
+    if (!newQuickCategoryName.trim()) return;
+    setQuickAddLoading(true);
+    try {
+      const newCategory = await serviceCategoryService.create({
+        name: newQuickCategoryName,
+      });
+      setCategories([...categories, newCategory]);
+      setFormData({ ...formData, categoryId: newCategory.id });
+      setQuickAddCategoryModalOpen(false);
+      setNewQuickCategoryName("");
+      setToast({
+        isOpen: true,
+        message: "Category created successfully!",
+        type: "success",
+      });
+    } catch (err) {
+      setToast({
+        isOpen: true,
+        message: err.message || "Failed to create category",
+        type: "error",
+      });
+    } finally {
+      setQuickAddLoading(false);
     }
   };
 
@@ -350,9 +384,18 @@ export const ServiceList = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category
-            </label>
+            <div className="flex justify-between items-center mb-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Category
+              </label>
+              <button
+                type="button"
+                onClick={() => setQuickAddCategoryModalOpen(true)}
+                className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+              >
+                + Add New
+              </button>
+            </div>
             <select
               value={formData.categoryId}
               onChange={(e) =>
@@ -424,6 +467,36 @@ export const ServiceList = () => {
             </Button>
             <Button type="submit" disabled={submitting}>
               {submitting ? "Saving..." : editingService ? "Update" : "Create"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Quick Add Category Modal */}
+      <Modal
+        isOpen={quickAddCategoryModalOpen}
+        onClose={() => setQuickAddCategoryModalOpen(false)}
+        title="Quick Add Category"
+      >
+        <form onSubmit={handleQuickAddCategory} className="space-y-4">
+          <Input
+            label="Category Name"
+            value={newQuickCategoryName}
+            onChange={(e) => setNewQuickCategoryName(e.target.value)}
+            placeholder="e.g. Repairs"
+            required
+            autoFocus
+          />
+          <div className="flex justify-end gap-3 pt-2">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setQuickAddCategoryModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={quickAddLoading}>
+              {quickAddLoading ? "Saving..." : "Save Category"}
             </Button>
           </div>
         </form>

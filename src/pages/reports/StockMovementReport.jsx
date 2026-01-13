@@ -70,12 +70,6 @@ const StockMovementReport = () => {
     });
   };
 
-  const formatCurrency = (val) =>
-    new Intl.NumberFormat("en-KE", {
-      style: "currency",
-      currency: "KSH",
-    }).format(val || 0);
-
   const formatNumber = (val) => new Intl.NumberFormat("en-KE").format(val || 0);
 
   if (loading && !reportData) {
@@ -99,7 +93,7 @@ const StockMovementReport = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow space-y-4">
+      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-4">
         {/* Date Range */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
@@ -158,56 +152,59 @@ const StockMovementReport = () => {
           {/* Summary Cards */}
 
           {/* Movement Table */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+              <h2 className="text-lg font-bold text-gray-800">
                 Detailed Product Movement
               </h2>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm text-gray-700">
-                <thead className="text-xs uppercase bg-gray-50 text-gray-700">
+                <thead className="text-xs uppercase bg-gray-50/50 text-gray-500 font-semibold tracking-wider">
                   <tr>
-                    <th className="px-6 py-3">Product Name</th>
-                    <th className="px-6 py-3 text-right">Opening</th>
-                    <th className="px-6 py-3 text-right">Added</th>
-                    <th className="px-6 py-3 text-right">Sold</th>
-                    <th className="px-6 py-3 text-right">Returns</th>
-                    <th className="px-6 py-3 text-right">Closing</th>
+                    <th className="px-3 md:px-6 py-3">Product Name</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Opening</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Added</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Sold</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Returns</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Closing</th>
 
-                    <th className="px-6 py-3 text-right">Net Move</th>
+                    <th className="px-3 md:px-6 py-3 text-right">Net Move</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {reportData?.productMovements?.length > 0 ? (
                     reportData.productMovements.map((item) => (
-                      <tr key={item.productId} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">
+                      <tr
+                        key={item.productId}
+                        className="hover:bg-gray-50/50 transition-colors"
+                      >
+                        <td className="px-3 md:px-6 py-4 font-medium text-gray-900 truncate max-w-xs">
                           {item.productName}
                         </td>
-                        <td className="px-6 py-4 text-right">
+                        <td className="px-3 md:px-6 py-4 text-right font-medium text-gray-600">
                           {formatNumber(item.openingStock)}
                         </td>
-                        <td className="px-6 py-4 text-right text-blue-600">
+                        <td className="px-3 md:px-6 py-4 text-right text-blue-600">
                           {item.stockAdded || "-"}
                         </td>
-                        <td className="px-6 py-4 text-right text-red-600">
+                        <td className="px-3 md:px-6 py-4 text-right text-red-600">
                           {item.stockSold || "-"}
                         </td>
-                        <td className="px-6 py-4 text-right text-orange-600">
+                        <td className="px-3 md:px-6 py-4 text-right text-orange-600">
                           {item.stockReturned || "-"}
                         </td>
-                        <td className="px-6 py-4 text-right font-medium text-gray-900">
+                        <td className="px-3 md:px-6 py-4 text-right font-bold text-gray-900 bg-gray-50/30">
                           {formatNumber(item.closingStock)}
                         </td>
 
                         <td
-                          className={`px-6 py-4 text-right font-medium ${
+                          className={`px-3 md:px-6 py-4 text-right font-bold ${
                             item.netMovement > 0
-                              ? "text-green-600"
+                              ? "text-emerald-600"
                               : item.netMovement < 0
                               ? "text-red-600"
-                              : "text-gray-600"
+                              : "text-gray-400"
                           }`}
                         >
                           {item.netMovement > 0 ? "+" : ""}

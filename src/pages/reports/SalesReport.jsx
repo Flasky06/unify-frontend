@@ -8,20 +8,18 @@ import { paymentMethodService } from "../../services/paymentMethodService";
 import { DateRangePicker } from "../../components/ui/DateRangePicker";
 
 const SummaryCard = ({ title, value, icon, isProfit }) => (
-  <div className="bg-white p-6 rounded-lg shadow border border-gray-200 flex items-center gap-4 transition-transform hover:scale-105">
+  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 transition-all hover:shadow-md">
     <div
-      className={`p-3 rounded-full ${
-        isProfit
-          ? "bg-emerald-100 text-emerald-600"
-          : "bg-blue-100 text-blue-600"
+      className={`p-3 rounded-lg ${
+        isProfit ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-600"
       }`}
     >
       {icon}
     </div>
     <div>
-      <p className="text-sm font-medium text-gray-600">{title}</p>
+      <p className="text-sm font-medium text-gray-500">{title}</p>
       <h3
-        className={`text-2xl font-bold ${
+        className={`text-2xl font-bold tracking-tight ${
           isProfit ? "text-emerald-600" : "text-gray-900"
         }`}
       >

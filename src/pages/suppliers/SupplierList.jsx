@@ -221,7 +221,7 @@ export const SupplierList = () => {
           </Button>
         </div>
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           {loading ? (
             <div className="p-8 text-center text-gray-500">
               Loading suppliers...

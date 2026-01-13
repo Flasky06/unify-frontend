@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { subscriptionService } from "../../services/subscriptionService";
 import { Toast } from "../../components/ui/ConfirmDialog";
-import { RecordPaymentModal } from "../../components/modals/RecordPaymentModal";
 
 import StatusBadge from "../../components/ui/StatusBadge";
 import Table from "../../components/ui/Table";
@@ -12,8 +11,7 @@ const SubscriptionsManagement = () => {
   const [subscriptions, setSubscriptions] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedSubscription, setSelectedSubscription] = useState(null);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
   const [filterStatus, setFilterStatus] = useState("ALL");
   const [searchTerm, setSearchTerm] = useState("");
   const [toastState, setToastState] = useState({
@@ -45,33 +43,6 @@ const SubscriptionsManagement = () => {
       console.error(error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handlePaymentSuccess = () => {
-    showToast("Payment recorded successfully!", "success");
-    setShowPaymentModal(false);
-    fetchData();
-  };
-
-  const handleSuspend = async (subscriptionId) => {
-    if (!confirm("Are you sure you want to suspend this subscription?")) return;
-    try {
-      await subscriptionService.suspendSubscription(subscriptionId);
-      showToast("Subscription suspended", "success");
-      fetchData();
-    } catch {
-      showToast("Failed to suspend subscription", "error");
-    }
-  };
-
-  const handleReactivate = async (subscriptionId) => {
-    try {
-      await subscriptionService.reactivateSubscription(subscriptionId);
-      showToast("Subscription reactivated", "success");
-      fetchData();
-    } catch {
-      showToast("Failed to reactivate subscription", "error");
     }
   };
 
@@ -108,10 +79,7 @@ const SubscriptionsManagement = () => {
         </span>
       ),
     },
-    {
-      header: "Amount",
-      render: (row) => `KSH ${(row.subscriptionPrice || 0).toLocaleString()}`,
-    },
+
     {
       header: "Start Date",
       render: (row) =>
@@ -133,38 +101,6 @@ const SubscriptionsManagement = () => {
     {
       header: "Status",
       render: (row) => <StatusBadge status={row.status} />,
-    },
-    {
-      header: "Actions",
-      render: (row) => (
-        <div className="flex gap-2">
-          {row.status === "ACTIVE" && (
-            <button
-              onClick={() => handleSuspend(row.id)}
-              className="text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded hover:bg-orange-200"
-            >
-              Suspend
-            </button>
-          )}
-          {row.status === "SUSPENDED" && (
-            <button
-              onClick={() => handleReactivate(row.id)}
-              className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
-            >
-              Reactivate
-            </button>
-          )}
-          <button
-            onClick={() => {
-              setSelectedSubscription(row);
-              setShowPaymentModal(true);
-            }}
-            className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-          >
-            Payment
-          </button>
-        </div>
-      ),
     },
   ];
 
@@ -261,19 +197,6 @@ const SubscriptionsManagement = () => {
           getRowClassName={getRowClassName}
         />
       </div>
-
-      {/* Payment Modal */}
-      {showPaymentModal && selectedSubscription && (
-        <RecordPaymentModal
-          isOpen={showPaymentModal}
-          onClose={() => {
-            setShowPaymentModal(false);
-            setSelectedSubscription(null);
-          }}
-          subscription={selectedSubscription}
-          onSuccess={handlePaymentSuccess}
-        />
-      )}
 
       {/* Toast */}
       <Toast

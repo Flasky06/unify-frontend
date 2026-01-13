@@ -85,12 +85,12 @@ const Table = ({
             placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full sm:w-64 px-4 py-2 border border-blue-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-blue-50/20"
+            className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
           />
         </div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-blue-100 w-full shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 w-full shadow-sm">
         <div
           className="overflow-x-auto overflow-y-auto"
           style={{
@@ -99,26 +99,26 @@ const Table = ({
             maxHeight: maxHeight,
           }}
         >
-          <table className="min-w-full divide-y divide-blue-100 w-full">
-            <thead className="bg-blue-50 sticky top-0 z-10">
+          <table className="min-w-full divide-y divide-gray-200 w-full">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
                 {columns.map((column, index) => (
                   <th
                     key={index}
-                    className="px-3 md:px-6 py-3 text-left text-sm font-semibold text-blue-900 uppercase tracking-wider bg-blue-100/50"
+                    className="px-3 md:px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider bg-gray-50"
                     style={{ minWidth: column.width || "auto" }}
                   >
                     {column.header}
                   </th>
                 ))}
                 {showViewAction && (
-                  <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-blue-900 uppercase tracking-wider bg-blue-100/50">
+                  <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
                     Actions
                   </th>
                 )}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-blue-50">
+            <tbody className="bg-white divide-y divide-gray-200">
               {loading ? (
                 <tr>
                   <td
@@ -146,7 +146,7 @@ const Table = ({
                     key={rowIndex}
                     onClick={() => onRowClick?.(row)}
                     className={`${
-                      rowIndex % 2 === 0 ? "bg-white" : "bg-blue-50/30"
+                      rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50/50"
                     } ${
                       onView || onRowClick
                         ? "cursor-pointer hover:bg-blue-50/80 transition-colors duration-150 ease-in-out"

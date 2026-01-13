@@ -179,6 +179,21 @@ const SubscriptionsManagement = () => {
     );
   }
 
+  const getRowClassName = (row) => {
+    switch (row.status) {
+      case "ACTIVE":
+        return "bg-green-50/60 hover:bg-green-100/60";
+      case "TRIAL":
+        return "bg-yellow-50/60 hover:bg-yellow-100/60";
+      case "EXPIRED":
+        return "bg-red-50/60 hover:bg-red-100/60";
+      case "SUSPENDED":
+        return "bg-orange-50/60 hover:bg-orange-100/60";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="flex flex-col h-full p-4 overflow-auto">
       {/* Header */}
@@ -243,6 +258,7 @@ const SubscriptionsManagement = () => {
           searchable={false}
           showViewAction={false}
           maxHeight="calc(100vh - 200px)"
+          getRowClassName={getRowClassName}
         />
       </div>
 

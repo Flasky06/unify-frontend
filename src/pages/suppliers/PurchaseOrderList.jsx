@@ -268,8 +268,11 @@ export const PurchaseOrderList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-4 sm:gap-6 flex-1 min-h-0">
         {/* Filters */}
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-end flex-wrap">
-          <div className="w-full lg:w-48">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Search
+            </label>
             <Input
               placeholder="Search orders..."
               value={searchTerm}
@@ -277,7 +280,10 @@ export const PurchaseOrderList = () => {
               className="w-full"
             />
           </div>
-          <div className="w-full lg:w-48">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Supplier
+            </label>
             <select
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               value={selectedSupplier}
@@ -291,7 +297,10 @@ export const PurchaseOrderList = () => {
               ))}
             </select>
           </div>
-          <div className="w-full lg:w-48">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Status
+            </label>
             <select
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               value={selectedStatus}
@@ -304,7 +313,7 @@ export const PurchaseOrderList = () => {
               <option value="CANCELLED">Cancelled</option>
             </select>
           </div>
-          <div className="w-full sm:w-auto">
+          <div className="w-full">
             <label className="block text-xs font-medium text-gray-700 mb-1">
               Start Date
             </label>
@@ -312,10 +321,10 @@ export const PurchaseOrderList = () => {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full sm:w-auto py-1.5 text-sm"
+              className="w-full py-1.5 text-sm"
             />
           </div>
-          <div className="w-full sm:w-auto">
+          <div className="w-full">
             <label className="block text-xs font-medium text-gray-700 mb-1">
               End Date
             </label>
@@ -323,7 +332,7 @@ export const PurchaseOrderList = () => {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full sm:w-auto py-1.5 text-sm"
+              className="w-full py-1.5 text-sm"
             />
           </div>
         </div>

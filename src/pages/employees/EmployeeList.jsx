@@ -336,16 +336,22 @@ export const EmployeeList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-4 sm:gap-6">
         {/* Filters */}
-        <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-end lg:flex-wrap">
-          <div className="w-full lg:w-48 lg:max-w-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Search
+            </label>
             <Input
               placeholder="Search employees..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-1.5 text-sm"
+              className="py-1.5 text-sm w-full"
             />
           </div>
-          <div className="w-full lg:w-48 lg:max-w-xs">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Shop
+            </label>
             <select
               className="w-full px-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               value={selectedShop}
@@ -362,7 +368,10 @@ export const EmployeeList = () => {
               ))}
             </select>
           </div>
-          <div className="w-full lg:w-48 lg:max-w-xs">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Status
+            </label>
             <select
               className="w-full px-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               value={selectedStatus}
@@ -378,11 +387,11 @@ export const EmployeeList = () => {
           </div>
         </div>
         {user?.role !== "SALES_REP" && (
-          <div className="flex gap-2 w-full lg:w-auto">
+          <div className="flex gap-2 justify-end">
             <Button
               variant="outline"
               onClick={() => setPrintModalOpen(true)}
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 whitespace-nowrap py-1.5"
+              className="w-full lg:w-auto flex items-center justify-center gap-2 whitespace-nowrap py-1.5"
             >
               <svg
                 className="w-4 h-4"
@@ -401,7 +410,7 @@ export const EmployeeList = () => {
             </Button>
             <Button
               onClick={openCreateModal}
-              className="flex-1 lg:flex-none whitespace-nowrap py-1.5"
+              className="w-full lg:w-auto whitespace-nowrap py-1.5"
             >
               Add Employee
             </Button>
@@ -410,7 +419,7 @@ export const EmployeeList = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">
             Loading employees...

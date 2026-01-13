@@ -481,17 +481,24 @@ export const ExpenseList = () => {
     <div className="flex flex-col h-full max-w-full overflow-hidden">
       <div className="flex flex-col gap-3">
         {/* Filters Input Area */}
-        <div className="flex flex-col gap-1.5 lg:flex-row lg:justify-between lg:items-end lg:flex-wrap">
-          <div className="w-full lg:w-48 lg:max-w-xs">
+        {/* Filters Input Area */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Search
+            </label>
             <Input
               placeholder="Search name or payee..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-1.5 text-sm"
+              className="py-1.5 text-sm w-full"
             />
           </div>
           {/* Category Select */}
-          <div className="w-full lg:w-48 lg:max-w-xs">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Category
+            </label>
             <select
               className="w-full px-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               value={selectedCategory}
@@ -509,7 +516,10 @@ export const ExpenseList = () => {
             </select>
           </div>
           {/* Shop Select */}
-          <div className="w-full lg:w-48 lg:max-w-xs">
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Shop
+            </label>
             <select
               className="w-full px-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               value={selectedShop}
@@ -527,32 +537,30 @@ export const ExpenseList = () => {
             </select>
           </div>
           {/* Dates */}
-          <div className="flex flex-row gap-2 items-end">
-            <div className="w-full sm:w-auto">
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Start Date
-              </label>
-              <Input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="w-full sm:w-auto py-1.5 text-sm"
-              />
-            </div>
-            <div className="w-full sm:w-auto">
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                End Date
-              </label>
-              <Input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="w-full sm:w-auto py-1.5 text-sm"
-              />
-            </div>
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              Start Date
+            </label>
+            <Input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full py-1.5 text-sm"
+            />
+          </div>
+          <div className="w-full">
+            <label className="block text-xs font-medium text-gray-700 mb-1">
+              End Date
+            </label>
+            <Input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full py-1.5 text-sm"
+            />
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-end">
           <Button
             variant="outline"
             onClick={() => setPrintModalOpen(true)}
@@ -585,7 +593,7 @@ export const ExpenseList = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow flex-1 flex flex-col min-h-0 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex-1 flex flex-col min-h-0 overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">
             Loading expenses...

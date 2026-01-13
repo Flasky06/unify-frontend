@@ -45,6 +45,11 @@ const StockList = () => {
     reason: "Manual Update",
   });
 
+  // Product Picker State
+  const [showProductPicker, setShowProductPicker] = useState(false);
+  const [productSearchTerm, setProductSearchTerm] = useState("");
+  const [selectedProductForAdd, setSelectedProductForAdd] = useState(null);
+
   // ... (Effect hooks unchanged) ...
 
   // Handlers for New Features
@@ -157,6 +162,7 @@ const StockList = () => {
       }
       setIsModalOpen(false);
       setEditingStock(null);
+      setSelectedProductForAdd(null);
       resetForm();
       fetchStocks();
     } catch (error) {
@@ -175,6 +181,16 @@ const StockList = () => {
       quantity: stock.quantity,
       reason: "Manual Update",
     });
+    setIsModalOpen(true);
+    // Find and set the product object for detailed view
+    const product = products.find((p) => p.id === stock.productId);
+    setSelectedProductForAdd(product || null);
+  };
+
+  const handleProductSelect = (product) => {
+    setSelectedProductForAdd(product);
+    setFormData((prev) => ({ ...prev, productId: product.id }));
+    setShowProductPicker(false);
     setIsModalOpen(true);
   };
 
@@ -201,6 +217,8 @@ const StockList = () => {
       quantity: 0,
       reason: "Manual Update",
     });
+    setSelectedProductForAdd(null);
+    setProductSearchTerm("");
   };
 
   const getProductName = (productId) => {
@@ -278,6 +296,34 @@ const StockList = () => {
       _stock: stock,
     };
   });
+
+  // Filter products for the picker
+  const pickerProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(productSearchTerm.toLowerCase())
+    )
+    .map((product) => ({
+      id: product.id,
+      name: product.name,
+      category: product.categoryName || "N/A",
+      brand: product.brandName || "N/A",
+      costPrice: product.costPrice?.toLocaleString() || "0",
+      sellingPrice: product.sellingPrice?.toLocaleString() || "0",
+      _product: product,
+    }));
+
+  const pickerColumns = [
+    {
+      header: "Product Name",
+      accessor: "name",
+      truncate: true,
+      triggerView: true,
+    },
+    { header: "Category", accessor: "category" },
+    { header: "Brand", accessor: "brand" },
+    { header: "Cost", accessor: "costPrice" },
+    { header: "Price", accessor: "sellingPrice" },
+  ];
 
   const filteredStocks = tableData.filter(
     (stock) =>
@@ -383,7 +429,7 @@ const StockList = () => {
                 onClick={() => {
                   resetForm();
                   setEditingStock(null);
-                  setIsModalOpen(true);
+                  setShowProductPicker(true);
                 }}
                 className="w-full sm:w-auto whitespace-nowrap py-1.5"
               >
@@ -424,12 +470,13 @@ const StockList = () => {
         onClose={() => {
           setIsModalOpen(false);
           setEditingStock(null);
+          setSelectedProductForAdd(null);
           resetForm();
         }}
         title={
           editingStock
-            ? `Update Stock - ${getProductName(editingStock.productId)}`
-            : "Add Stock"
+            ? `Update Stock: ${selectedProductForAdd?.name || "Unknown"}`
+            : `Add Stock: ${selectedProductForAdd?.name || ""}`
         }
       >
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -455,27 +502,67 @@ const StockList = () => {
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Product
-            </label>
-            <select
-              value={formData.productId}
-              onChange={(e) =>
-                setFormData({ ...formData, productId: e.target.value })
-              }
-              disabled={editingStock}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
-            >
-              <option value="">Select Product</option>
-              {products.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {selectedProductForAdd && (
+            <div className="p-4 bg-gray-50 rounded-lg mb-4">
+              <h4 className="font-medium text-gray-900 mb-2">
+                Product Details
+              </h4>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="text-gray-600">Name:</div>
+                <div className="font-medium">{selectedProductForAdd.name}</div>
+                <div className="text-gray-600">Cost Price:</div>
+                <div className="font-medium">
+                  KSH {selectedProductForAdd.costPrice?.toLocaleString() || "0"}
+                </div>
+                <div className="text-gray-600">Selling Price:</div>
+                <div className="font-medium">
+                  KSH {selectedProductForAdd.sellingPrice?.toLocaleString()}
+                </div>
+                <div className="text-gray-600">Category:</div>
+                <div className="font-medium">
+                  {selectedProductForAdd.categoryName || "N/A"}
+                </div>
+                <div className="text-gray-600">Brand:</div>
+                <div className="font-medium">
+                  {selectedProductForAdd.brandName || "N/A"}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!editingStock && (
+            <div className="bg-blue-50 p-3 rounded text-sm text-blue-800 mb-4">
+              If you are <strong>buying</strong> this stock, please use{" "}
+              <a href="/purchase-orders/create" className="underline font-bold">
+                Purchase Orders
+              </a>{" "}
+              to ensure your expenses are tracked correctly.
+            </div>
+          )}
+
+          {!selectedProductForAdd && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Product
+              </label>
+              <select
+                value={formData.productId}
+                onChange={(e) =>
+                  setFormData({ ...formData, productId: e.target.value })
+                }
+                disabled={editingStock}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+              >
+                <option value="">Select Product</option>
+                {products.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {editingStock && (
             <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -638,6 +725,56 @@ const StockList = () => {
             </svg>
             Print
           </Button>
+        </div>
+      </Modal>
+      {/* Product Picker Modal */}
+      <Modal
+        isOpen={showProductPicker}
+        onClose={() => setShowProductPicker(false)}
+        title="Select Product to Add Stock"
+        maxWidth="2xl"
+      >
+        <div className="flex flex-col gap-4 max-h-[70vh]">
+          <div className="flex justify-between items-center gap-4">
+            <div className="flex-1">
+              <Input
+                placeholder="Search products..."
+                value={productSearchTerm}
+                onChange={(e) => setProductSearchTerm(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <Button
+              onClick={() => window.open("/products", "_blank")}
+              variant="outline"
+              size="sm"
+            >
+              + New Product
+            </Button>
+          </div>
+
+          <div className="flex-1 overflow-auto min-h-[300px]">
+            <Table
+              columns={pickerColumns}
+              data={pickerProducts}
+              loading={false}
+              emptyMessage="No products found."
+              showViewAction={false}
+              searchable={false}
+              onView={(row) => handleProductSelect(row._product)}
+            />
+          </div>
+
+          <div className="bg-orange-50 border-l-4 border-orange-400 p-4 mt-2">
+            <div className="flex">
+              <div className="ml-3">
+                <p className="text-sm text-orange-700">
+                  <span className="font-bold">Note:</span> Select a product
+                  above to add stock to it.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </Modal>
     </div>

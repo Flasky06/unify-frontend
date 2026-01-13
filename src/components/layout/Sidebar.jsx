@@ -209,7 +209,6 @@ export const Sidebar = ({ isOpen, onClose }) => {
       ),
       children: [
         { name: "Stock List", path: "/stocks", permission: "VIEW_STOCK" },
-        { name: "Add Stock", path: "/stocks/add", permission: "MANAGE_STOCK" },
         {
           name: "Stock Returns",
           path: "/stocks/returns",

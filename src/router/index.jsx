@@ -22,7 +22,7 @@ import { ShopList } from "../pages/shops/ShopList";
 import StockList from "../pages/stocks/StockList";
 import StockReturnList from "../pages/stocks/StockReturnList";
 import StockTransfers from "../pages/stocks/StockTransfers";
-import AddStock from "../pages/stocks/AddStock";
+
 import { SupplierList } from "../pages/suppliers/SupplierList";
 import { PurchaseOrderList } from "../pages/suppliers/PurchaseOrderList";
 import { PurchaseOrderCreate } from "../pages/suppliers/PurchaseOrderCreate";
@@ -135,10 +135,7 @@ export const router = createBrowserRouter([
         path: "stocks",
         element: <StockList />,
       },
-      {
-        path: "stocks/add",
-        element: <AddStock />,
-      },
+
       {
         path: "stocks/returns",
         element: <StockReturnList />,

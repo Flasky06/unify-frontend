@@ -4,12 +4,16 @@ import "./index.css";
 import App from "./App.jsx";
 import useAuthStore from "./store/authStore";
 import { setGlobalAuthState } from "./lib/authState";
+import { setUnauthorizedCallback } from "./lib/api";
 
 // Initialize global auth state from persisted store
-const { user } = useAuthStore.getState();
+const { user, logout } = useAuthStore.getState();
 if (user) {
   setGlobalAuthState({ user });
 }
+
+// Setup API unauthorized callback
+setUnauthorizedCallback(logout);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

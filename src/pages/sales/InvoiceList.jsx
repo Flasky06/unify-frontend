@@ -4,7 +4,7 @@ import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { saleService } from "../../services/saleService";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import { shopService } from "../../services/shopService";
 import { paymentMethodService } from "../../services/paymentMethodService";
 

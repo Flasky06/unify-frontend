@@ -1,5 +1,13 @@
 import { getGlobalAuthState } from "./authState";
-import useAuthStore from "../store/authStore";
+
+// Callback to handle 401 Unauthorized errors (avoids circular dependency with authStore)
+let onUnauthorized = () => {
+  console.warn("onUnauthorized callback not set");
+};
+
+export const setUnauthorizedCallback = (callback) => {
+  onUnauthorized = callback;
+};
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -79,7 +87,9 @@ export const apiFetch = async (endpoint, options = {}) => {
 
     // Handle 401 Unauthorized - logout user (but not if already logging out)
     if (response.status === 401 && !endpoint.includes("/auth/")) {
-      useAuthStore.getState().logout();
+      if (onUnauthorized) {
+        onUnauthorized();
+      }
       throw new ApiError("Unauthorized - Please login again", 401, null);
     }
 

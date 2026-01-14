@@ -573,8 +573,8 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
       <div
         className={`
-        fixed inset-y-0 left-0 z-50 w-[85%] sm:w-80 bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex-shrink-0 shadow-2xl lg:shadow-none lg:w-64
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        fixed inset-y-0 right-0 z-50 w-[85%] sm:w-80 bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex-shrink-0 shadow-2xl lg:shadow-none lg:w-64
+        ${isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"}
       `}
       >
         {/* Header with Close Button */}

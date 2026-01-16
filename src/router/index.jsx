@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
+import PermissionRoute from "../components/PermissionRoute";
 import { DashboardLayout } from "../components/layout/DashboardLayout";
 import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
@@ -91,86 +92,167 @@ export const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <UserList />,
+        element: (
+          <PermissionRoute requiredRole="BUSINESS_OWNER">
+            <UserList />
+          </PermissionRoute>
+        ),
       },
       {
         path: "employees",
         children: [
           {
             index: true,
-            element: <EmployeeList />,
+            element: (
+              <PermissionRoute requiredPermission="MANAGE_EMPLOYEES">
+                <EmployeeList />
+              </PermissionRoute>
+            ),
           },
           {
             path: ":id",
-            element: <EmployeeDetails />,
+            element: (
+              <PermissionRoute requiredPermission="MANAGE_EMPLOYEES">
+                <EmployeeDetails />
+              </PermissionRoute>
+            ),
           },
         ],
       },
       {
         path: "users/roles",
-        element: <RoleManagement />,
+        element: (
+          <PermissionRoute requiredRole="BUSINESS_OWNER">
+            <RoleManagement />
+          </PermissionRoute>
+        ),
       },
       {
         path: "products",
         children: [
           {
             index: true,
-            element: <ProductList />,
+            element: (
+              <PermissionRoute requiredPermission="VIEW_PRODUCTS">
+                <ProductList />
+              </PermissionRoute>
+            ),
           },
           {
             path: "categories",
-            element: <ProductCategoryList />,
+            element: (
+              <PermissionRoute requiredPermission="MANAGE_PRODUCT_CATEGORIES">
+                <ProductCategoryList />
+              </PermissionRoute>
+            ),
           },
           {
             path: "brands",
-            element: <BrandList />,
+            element: (
+              <PermissionRoute requiredPermission="MANAGE_PRODUCTS">
+                <BrandList />
+              </PermissionRoute>
+            ),
           },
         ],
       },
       {
         path: "shops",
-        element: <ShopList />,
+        element: (
+          <PermissionRoute requiredPermission="MANAGE_SHOPS">
+            <ShopList />
+          </PermissionRoute>
+        ),
       },
       {
         path: "stocks",
-        element: <StockList />,
-      },
-
-      {
-        path: "stocks/returns",
-        element: <StockReturnList />,
-      },
-      {
-        path: "transfers",
-        element: <StockTransfers />,
+        children: [
+          {
+            index: true,
+            element: (
+              <PermissionRoute requiredPermission="VIEW_STOCK">
+                <StockList />
+              </PermissionRoute>
+            ),
+          },
+          {
+            path: "return",
+            element: (
+              <PermissionRoute requiredPermission="PROCESS_RETURNS">
+                <StockReturnList />
+              </PermissionRoute>
+            ),
+          },
+          {
+            path: "transfer",
+            element: (
+              <PermissionRoute requiredPermission="VIEW_STOCK_TRANSFERS">
+                <StockTransfers />
+              </PermissionRoute>
+            ),
+          },
+        ],
       },
       {
         path: "suppliers",
-        element: <SupplierList />,
+        element: (
+          <PermissionRoute requiredPermission="VIEW_SUPPLIERS">
+            <SupplierList />
+          </PermissionRoute>
+        ),
       },
       {
         path: "purchase-orders",
-        element: <PurchaseOrderList />,
+        element: (
+          <PermissionRoute requiredPermission="VIEW_PURCHASES">
+            <PurchaseOrderList />
+          </PermissionRoute>
+        ),
       },
       {
         path: "purchase-orders/create",
-        element: <PurchaseOrderCreate />,
+        element: (
+          <PermissionRoute requiredPermission="CREATE_PURCHASES">
+            <PurchaseOrderCreate />
+          </PermissionRoute>
+        ),
       },
       {
         path: "sales",
-        element: <SalesHistory />,
-      },
-      {
-        path: "invoices",
-        element: <InvoiceList />,
-      },
-      {
-        path: "sales/items",
-        element: <SalesByItem />,
-      },
-      {
-        path: "sales/analytics",
-        element: <SalesAnalytics />,
+        children: [
+          {
+            index: true,
+            element: (
+              <PermissionRoute requiredPermission="VIEW_SALES">
+                <SalesHistory />
+              </PermissionRoute>
+            ),
+          },
+          {
+            path: "invoices",
+            element: (
+              <PermissionRoute requiredPermission="VIEW_SALES">
+                <InvoiceList />
+              </PermissionRoute>
+            ),
+          },
+          {
+            path: "items",
+            element: (
+              <PermissionRoute requiredPermission="VIEW_SALES">
+                <SalesByItem />
+              </PermissionRoute>
+            ),
+          },
+          {
+            path: "analytics",
+            element: (
+              <PermissionRoute requiredPermission="VIEW_REPORTS">
+                <SalesAnalytics />
+              </PermissionRoute>
+            ),
+          },
+        ],
       },
       {
         path: "services/categories",
@@ -182,15 +264,32 @@ export const router = createBrowserRouter([
       },
       {
         path: "expenses/categories",
-        element: <ExpenseCategoryList />,
+        element: (
+          <PermissionRoute requiredPermission="MANAGE_EXPENSE_CATEGORIES">
+            <ExpenseCategoryList />
+          </PermissionRoute>
+        ),
       },
       {
         path: "expenses",
-        element: <ExpenseList />,
-      },
-      {
-        path: "expenses/analytics",
-        element: <ExpenseAnalytics />,
+        children: [
+          {
+            index: true,
+            element: (
+              <PermissionRoute requiredPermission="VIEW_EXPENSES">
+                <ExpenseList />
+              </PermissionRoute>
+            ),
+          },
+          {
+            path: "analytics",
+            element: (
+              <PermissionRoute requiredPermission="VIEW_REPORTS">
+                <ExpenseAnalytics />
+              </PermissionRoute>
+            ),
+          },
+        ],
       },
       {
         path: "reports",
@@ -206,11 +305,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "reports/accounts-summary",
-        element: <AccountsSummaryReport />,
+        element: (
+          <PermissionRoute requiredPermission="VIEW_FINANCIAL_REPORTS">
+            <AccountsSummaryReport />
+          </PermissionRoute>
+        ),
       },
       {
         path: "payment-methods",
-        element: <PaymentMethodList />,
+        element: (
+          <PermissionRoute requiredPermission="MANAGE_PAYMENT_METHODS">
+            <PaymentMethodList />
+          </PermissionRoute>
+        ),
       },
     ],
   },

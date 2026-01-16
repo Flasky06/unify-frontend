@@ -17,8 +17,8 @@ export const InvoiceList = () => {
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState("");
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] 
-  = useState(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod]
+    = useState(null);
   const [toast, setToast] = useState({
     isOpen: false,
     message: "",
@@ -64,18 +64,18 @@ export const InvoiceList = () => {
     try {
       setLoading(true);
       const data = await saleService.getSales(filters);
-      
+
       // Ensure data is array and filter safely
       const invoices = Array.isArray(data)
         ? data
-            .filter(
-              (sale) =>
-                sale &&
-                (sale.status === "PENDING" || sale.status === "PARTIALLY_PAID")
-            )
-            .sort((a, b) => new Date(b.saleDate) - new Date(a.saleDate))
+          .filter(
+            (sale) =>
+              sale &&
+              (sale.status === "PENDING" || sale.status === "PARTIALLY_PAID")
+          )
+          .sort((a, b) => new Date(b.saleDate) - new Date(a.saleDate))
         : [];
-      
+
       setSales(invoices);
     } catch (err) {
       console.error("Failed to fetch invoices", err);
@@ -103,7 +103,7 @@ export const InvoiceList = () => {
 
   const handlePayInvoice = (sale) => {
     if (!sale) return;
-    
+
     setSelectedSale(sale);
     const balance = sale.balance ?? sale.total ?? 0;
     setPaymentAmount(balance.toString());
@@ -112,7 +112,7 @@ export const InvoiceList = () => {
 
   const confirmPayment = async () => {
     const amount = parseFloat(paymentAmount);
-    
+
     if (!paymentAmount || isNaN(amount) || amount <= 0) {
       setToast({
         isOpen: true,
@@ -146,17 +146,17 @@ export const InvoiceList = () => {
         amount,
         selectedPaymentMethod
       );
-      
+
       setToast({
         isOpen: true,
         message: "Payment recorded successfully",
         type: "success",
       });
-      
+
       setPaymentModalOpen(false);
       setSelectedSale(null);
       setPaymentAmount("");
-      
+
       // Refresh sales list
       await fetchSales();
     } catch (err) {
@@ -171,10 +171,10 @@ export const InvoiceList = () => {
 
   const handlePrint = () => {
     if (!selectedSale) return;
-    
+
     const originalTitle = document.title;
     document.title = `Invoice-${selectedSale.saleNumber}`;
-    
+
     try {
       window.print();
     } catch (err) {
@@ -241,11 +241,11 @@ export const InvoiceList = () => {
   // Safe filter for search
   const filteredSales = sales.filter((sale) => {
     if (!searchTerm) return true;
-    
+
     const searchLower = searchTerm.toLowerCase();
     const saleNumber = sale.saleNumber?.toLowerCase() || "";
     const customerName = sale.customerName?.toLowerCase() || "";
-    
+
     return saleNumber.includes(searchLower) || customerName.includes(searchLower);
   });
 
@@ -345,7 +345,7 @@ export const InvoiceList = () => {
       >
         {selectedSale && (
           <>
-            <div className="print:p-8">
+            <div id="printable-invoice" className="print:p-8">
               {/* Invoice Header */}
               <div className="mb-8 text-center">
                 <h1 className="text-3xl font-bold text-gray-800">
@@ -400,7 +400,7 @@ export const InvoiceList = () => {
                     const unitPrice = item?.unitPrice || 0;
                     const discountAmount = item?.discountAmount || 0;
                     const itemTotal = quantity * (unitPrice - discountAmount);
-                    
+
                     return (
                       <tr key={idx} className="border-b">
                         <td className="p-3">{item?.productName || item?.serviceName || "Unknown Item"}</td>

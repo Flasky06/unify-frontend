@@ -92,9 +92,9 @@ const useAuthStore = create(
 
       hasPermission: (permission) => {
         const { user } = get();
-        // Super/Business Owner/Business Manager always has access
+        // Super/Business Owner always has access
         if (
-          ["SUPER_ADMIN", "BUSINESS_OWNER", "BUSINESS_MANAGER"].includes(
+          ["SUPER_ADMIN", "BUSINESS_OWNER"].includes(
             user?.role
           )
         )

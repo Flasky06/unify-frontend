@@ -348,7 +348,7 @@ export const InvoiceList = () => {
               {/* Invoice Header */}
               <div className="mb-8 text-center">
                 <h1 className="text-3xl font-bold text-gray-800">
-                  {selectedSale.businessName || "Miale"}
+                  {selectedSale.businessName}
                 </h1>
                 <p className="text-gray-600">{selectedSale.shopName}</p>
               </div>

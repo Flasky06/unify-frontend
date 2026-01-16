@@ -26,10 +26,7 @@ const SubscriptionsManagement = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
+ 
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -45,6 +42,11 @@ const SubscriptionsManagement = () => {
       setIsLoading(false);
     }
   }, [filterStatus, showToast]);
+
+   useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
 
   const filteredSubscriptions = subscriptions.filter((sub) =>
     sub.businessName?.toLowerCase().includes(searchTerm.toLowerCase())

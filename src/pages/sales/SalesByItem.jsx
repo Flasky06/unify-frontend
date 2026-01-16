@@ -78,7 +78,8 @@ const SalesByItem = () => {
     } finally {
       setLoading(false);
     }
-  }, [aggregateData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [salesType]); // aggregateData uses salesType, so depend on it directly
 
   const fetchSalesByShop = useCallback(
     async (shopId) => {
@@ -93,7 +94,8 @@ const SalesByItem = () => {
         setLoading(false);
       }
     },
-    [aggregateData]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [salesType] // aggregateData uses salesType, so depend on it directly
   );
 
   useEffect(() => {
@@ -109,7 +111,8 @@ const SalesByItem = () => {
     if (sales.length > 0) {
       aggregateData(sales);
     }
-  }, [salesType, sales, aggregateData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [salesType, sales]); // aggregateData is stable, no need to include
 
   const columns = [
     { header: "Product Name", accessor: "productName" },
@@ -133,31 +136,28 @@ const SalesByItem = () => {
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setSearchParams({})}
-            className={`${
-              salesType === "all"
-                ? "border-blue-500 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+            className={`${salesType === "all"
+              ? "border-blue-500 text-blue-600"
+              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
           >
             All Items
           </button>
           <button
             onClick={() => setSearchParams({ type: "product" })}
-            className={`${
-              salesType === "product"
-                ? "border-blue-500 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+            className={`${salesType === "product"
+              ? "border-blue-500 text-blue-600"
+              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
           >
             Products Only
           </button>
           <button
             onClick={() => setSearchParams({ type: "service" })}
-            className={`${
-              salesType === "service"
-                ? "border-blue-500 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+            className={`${salesType === "service"
+              ? "border-blue-500 text-blue-600"
+              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
           >
             Services Only
           </button>

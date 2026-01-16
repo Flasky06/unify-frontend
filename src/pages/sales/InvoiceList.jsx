@@ -17,7 +17,8 @@ export const InvoiceList = () => {
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState("");
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] 
+  = useState(null);
   const [toast, setToast] = useState({
     isOpen: false,
     message: "",

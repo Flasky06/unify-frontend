@@ -54,6 +54,7 @@ const StockTransfers = () => {
         type: "error",
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Remove selectedShopId dependency
 
   // Fixed: Remove circular dependency by removing fetchTransfers from dependency array
@@ -223,21 +224,20 @@ const StockTransfers = () => {
     { header: "Quantity", accessor: "quantity" },
     ...(user?.role === "BUSINESS_OWNER" || user?.role === "BUSINESS_MANAGER"
       ? [
-          { header: "From Shop", accessor: "sourceShopName" },
-          { header: "To Shop", accessor: "destinationShopName" },
-        ]
+        { header: "From Shop", accessor: "sourceShopName" },
+        { header: "To Shop", accessor: "destinationShopName" },
+      ]
       : [{ header: "From Shop", accessor: "sourceShopName" }]),
     {
       header: "Status",
       render: (row) => (
         <span
-          className={`px-2 py-1 rounded text-xs font-bold ${
-            row.status === "COMPLETED"
+          className={`px-2 py-1 rounded text-xs font-bold ${row.status === "COMPLETED"
               ? "bg-green-100 text-green-800"
               : row.status === "PENDING"
-              ? "bg-yellow-100 text-yellow-800"
-              : "bg-red-100 text-red-800"
-          }`}
+                ? "bg-yellow-100 text-yellow-800"
+                : "bg-red-100 text-red-800"
+            }`}
         >
           {row.status}
         </span>
@@ -330,21 +330,19 @@ const StockTransfers = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex-1 flex flex-col min-h-0 overflow-hidden">
           <div className="flex gap-4 border-b border-gray-200 px-4 pt-2">
             <button
-              className={`py-2 px-4 font-medium border-b-2 transition ${
-                activeTab === "incoming"
+              className={`py-2 px-4 font-medium border-b-2 transition ${activeTab === "incoming"
                   ? "border-blue-600 text-blue-600"
                   : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
+                }`}
               onClick={() => setActiveTab("incoming")}
             >
               Incoming
             </button>
             <button
-              className={`py-2 px-4 font-medium border-b-2 transition ${
-                activeTab === "outgoing"
+              className={`py-2 px-4 font-medium border-b-2 transition ${activeTab === "outgoing"
                   ? "border-blue-600 text-blue-600"
                   : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
+                }`}
               onClick={() => setActiveTab("outgoing")}
             >
               Outgoing
@@ -432,13 +430,12 @@ const StockTransfers = () => {
             <div className="border-t pt-3 flex justify-between items-center">
               <span className="text-gray-500">Status</span>
               <span
-                className={`px-2 py-1 rounded text-xs font-bold ${
-                  viewTransfer.status === "COMPLETED"
+                className={`px-2 py-1 rounded text-xs font-bold ${viewTransfer.status === "COMPLETED"
                     ? "bg-green-100 text-green-800"
                     : viewTransfer.status === "PENDING"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-red-100 text-red-800"
-                }`}
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
               >
                 {viewTransfer.status}
               </span>

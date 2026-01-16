@@ -18,9 +18,8 @@ const SummaryCard = ({ title, value, icon, isProfit }) => (
       <div>
         <p className="text-xs text-gray-500 mb-1">{title}</p>
         <h3
-          className={`text-lg font-bold ${
-            isProfit ? "text-emerald-600" : "text-gray-800"
-          }`}
+          className={`text-lg font-bold ${isProfit ? "text-emerald-600" : "text-gray-800"
+            }`}
         >
           {value}
         </h3>
@@ -317,11 +316,10 @@ const SalesHistory = () => {
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition ${
-                  statusFilter === status
+                className={`px-3 py-1 rounded-full text-sm font-medium transition ${statusFilter === status
                     ? "bg-blue-600 text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 {status === "ALL"
                   ? "All"
@@ -421,7 +419,7 @@ const SalesHistory = () => {
               {/* Receipt Header */}
               <div className="text-center pb-4 border-b-2 border-dashed border-gray-300 mb-4 print:pb-2 print:mb-2">
                 <h1 className="text-xl font-bold text-gray-900 uppercase tracking-wide">
-                  {selectedSale.businessName || "Miale"}
+                  {selectedSale.businessName}
                 </h1>
                 <h2 className="text-sm font-semibold text-gray-700">
                   {selectedSale.shopName}
@@ -626,7 +624,7 @@ const SalesHistory = () => {
                 KSH{" "}
                 {(
                   (selectedSale?.balance !== undefined &&
-                  selectedSale?.balance !== null
+                    selectedSale?.balance !== null
                     ? selectedSale.balance
                     : selectedSale?.total) || 0
                 ).toLocaleString()}
@@ -657,11 +655,10 @@ const SalesHistory = () => {
                 <button
                   key={pm.id}
                   onClick={() => setSelectedPaymentMethod(pm.id)}
-                  className={`p-3 rounded-lg border text-sm font-medium transition ${
-                    selectedPaymentMethod === pm.id
+                  className={`p-3 rounded-lg border text-sm font-medium transition ${selectedPaymentMethod === pm.id
                       ? "border-green-600 bg-green-50 text-green-700"
                       : "border-gray-200 hover:bg-gray-50"
-                  }`}
+                    }`}
                 >
                   {pm.name}
                 </button>

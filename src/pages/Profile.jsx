@@ -32,7 +32,7 @@ const Profile = () => {
       });
       if (user.business) {
         setBusinessData({
-          businessName: user.business.name || "",
+          businessName: user.business.businessName || "",
           businessType: user.business.businessType || "",
           address: user.business.address || "",
         });
@@ -88,7 +88,7 @@ const Profile = () => {
       setFormData({ phoneNo: user.phoneNo || "" });
       if (user.business) {
         setBusinessData({
-          businessName: user.business.name || "",
+          businessName: user.business.businessName || "",
           businessType: user.business.businessType || "",
           address: user.business.address || "",
         });
@@ -131,22 +131,20 @@ const Profile = () => {
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab("overview")}
-            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${
-              activeTab === "overview"
-                ? "border-blue-500 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            }`}
+            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${activeTab === "overview"
+              ? "border-blue-500 text-blue-600"
+              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
           >
             Overview
           </button>
           {isBusinessUser && (
             <button
               onClick={() => setActiveTab("subscription")}
-              className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === "subscription"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              }`}
+              className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${activeTab === "subscription"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
             >
               Subscription
             </button>
@@ -205,49 +203,51 @@ const Profile = () => {
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Business Information
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input
-                      label="Business Name"
-                      value={businessData.businessName}
-                      onChange={(e) =>
-                        setBusinessData({
-                          ...businessData,
-                          businessName: e.target.value,
-                        })
-                      }
-                      disabled={!isEditing}
-                      placeholder="Your Business Name"
-                    />
-                    <Input
-                      label="Business Type"
-                      value={businessData.businessType}
-                      onChange={(e) =>
-                        setBusinessData({
-                          ...businessData,
-                          businessType: e.target.value,
-                        })
-                      }
-                      disabled={!isEditing}
-                      placeholder="e.g. Retail"
-                    />
-                    <Input
-                      label="Address"
-                      value={businessData.address}
-                      onChange={(e) =>
-                        setBusinessData({
-                          ...businessData,
-                          address: e.target.value,
-                        })
-                      }
-                      disabled={!isEditing}
-                      placeholder="Business Address"
-                    />
+                {isBusinessUser && user?.business && (
+                  <div className="pt-6 border-t border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      Business Information
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <Input
+                        label="Business Name"
+                        value={businessData.businessName}
+                        onChange={(e) =>
+                          setBusinessData({
+                            ...businessData,
+                            businessName: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                        placeholder="Your Business Name"
+                      />
+                      <Input
+                        label="Business Type"
+                        value={businessData.businessType}
+                        onChange={(e) =>
+                          setBusinessData({
+                            ...businessData,
+                            businessType: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                        placeholder="e.g. Retail"
+                      />
+                      <Input
+                        label="Address"
+                        value={businessData.address}
+                        onChange={(e) =>
+                          setBusinessData({
+                            ...businessData,
+                            address: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                        placeholder="Business Address"
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {isEditing && (
                   <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">

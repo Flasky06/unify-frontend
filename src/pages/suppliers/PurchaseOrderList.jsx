@@ -164,9 +164,8 @@ export const PurchaseOrderList = () => {
       return (
         <div className="flex flex-col gap-1 items-start">
           <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${
-              styles[status] || "bg-gray-100 text-gray-800"
-            }`}
+            className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status] || "bg-gray-100 text-gray-800"
+              }`}
           >
             {status}
           </span>
@@ -179,9 +178,8 @@ export const PurchaseOrderList = () => {
 
     return (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-medium ${
-          styles[status] || "bg-gray-100 text-gray-800"
-        }`}
+        className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status] || "bg-gray-100 text-gray-800"
+          }`}
       >
         {status}
       </span>
@@ -579,8 +577,8 @@ export const PurchaseOrderList = () => {
                     <p className="font-medium">
                       {viewModal.order.orderDate
                         ? new Date(
-                            viewModal.order.orderDate
-                          ).toLocaleDateString()
+                          viewModal.order.orderDate
+                        ).toLocaleDateString()
                         : "-"}
                     </p>
                   </div>
@@ -659,11 +657,10 @@ export const PurchaseOrderList = () => {
                 <div className="flex justify-between border-t pt-2">
                   <span className="text-gray-900 font-semibold">Balance:</span>
                   <span
-                    className={`font-bold ${
-                      viewModal.order.balance > 0
+                    className={`font-bold ${viewModal.order.balance > 0
                         ? "text-red-600"
                         : "text-green-600"
-                    }`}
+                      }`}
                   >
                     KES {(viewModal.order.balance || 0).toLocaleString()}
                   </span>
@@ -759,7 +756,7 @@ export const PurchaseOrderList = () => {
             {/* Header */}
             <div className="text-center pb-4 border-b-2 border-dashed border-gray-300 mb-4 print:pb-2 print:mb-2">
               <h1 className="text-xl font-bold text-gray-900 uppercase tracking-wide">
-                {user?.businessName || user?.business?.name || "Business"}
+                {user?.business?.businessName}
               </h1>
               <h2 className="text-lg font-semibold text-gray-700">
                 Purchase Orders Report
@@ -776,29 +773,29 @@ export const PurchaseOrderList = () => {
                   selectedStatus ||
                   startDate ||
                   endDate) && (
-                  <div className="text-xs mt-2 space-y-0.5">
-                    {selectedSupplier && (
-                      <p>
-                        Supplier:{" "}
-                        {
-                          suppliers.find(
-                            (s) => s.id.toString() === selectedSupplier
-                          )?.name
-                        }
-                      </p>
-                    )}
-                    {selectedStatus && <p>Status: {selectedStatus}</p>}
-                    {(startDate || endDate) && (
-                      <p>
-                        {startDate &&
-                          `From: ${new Date(startDate).toLocaleDateString()}`}
-                        {startDate && endDate && " | "}
-                        {endDate &&
-                          `To: ${new Date(endDate).toLocaleDateString()}`}
-                      </p>
-                    )}
-                  </div>
-                )}
+                    <div className="text-xs mt-2 space-y-0.5">
+                      {selectedSupplier && (
+                        <p>
+                          Supplier:{" "}
+                          {
+                            suppliers.find(
+                              (s) => s.id.toString() === selectedSupplier
+                            )?.name
+                          }
+                        </p>
+                      )}
+                      {selectedStatus && <p>Status: {selectedStatus}</p>}
+                      {(startDate || endDate) && (
+                        <p>
+                          {startDate &&
+                            `From: ${new Date(startDate).toLocaleDateString()}`}
+                          {startDate && endDate && " | "}
+                          {endDate &&
+                            `To: ${new Date(endDate).toLocaleDateString()}`}
+                        </p>
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
 

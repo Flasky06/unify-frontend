@@ -23,7 +23,8 @@ export const ExpenseAnalytics = () => {
     const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
     setStartDate(firstDay.toISOString().split("T")[0]);
     setEndDate(today.toISOString().split("T")[0]);
-  }, [fetchShops]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // fetchShops has empty deps, so it's stable
 
   useEffect(() => {
     const fetchAnalytics = async () => {

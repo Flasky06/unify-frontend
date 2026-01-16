@@ -8,7 +8,7 @@ import { employeeService } from "../../services/employeeService";
 import { expenseService } from "../../services/expenseService";
 import { paymentMethodService } from "../../services/paymentMethodService";
 import { Select } from "../../components/ui/Select";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const EmployeeDetails = () => {

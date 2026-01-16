@@ -5,7 +5,8 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { serviceItemService } from "../../services/serviceItemService";
 import { serviceCategoryService } from "../../services/serviceCategoryService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const ServiceList = () => {
@@ -17,7 +18,6 @@ export const ServiceList = () => {
   const [editingService, setEditingService] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
-
     price: "",
     unit: "",
     minimumQuantity: 1,
@@ -45,10 +45,7 @@ export const ServiceList = () => {
   const [newQuickCategoryName, setNewQuickCategoryName] = useState("");
   const [quickAddLoading, setQuickAddLoading] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
+  // Fixed: Remove fetchData from dependency array to prevent circular dependency
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
@@ -74,7 +71,11 @@ export const ServiceList = () => {
     } finally {
       setLoading(false);
     }
-  }, [user, selectedCategory]);
+  }, [user, selectedCategory]); // Keep only the actual dependencies
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); // Now safe to use fetchData here
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -166,7 +167,6 @@ export const ServiceList = () => {
     setEditingService(null);
     setFormData({
       name: "",
-
       price: "",
       unit: "per service",
       minimumQuantity: 1,
@@ -181,7 +181,6 @@ export const ServiceList = () => {
     setEditingService(service);
     setFormData({
       name: service.name,
-
       price: service.price,
       unit: service.unit,
       minimumQuantity: service.minimumQuantity,
@@ -197,7 +196,6 @@ export const ServiceList = () => {
     setEditingService(null);
     setFormData({
       name: "",
-
       price: "",
       unit: "",
       minimumQuantity: 1,

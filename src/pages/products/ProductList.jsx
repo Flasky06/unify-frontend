@@ -6,7 +6,8 @@ import Input from "../../components/ui/Input";
 import { productService } from "../../services/productService";
 import { brandService } from "../../services/brandService";
 import { productCategoryService } from "../../services/productCategoryService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const ProductList = () => {

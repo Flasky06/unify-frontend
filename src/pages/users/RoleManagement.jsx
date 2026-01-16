@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { permissionService } from "../../services/permissionService";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 
 // Simple Icons
 const ShieldIcon = ({ className }) => (
@@ -69,16 +69,7 @@ const RoleManagement = () => {
     setToastState({ isOpen: true, message, type });
   }, []);
 
-  useEffect(() => {
-    loadInitialData();
-  }, [loadInitialData]);
-
-  useEffect(() => {
-    if (selectedRole) {
-      loadRolePermissions(selectedRole);
-    }
-  }, [selectedRole, loadRolePermissions]);
-
+  // Fixed: Remove circular dependencies
   const loadInitialData = useCallback(async () => {
     try {
       const [rolesData, permissionsData] = await Promise.all([
@@ -87,13 +78,12 @@ const RoleManagement = () => {
       ]);
 
       // Filter out only SUPER_ADMIN and BUSINESS_OWNER (they shouldn't be edited)
-      // BUSINESS_MANAGER will be shown but read-only
       const editableRoles = rolesData.filter(
         (r) => r !== "SUPER_ADMIN" && r !== "BUSINESS_OWNER"
       );
       setRoles(editableRoles);
 
-      // Sort permissions alphabetically or by category if we categorize them later
+      // Sort permissions alphabetically
       setAllPermissions(permissionsData.sort());
 
       if (editableRoles.length > 0) {
@@ -105,7 +95,7 @@ const RoleManagement = () => {
     } finally {
       setLoading(false);
     }
-  }, [showToast]);
+  }, [showToast]); // Keep only showToast dependency
 
   const loadRolePermissions = useCallback(async (role) => {
     try {
@@ -118,7 +108,17 @@ const RoleManagement = () => {
     } finally {
       setLoading(false);
     }
-  }, [showToast]);
+  }, [showToast]); // Keep only showToast dependency
+
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]); // Now safe
+
+  useEffect(() => {
+    if (selectedRole) {
+      loadRolePermissions(selectedRole);
+    }
+  }, [selectedRole, loadRolePermissions]); // Now safe
 
   const handlePermissionToggle = (permission) => {
     const newPermissions = new Set(rolePermissions);
@@ -154,7 +154,7 @@ const RoleManagement = () => {
       .join(" ");
   };
 
-  // Group permissions by category (first word of enum usually)
+  // Group permissions by category
   const groupedPermissions = allPermissions.reduce((acc, permission) => {
     let module = "General";
 
@@ -248,9 +248,6 @@ const RoleManagement = () => {
       </div>
 
       <div className="flex flex-col gap-6">
-        {/* Permissions Grid */}
-
-        {/* Permissions Grid */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-full flex flex-col">
           <div className="flex items-center justify-between mb-6 border-b pb-4">
             <h2 className="text-lg font-semibold text-gray-800">

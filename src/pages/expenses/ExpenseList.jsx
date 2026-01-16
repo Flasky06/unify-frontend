@@ -8,7 +8,8 @@ import { expenseService } from "../../services/expenseService";
 import { expenseCategoryService } from "../../services/expenseCategoryService";
 import { shopService } from "../../services/shopService";
 import { paymentMethodService } from "../../services/paymentMethodService"; // Import added
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const ExpenseList = () => {

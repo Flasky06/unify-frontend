@@ -3,7 +3,7 @@ import Button from "../../components/ui/Button";
 import Table from "../../components/ui/Table";
 import Modal from "../../components/ui/Modal";
 import Input from "../../components/ui/Input";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import { stockTransferService } from "../../services/stockTransferService";
 import { shopService } from "../../services/shopService";
 import { stockService } from "../../services/stockService";
@@ -11,12 +11,12 @@ import useAuthStore from "../../store/authStore";
 
 const StockTransfers = () => {
   const { user } = useAuthStore();
-  const [activeTab, setActiveTab] = useState("incoming"); // 'incoming' or 'outgoing'
+  const [activeTab, setActiveTab] = useState("incoming");
   const [transfers, setTransfers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [shops, setShops] = useState([]); // All shops
-  const [selectedShopId, setSelectedShopId] = useState(""); // For Business Owner shop selection
+  const [shops, setShops] = useState([]);
+  const [selectedShopId, setSelectedShopId] = useState("");
 
   // Create Transfer State
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
@@ -37,23 +37,7 @@ const StockTransfers = () => {
   const [viewTransfer, setViewTransfer] = useState(null);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
 
-  useEffect(() => {
-    // Load shops for Business Owner
-    if (user?.role === "BUSINESS_OWNER") {
-      loadShops();
-    } else {
-      // For Shop Manager/Sales Rep, set their shop automatically
-      const shopId = user?.shopId || user?.shop?.id;
-      if (shopId) setSelectedShopId(shopId);
-    }
-  }, [user, loadShops]);
-
-  useEffect(() => {
-    if (selectedShopId) {
-      fetchTransfers();
-    }
-  }, [fetchTransfers, selectedShopId]);
-
+  // Fixed: Remove circular dependency by removing loadShops from dependency array
   const loadShops = useCallback(async () => {
     try {
       const data = await shopService.getAll();
@@ -70,8 +54,9 @@ const StockTransfers = () => {
         type: "error",
       });
     }
-  }, [selectedShopId]);
+  }, []); // Remove selectedShopId dependency
 
+  // Fixed: Remove circular dependency by removing fetchTransfers from dependency array
   const fetchTransfers = useCallback(async () => {
     if (!selectedShopId) return;
 
@@ -94,7 +79,24 @@ const StockTransfers = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedShopId, activeTab]);
+  }, [selectedShopId, activeTab]); // Keep only the actual dependencies
+
+  useEffect(() => {
+    // Load shops for Business Owner
+    if (user?.role === "BUSINESS_OWNER") {
+      loadShops();
+    } else {
+      // For Shop Manager/Sales Rep, set their shop automatically
+      const shopId = user?.shopId || user?.shop?.id;
+      if (shopId) setSelectedShopId(shopId);
+    }
+  }, [user, loadShops]); // loadShops is safe now
+
+  useEffect(() => {
+    if (selectedShopId) {
+      fetchTransfers();
+    }
+  }, [fetchTransfers, selectedShopId]); // fetchTransfers is safe now
 
   const handleInitFetch = async () => {
     try {
@@ -111,9 +113,8 @@ const StockTransfers = () => {
         shopService.getAll(),
         stockService.getStocksByShop(selectedShopId),
       ]);
-      setShops(allShops.filter((s) => s.id !== selectedShopId)); // Exclude current shop
+      setShops(allShops.filter((s) => s.id !== selectedShopId));
 
-      // Enrich stocks with needed details if necessary, but stock object usually has productName
       setAvailableStock(stocks);
     } catch (err) {
       console.error(err);
@@ -220,8 +221,6 @@ const StockTransfers = () => {
       ),
     },
     { header: "Quantity", accessor: "quantity" },
-    // For Business Owner/Manager, show both From and To shops
-    // For Shop Manager, only show From shop (they know it's coming to their shop)
     ...(user?.role === "BUSINESS_OWNER" || user?.role === "BUSINESS_MANAGER"
       ? [
           { header: "From Shop", accessor: "sourceShopName" },

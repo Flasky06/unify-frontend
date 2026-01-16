@@ -5,14 +5,12 @@ import Table from "../../components/ui/Table";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 
-import AdjustStockModal from "./AdjustStockModal";
 import { stockService } from "../../services/stockService";
 import { productService } from "../../services/productService";
 import { shopService } from "../../services/shopService";
 import useAuthStore from "../../store/authStore";
 
 const StockList = () => {
-  // const navigate = useNavigate();
   const { user } = useAuthStore();
   const [stocks, setStocks] = useState([]);
   const [products, setProducts] = useState([]);
@@ -20,12 +18,10 @@ const StockList = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStock, setEditingStock] = useState(null);
-  const [viewMode, setViewMode] = useState("all"); // all, byShop
+  const [viewMode, setViewMode] = useState("all");
   const [selectedShopId, setSelectedShopId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
-
-
 
   const [formData, setFormData] = useState({
     shopId: "",
@@ -34,41 +30,40 @@ const StockList = () => {
     reason: "Manual Update",
   });
 
-  // Product Picker State
   const [showProductPicker, setShowProductPicker] = useState(false);
   const [productSearchTerm, setProductSearchTerm] = useState("");
   const [selectedProductForAdd, setSelectedProductForAdd] = useState(null);
+  const [printModalOpen, setPrintModalOpen] = useState(false);
 
-  // ... (Effect hooks unchanged) ...
-
-  // Handlers for New Features
-
-
-
-
-  // Fetch initial data
-  useEffect(() => {
-    fetchProducts();
-    fetchShops();
-    fetchStocks();
-  }, [fetchProducts, fetchShops, fetchStocks]);
-
-  // Fetch stocks based on view mode
-  useEffect(() => {
-    if (shops.length > 0) {
-      fetchStocks();
+  // Fetch functions with useCallback
+  const fetchProducts = useCallback(async () => {
+    try {
+      const data = await productService.getAll();
+      setProducts(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      setProducts([]);
     }
-  }, [fetchStocks, shops.length]);
+  }, []);
+
+  const fetchShops = useCallback(async () => {
+    try {
+      const data = await shopService.getAll();
+      setShops(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Failed to fetch shops:", error);
+      setShops([]);
+    }
+  }, []);
 
   const fetchStocks = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       let data;
       if (viewMode === "byShop" && selectedShopId) {
-        // Filter by specific shop
         data = await stockService.getStocksByShop(selectedShopId);
       } else {
-        // Default: Show all stocks across all shops
         if (shops.length > 0) {
           const allStocks = await Promise.all(
             shops.map((shop) => stockService.getStocksByShop(shop.id))
@@ -78,49 +73,65 @@ const StockList = () => {
           data = [];
         }
       }
-      setStocks(data || []);
+      setStocks(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Failed to fetch stocks:", error);
-      setError(error.message || "Failed to fetch stocks");
+      setError(error?.message || "Failed to fetch stocks");
+      setStocks([]);
     } finally {
       setLoading(false);
     }
   }, [viewMode, selectedShopId, shops]);
 
-  const fetchProducts = useCallback(async () => {
-    try {
-      const data = await productService.getAll();
-      setProducts(data);
-    } catch (error) {
-      console.error("Failed to fetch products:", error);
-    }
-  }, []);
+  // Initial data fetch
+  useEffect(() => {
+    fetchProducts();
+    fetchShops();
+  }, [fetchProducts, fetchShops]);
 
-  const fetchShops = useCallback(async () => {
-    try {
-      const data = await shopService.getAll();
-      setShops(data);
-    } catch (error) {
-      console.error("Failed to fetch shops:", error);
+  // Fetch stocks when shops are loaded or filters change
+  useEffect(() => {
+    if (shops.length > 0) {
+      fetchStocks();
     }
-  }, []);
+  }, [fetchStocks, shops.length]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
+    
+    const quantity = parseInt(formData.quantity);
+    const shopId = parseInt(formData.shopId);
+    const productId = parseInt(formData.productId);
+
+    if (isNaN(quantity) || quantity < 0) {
+      alert("Please enter a valid quantity");
+      return;
+    }
+
+    if (!shopId) {
+      alert("Please select a shop");
+      return;
+    }
+
+    if (!productId) {
+      alert("Please select a product");
+      return;
+    }
+
     setLoading(true);
 
     try {
       if (editingStock) {
         await stockService.updateStock(editingStock.id, {
-          quantity: parseInt(formData.quantity),
+          quantity,
           reason: formData.reason,
         });
       } else {
         await stockService.createStock({
-          shopId: parseInt(formData.shopId),
-          productId: parseInt(formData.productId),
-          quantity: parseInt(formData.quantity),
+          shopId,
+          productId,
+          quantity,
           reason: formData.reason,
         });
       }
@@ -128,30 +139,34 @@ const StockList = () => {
       setEditingStock(null);
       setSelectedProductForAdd(null);
       resetForm();
-      fetchStocks();
+      await fetchStocks();
     } catch (error) {
       console.error("Failed to save stock:", error);
-      alert(error.message || "Failed to save stock");
+      alert(error?.message || "Failed to save stock");
     } finally {
       setLoading(false);
     }
   };
 
   const handleEdit = (stock) => {
+    if (!stock) return;
+    
     setEditingStock(stock);
     setFormData({
-      shopId: stock.shopId,
-      productId: stock.productId,
-      quantity: stock.quantity,
+      shopId: stock.shopId || "",
+      productId: stock.productId || "",
+      quantity: stock.quantity || 0,
       reason: "Manual Update",
     });
     setIsModalOpen(true);
-    // Find and set the product object for detailed view
+    
     const product = products.find((p) => p.id === stock.productId);
     setSelectedProductForAdd(product || null);
   };
 
   const handleProductSelect = (product) => {
+    if (!product) return;
+    
     setSelectedProductForAdd(product);
     setFormData((prev) => ({ ...prev, productId: product.id }));
     setShowProductPicker(false);
@@ -159,16 +174,16 @@ const StockList = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this stock entry?")) return;
+    if (!window.confirm("Are you sure you want to delete this stock entry?")) return;
     if (loading) return;
 
     setLoading(true);
     try {
       await stockService.deleteStock(id);
-      fetchStocks();
+      await fetchStocks();
     } catch (error) {
       console.error("Failed to delete stock:", error);
-      alert(error.message || "Failed to delete stock");
+      alert(error?.message || "Failed to delete stock");
     } finally {
       setLoading(false);
     }
@@ -185,11 +200,27 @@ const StockList = () => {
     setProductSearchTerm("");
   };
 
-
-
   const getShopName = (shopId) => {
     const shop = shops.find((s) => s.id === shopId);
     return shop ? shop.name : "Unknown";
+  };
+
+  const handlePrint = () => {
+    setPrintModalOpen(true);
+  };
+
+  const handlePrintDocument = () => {
+    const originalTitle = document.title;
+    document.title = "Stock_List";
+    try {
+      window.print();
+    } catch (err) {
+      console.error("Print error:", err);
+    } finally {
+      setTimeout(() => {
+        document.title = originalTitle;
+      }, 100);
+    }
   };
 
   const columns = [
@@ -235,7 +266,7 @@ const StockList = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => handleDelete(row._stock.id)}
+            onClick={() => handleDelete(row._stock?.id)}
             className="text-red-600 hover:bg-red-50 hover:text-red-700 font-medium px-3"
           >
             Delete
@@ -249,19 +280,18 @@ const StockList = () => {
     const product = products.find((p) => p.id === stock.productId);
     return {
       id: stock.id,
-      productName: product ? product.name : "Unknown",
-      brandName: product ? product.brandName : "N/A",
-      categoryName: product ? product.categoryName : "N/A",
+      productName: product?.name || "Unknown",
+      brandName: product?.brandName || "N/A",
+      categoryName: product?.categoryName || "N/A",
       shopName: getShopName(stock.shopId),
-      quantity: stock.quantity,
+      quantity: stock.quantity || 0,
       _stock: stock,
     };
   });
 
-  // Filter products for the picker
   const pickerProducts = products
     .filter((product) =>
-      product.name.toLowerCase().includes(productSearchTerm.toLowerCase())
+      product?.name?.toLowerCase().includes(productSearchTerm.toLowerCase())
     )
     .map((product) => ({
       id: product.id,
@@ -288,19 +318,13 @@ const StockList = () => {
 
   const filteredStocks = tableData.filter(
     (stock) =>
-      stock.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      stock.shopName.toLowerCase().includes(searchTerm.toLowerCase())
+      stock.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      stock.shopName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const selectedShopName = selectedShopId
     ? shops.find((s) => s.id === parseInt(selectedShopId))?.name || "All Shops"
     : "All Shops";
-
-  const [printModalOpen, setPrintModalOpen] = useState(false);
-
-  const handlePrint = () => {
-    setPrintModalOpen(true);
-  };
 
   return (
     <div className="flex flex-col w-full -mt-2">
@@ -451,7 +475,7 @@ const StockList = () => {
               onChange={(e) =>
                 setFormData({ ...formData, shopId: e.target.value })
               }
-              disabled={editingStock}
+              disabled={!!editingStock}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
             >
@@ -478,7 +502,7 @@ const StockList = () => {
                 </div>
                 <div className="text-gray-600">Selling Price:</div>
                 <div className="font-medium">
-                  KSH {selectedProductForAdd.sellingPrice?.toLocaleString()}
+                  KSH {selectedProductForAdd.sellingPrice?.toLocaleString() || "0"}
                 </div>
                 <div className="text-gray-600">Category:</div>
                 <div className="font-medium">
@@ -512,7 +536,7 @@ const StockList = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, productId: e.target.value })
                 }
-                disabled={editingStock}
+                disabled={!!editingStock}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
               >
@@ -646,8 +670,6 @@ const StockList = () => {
             </tbody>
           </table>
 
-          {/* Total */}
-
           {/* Footer */}
           <div className="text-center pt-6 border-t-2 border-dashed border-gray-200 mt-4 print:mt-2 print:pt-2">
             <p className="text-xs text-gray-500">
@@ -661,17 +683,7 @@ const StockList = () => {
           <Button variant="outline" onClick={() => setPrintModalOpen(false)}>
             Close
           </Button>
-          <Button
-            onClick={() => {
-              const originalTitle = document.title;
-              document.title = "Stock_List";
-              window.print();
-              setTimeout(() => {
-                document.title = originalTitle;
-              }, 100);
-            }}
-            className="gap-2"
-          >
+          <Button onClick={handlePrintDocument} className="gap-2">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -689,6 +701,7 @@ const StockList = () => {
           </Button>
         </div>
       </Modal>
+
       {/* Product Picker Modal */}
       <Modal
         isOpen={showProductPicker}

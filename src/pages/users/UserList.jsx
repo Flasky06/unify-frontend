@@ -5,7 +5,8 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { userService } from "../../services/userService";
 import { shopService } from "../../services/shopService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 import UserPermissionsModal from "./UserPermissionsModal";

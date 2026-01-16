@@ -4,7 +4,8 @@ import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { brandService } from "../../services/brandService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 
 export const BrandList = () => {
   const [brands, setBrands] = useState([]);

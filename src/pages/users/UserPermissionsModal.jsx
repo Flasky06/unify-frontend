@@ -11,7 +11,11 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
   const [granted, setGranted] = useState(new Set());
   const [revoked, setRevoked] = useState(new Set());
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState(null);
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,8 +29,6 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
         if (!user) {
           throw new Error("User not found");
         }
-
-        // setUserRole(user.role); // Removed unused
 
         const [enums, userPerms, rolePerms] = await Promise.all([
           permissionService.getAllPermissionEnums(),
@@ -100,8 +102,7 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
   };
 
   const showToast = (message, type) => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 4000);
+    setToast({ isOpen: true, message, type });
   };
 
   // Group permissions by module (e.g., VIEW_PRODUCTS -> PRODUCTS)
@@ -120,14 +121,6 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
       maxWidth="max-w-4xl"
     >
       <div className="space-y-4">
-        {toast && (
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast(null)}
-          />
-        )}
-
         <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800">
           <p className="font-semibold">Override Instructions:</p>
           <ul className="list-disc ml-5 space-y-1 mt-1">
@@ -242,6 +235,13 @@ const UserPermissionsModal = ({ isOpen, onClose, userId, userName }) => {
           </form>
         )}
       </div>
+
+      <Toast
+        isOpen={toast.isOpen}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, isOpen: false })}
+      />
     </Modal>
   );
 };

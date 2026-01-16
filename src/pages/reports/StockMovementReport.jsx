@@ -3,7 +3,7 @@ import { reportService } from "../../services/reportService";
 import { shopService } from "../../services/shopService";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import { format } from "date-fns";
 import useAuthStore from "../../store/authStore";
 

@@ -6,7 +6,7 @@ import { supplierService } from "../../services/supplierService";
 import { productService } from "../../services/productService";
 import { purchaseOrderService } from "../../services/purchaseOrderService";
 import { paymentMethodService } from "../../services/paymentMethodService";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import { shopService } from "../../services/shopService";
 
 export const PurchaseOrderCreate = () => {

@@ -7,7 +7,8 @@ import Input from "../../components/ui/Input";
 import { purchaseOrderService } from "../../services/purchaseOrderService";
 import { supplierService } from "../../services/supplierService";
 import { paymentMethodService } from "../../services/paymentMethodService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const PurchaseOrderList = () => {

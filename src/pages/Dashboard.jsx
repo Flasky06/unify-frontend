@@ -10,7 +10,7 @@ import { stockService } from "../services/stockService";
 import { saleService } from "../services/saleService";
 import { serviceItemService } from "../services/serviceItemService";
 import { paymentMethodService } from "../services/paymentMethodService";
-import { Toast } from "../components/ui/ConfirmDialog";
+import Toast from "../components/ui/Toast";
 
 const Dashboard = () => {
   const { user } = useAuth();

@@ -6,7 +6,8 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { employeeService } from "../../services/employeeService";
 import { shopService } from "../../services/shopService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 import useAuthStore from "../../store/authStore";
 
 export const EmployeeList = () => {

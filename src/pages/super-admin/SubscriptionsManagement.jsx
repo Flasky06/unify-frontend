@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { subscriptionService } from "../../services/subscriptionService";
-import { Toast } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 
 import StatusBadge from "../../components/ui/StatusBadge";
 import Table from "../../components/ui/Table";

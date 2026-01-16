@@ -4,7 +4,8 @@ import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { productCategoryService } from "../../services/productCategoryService";
-import { ConfirmDialog, Toast } from "../../components/ui/ConfirmDialog";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
+import Toast from "../../components/ui/Toast";
 
 export const ProductCategoryList = () => {
   const [categories, setCategories] = useState([]);

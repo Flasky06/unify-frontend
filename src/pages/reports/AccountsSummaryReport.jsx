@@ -266,17 +266,11 @@ export const AccountsSummaryReport = () => {
               </svg>
               Money Out (Expenses)
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <MetricCard
-                title="Operational Expenses (KSH)"
-                value={formatAmount(data?.totalOperationalExpenses)}
-                subtitle="Rent, utilities, etc."
-                type="expense"
-              />
-              <MetricCard
-                title="Salaries Paid (KSH)"
-                value={formatAmount(data?.totalSalariesPaid)}
-                subtitle="Employee payroll"
+                title="Total Expenses (KSH)"
+                value={formatAmount(data?.totalExpenses)}
+                subtitle="All business expenses"
                 type="expense"
               />
               <MetricCard

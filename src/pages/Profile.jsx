@@ -122,12 +122,12 @@ const Profile = () => {
   return (
     <div>
       <div className="mb-6 border-b border-gray-200 flex justify-between items-end">
-        <nav className="-mb-px flex space-x-8">
+        <nav className="-mb-px flex space-x-4">
           <button
             onClick={() => setActiveTab("overview")}
-            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${activeTab === "overview"
-              ? "border-blue-500 text-blue-600"
-              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            className={`whitespace-nowrap px-4 py-2 border-b-2 font-medium text-sm transition-colors duration-200 ${activeTab === "overview"
+                ? "border-blue-500 text-blue-600 bg-blue-50/50 rounded-t-lg"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50 rounded-t-lg"
               }`}
           >
             Overview
@@ -135,9 +135,9 @@ const Profile = () => {
           {isBusinessUser && (
             <button
               onClick={() => setActiveTab("subscription")}
-              className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${activeTab === "subscription"
-                ? "border-blue-500 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              className={`whitespace-nowrap px-4 py-2 border-b-2 font-medium text-sm transition-colors duration-200 ${activeTab === "subscription"
+                  ? "border-blue-500 text-blue-600 bg-blue-50/50 rounded-t-lg"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50 rounded-t-lg"
                 }`}
             >
               Subscription
@@ -146,7 +146,7 @@ const Profile = () => {
         </nav>
 
         {activeTab === "overview" && !isEditing && (
-          <div className="pb-2">
+          <div className="pb-1">
             <Button onClick={() => setIsEditing(true)} size="sm">
               <svg
                 className="w-4 h-4 mr-2"

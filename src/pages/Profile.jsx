@@ -40,6 +40,26 @@ const Profile = () => {
     }
   }, [user]);
 
+  // Fetch business data if user has businessId but business object is not populated
+  useEffect(() => {
+    const fetchBusinessData = async () => {
+      if (user?.businessId && !user?.business) {
+        try {
+          const business = await businessService.getMyBusiness();
+          updateUser({ ...user, business });
+          setBusinessData({
+            businessName: business.businessName || "",
+            businessType: business.businessType || "",
+            address: business.address || "",
+          });
+        } catch (err) {
+          console.error("Failed to fetch business data:", err);
+        }
+      }
+    };
+    fetchBusinessData();
+  }, [user?.businessId, user?.business]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -203,7 +223,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {isBusinessUser && user?.business && (
+                {isBusinessUser && (user?.business || user?.businessId) && (
                   <div className="pt-6 border-t border-gray-200">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">
                       Business Information

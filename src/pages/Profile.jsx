@@ -147,7 +147,7 @@ const Profile = () => {
 
         {activeTab === "overview" && !isEditing && (
           <div className="pb-1">
-            <Button onClick={() => setIsEditing(true)} size="sm">
+            <Button onClick={() => setIsEditing(true)}>
               <svg
                 className="w-4 h-4 mr-2"
                 fill="none"
@@ -165,6 +165,8 @@ const Profile = () => {
             </Button>
           </div>
         )}
+
+
       </div>
 
       <div className="max-w-3xl">
@@ -271,11 +273,10 @@ const Profile = () => {
                       variant="outline"
                       onClick={handleCancel}
                       disabled={loading}
-                      size="sm"
                     >
                       Cancel
                     </Button>
-                    <Button type="submit" disabled={loading} size="sm">
+                    <Button type="submit" disabled={loading}>
                       {loading ? "Saving..." : "Save Changes"}
                     </Button>
                   </div>

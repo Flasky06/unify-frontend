@@ -85,10 +85,10 @@ export const MySubscription = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 space-y-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Subscription</h1>
+          <h1 className="text-xl font-bold text-gray-900">My Subscription</h1>
           <p className="text-gray-500 text-sm mt-1">
             Manage your plan and billing
           </p>
@@ -102,10 +102,10 @@ export const MySubscription = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <h3 className="text-sm font-medium text-gray-500">Current Plan</h3>
-          <p className="text-2xl font-bold text-gray-900 mt-2">
+          <p className="text-xl font-bold text-gray-900 mt-2">
             {subscription.planName}
           </p>
           <p className="text-sm text-gray-400 mt-1">
@@ -115,15 +115,14 @@ export const MySubscription = () => {
 
         <Card>
           <h3 className="text-sm font-medium text-gray-500">Expiry Date</h3>
-          <p className="text-2xl font-bold text-gray-900 mt-2">
+          <p className="text-xl font-bold text-gray-900 mt-2">
             {new Date(subscription.subscriptionEndDate).toLocaleDateString()}
           </p>
           <p
-            className={`text-sm mt-1 font-medium ${
-              subscription.daysUntilExpiry < 7
+            className={`text-sm mt-1 font-medium ${subscription.daysUntilExpiry < 7
                 ? "text-red-500"
                 : "text-green-500"
-            }`}
+              }`}
           >
             {subscription.daysUntilExpiry} days remaining
           </p>
@@ -132,7 +131,7 @@ export const MySubscription = () => {
         <Card>
           <h3 className="text-sm font-medium text-gray-500">Shop Usage</h3>
           <div className="mt-2 flex items-baseline gap-1">
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-xl font-bold text-gray-900">
               {subscription.currentShopCount}
             </p>
             <p className="text-sm text-gray-500">
@@ -141,15 +140,14 @@ export const MySubscription = () => {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3">
             <div
-              className={`h-1.5 rounded-full ${
-                subscription.currentShopCount >= subscription.shopLimit
+              className={`h-1.5 rounded-full ${subscription.currentShopCount >= subscription.shopLimit
                   ? "bg-red-500"
                   : "bg-blue-500"
-              }`}
+                }`}
               style={{
                 width: `${Math.min(
                   (subscription.currentShopCount / subscription.shopLimit) *
-                    100,
+                  100,
                   100
                 )}%`,
               }}
@@ -159,42 +157,13 @@ export const MySubscription = () => {
 
         <Card>
           <h3 className="text-sm font-medium text-gray-500">Rate</h3>
-          <p className="text-2xl font-bold text-gray-900 mt-2">
+          <p className="text-xl font-bold text-gray-900 mt-2">
             KES {subscription.pricePerPeriod?.toLocaleString()}
           </p>
           <p className="text-sm text-gray-400 mt-1">
             per {subscription.billingPeriod?.toLowerCase()}
           </p>
         </Card>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">
-          Payment History
-        </h2>
-        <Table
-          columns={[
-            {
-              header: "Date",
-              render: (p) => new Date(p.paymentDate).toLocaleDateString(),
-            },
-            {
-              header: "Amount",
-              render: (p) => `KES ${p.amount.toLocaleString()}`,
-            },
-            {
-              header: "Period Covered",
-              render: (p) =>
-                `${new Date(p.periodStart).toLocaleDateString()} - ${new Date(
-                  p.periodEnd
-                ).toLocaleDateString()}`,
-            },
-            { header: "Notes", accessor: "notes" },
-          ]}
-          data={payments}
-          loading={false}
-          emptyMessage="No payments recorded"
-        />
       </div>
     </div>
   );

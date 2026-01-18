@@ -121,7 +121,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="mb-6 border-b border-gray-200 flex justify-between items-end">
+      <div className="mb-6 border-b border-gray-200 flex justify-between items-end px-3 md:px-4">
         <nav className="-mb-px flex space-x-4">
           <button
             onClick={() => setActiveTab("overview")}

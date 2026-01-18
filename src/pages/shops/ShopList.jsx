@@ -134,7 +134,7 @@ export const ShopList = () => {
         <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div className="w-full sm:flex-1 sm:max-w-md">
             <Input
-              placeholder="Search shops..."
+              placeholder="Search shops/branches..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full"
@@ -158,7 +158,7 @@ export const ShopList = () => {
                   d="M12 4v16m8-8H4"
                 />
               </svg>
-              Add Shop
+              Add Shop/Branch
             </Button>
           )}
         </div>
@@ -177,11 +177,10 @@ export const ShopList = () => {
               header: "Status",
               render: (shop) => (
                 <span
-                  className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${
-                    shop.isActive !== false
+                  className={`inline-flex px-2 text-xs font-semibold leading-5 rounded-full ${shop.isActive !== false
                       ? "bg-green-100 text-green-800"
                       : "bg-gray-100 text-gray-800"
-                  }`}
+                    }`}
                 >
                   {shop.isActive !== false ? "Active" : "Inactive"}
                 </span>
@@ -261,7 +260,7 @@ export const ShopList = () => {
             shop.name.toLowerCase().includes(searchTerm.toLowerCase())
           )}
           loading={loading}
-          emptyMessage="No shops found"
+          emptyMessage="No shops/branches found"
           showViewAction={false}
           searchable={false}
         />
@@ -270,7 +269,7 @@ export const ShopList = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={editingShop ? "Edit Shop" : "Add New Shop"}
+        title={editingShop ? "Edit Shop/Branch" : "Add New Shop/Branch"}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
@@ -280,7 +279,7 @@ export const ShopList = () => {
           )}
 
           <Input
-            label="Shop Name"
+            label="Shop/Branch Name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="e.g., Nairobi CBD Branch"
@@ -295,8 +294,8 @@ export const ShopList = () => {
               {submitting
                 ? "Saving..."
                 : editingShop
-                ? "Update Shop"
-                : "Create Shop"}
+                  ? "Update Shop/Branch"
+                  : "Create Shop/Branch"}
             </Button>
           </div>
         </form>
@@ -307,8 +306,8 @@ export const ShopList = () => {
         isOpen={confirmDialog.isOpen}
         onClose={() => setConfirmDialog({ isOpen: false, shopId: null })}
         onConfirm={() => handleDelete(confirmDialog.shopId)}
-        title="Delete Shop"
-        message="Are you sure you want to delete this shop? This cannot be undone."
+        title="Delete Shop/Branch"
+        message="Are you sure you want to delete this shop/branch? This cannot be undone."
         confirmText="Delete"
         variant="danger"
       />

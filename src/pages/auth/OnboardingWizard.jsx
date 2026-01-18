@@ -130,16 +130,28 @@ const OnboardingWizard = () => {
     };
 
     const handleSubmit = async () => {
+        if (loading) return; // Prevent double-click
+
         setLoading(true);
         setError(null);
 
         try {
-            // Step 1: Create business
-            const business = await businessService.createBusiness({
-                ...businessData,
-                shopLimit: shopCount,
-                preferredPlan: sessionStorage.getItem("preferredPlan") || "",
-            });
+            // Step 1: Create business (only if not already created)
+            let businessId = user?.businessId || user?.business?.id;
+
+            if (!businessId) {
+                const business = await businessService.createBusiness({
+                    ...businessData,
+                    shopLimit: shopCount,
+                    preferredPlan: sessionStorage.getItem("preferredPlan") || "",
+                });
+                businessId = business.id;
+
+                // Update user state
+                if (user) {
+                    updateUser({ ...user, businessId: business.id });
+                }
+            }
 
             // Step 2: Create shops
             const shopPromises = shopsData.map((shop) =>
@@ -150,16 +162,11 @@ const OnboardingWizard = () => {
 
             await Promise.all(shopPromises);
 
-            // Update user state
-            if (user) {
-                updateUser({ ...user, businessId: business.id });
-            }
-
             // Clear saved progress
             sessionStorage.removeItem("onboarding-progress");
 
-            // Move to success step
-            setCurrentStep(3);
+            // Redirect directly to dashboard
+            navigate("/dashboard");
         } catch (err) {
             console.error("Onboarding submission failed:", err);
             setError(err.message || "Failed to complete setup. Please try again.");
@@ -168,11 +175,7 @@ const OnboardingWizard = () => {
         }
     };
 
-    const handleGoToDashboard = () => {
-        navigate("/dashboard");
-    };
-
-    const totalSteps = 3;
+    const totalSteps = 2;
     const progressPercentage = (currentStep / totalSteps) * 100;
 
     return (
@@ -257,7 +260,7 @@ const OnboardingWizard = () => {
                     {currentStep === 2 && (
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                                Shop Setup
+                                Shops/Branches Setup
                             </h2>
                             <p className="text-gray-600 mb-4">
                                 Configure your shops or branches
@@ -269,18 +272,19 @@ const OnboardingWizard = () => {
                                     value={shopCount.toString()}
                                     onChange={(e) => handleShopCountChange(e.target.value)}
                                     required
-                                >
-                                    <option value="1">1 Shop</option>
-                                    <option value="2">2 Shops</option>
-                                    <option value="3">3 Shops</option>
-                                    <option value="4">4 Shops</option>
-                                    <option value="5">5 Shops</option>
-                                    <option value="6">6 Shops</option>
-                                    <option value="7">7 Shops</option>
-                                    <option value="8">8 Shops</option>
-                                    <option value="9">9 Shops</option>
-                                    <option value="10">10 Shops</option>
-                                </Select>
+                                    options={[
+                                        { value: "1", label: "1 Shop" },
+                                        { value: "2", label: "2 Shops" },
+                                        { value: "3", label: "3 Shops" },
+                                        { value: "4", label: "4 Shops" },
+                                        { value: "5", label: "5 Shops" },
+                                        { value: "6", label: "6 Shops" },
+                                        { value: "7", label: "7 Shops" },
+                                        { value: "8", label: "8 Shops" },
+                                        { value: "9", label: "9 Shops" },
+                                        { value: "10", label: "10 Shops" },
+                                    ]}
+                                />
                             </div>
 
                             <div className="space-y-3 max-h-[350px] overflow-y-auto pr-2">
@@ -290,7 +294,7 @@ const OnboardingWizard = () => {
                                         className="border border-gray-200 rounded-lg p-4 bg-gray-50"
                                     >
                                         <Input
-                                            label={`Shop ${index + 1} Name`}
+                                            label={`Shop/Branch ${index + 1} Name`}
                                             value={shop.shopName}
                                             onChange={(e) =>
                                                 handleShopDataChange(
@@ -299,7 +303,7 @@ const OnboardingWizard = () => {
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder={`e.g., ${businessData.businessName || 'Main'} Branch`}
+                                            placeholder={`e.g., ${businessData.businessName || 'Main'} - Main Branch`}
                                             required
                                         />
                                     </div>
@@ -308,98 +312,10 @@ const OnboardingWizard = () => {
                         </div>
                     )}
 
-                    {/* Step 3: Success */}
-                    {currentStep === 3 && (
-                        <div className="text-center">
-                            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <svg
-                                    className="w-10 h-10 text-green-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
-                            </div>
-                            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                                All Set! 🎉
-                            </h1>
-                            <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
-                                Your business is ready to go. You can now start managing your
-                                inventory, sales, and more.
-                            </p>
-
-                            <div className="bg-gray-50 rounded-xl p-6 mb-8 text-left">
-                                <h3 className="font-semibold text-gray-900 mb-3">
-                                    What's been set up:
-                                </h3>
-                                <ul className="space-y-2 text-gray-700">
-                                    <li className="flex items-start gap-2">
-                                        <svg
-                                            className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
-                                        <span>
-                                            <strong>{businessData.businessName}</strong> business
-                                            account
-                                        </span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <svg
-                                            className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
-                                        <span>
-                                            {shopCount} {shopCount === 1 ? "shop" : "shops"} created
-                                        </span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <svg
-                                            className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
-                                        <span>Trial subscription activated</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Navigation Buttons */}
                     <div className="flex justify-between mt-6 pt-4 border-t border-gray-200">
-                        {currentStep > 1 && currentStep < 3 && (
+                        {currentStep > 1 && (
                             <Button
                                 variant="outline"
                                 onClick={handleBack}
@@ -409,25 +325,17 @@ const OnboardingWizard = () => {
                             </Button>
                         )}
 
-                        {currentStep < 3 && (
-                            <Button
-                                onClick={handleNext}
-                                disabled={loading}
-                                className="ml-auto"
-                            >
-                                {loading
-                                    ? "Processing..."
-                                    : currentStep === 2
-                                        ? "Complete Setup"
-                                        : "Next"}
-                            </Button>
-                        )}
-
-                        {currentStep === 3 && (
-                            <Button onClick={handleGoToDashboard} className="mx-auto">
-                                Go to Dashboard
-                            </Button>
-                        )}
+                        <Button
+                            onClick={handleNext}
+                            disabled={loading}
+                            className="ml-auto"
+                        >
+                            {loading
+                                ? "Processing..."
+                                : currentStep === 2
+                                    ? "Complete Setup"
+                                    : "Next"}
+                        </Button>
                     </div>
                 </div>
             </div>

@@ -466,13 +466,13 @@ export const Sidebar = ({ isOpen, onClose }) => {
       }
 
       return (
-        <div key={item.name} className="mb-1">
+        <div key={item.name} className="mb-2 lg:mb-1">
           <button
             onClick={() => {
               if (item.disabled) return;
               toggleMenu(item.name);
             }}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-200 ${item.disabled
+            className={`w-full flex items-center justify-between px-3 py-3.5 lg:py-2.5 rounded-lg transition-all duration-200 ${item.disabled
               ? "opacity-50 cursor-not-allowed text-gray-400"
               : isChildActive || isExpanded
                 ? "text-white bg-gray-800"
@@ -481,7 +481,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
           >
             <div className="flex items-center gap-3 truncate">
               {item.icon}
-              <span className="font-medium text-sm truncate">{item.name}</span>
+              <span className="font-medium text-base lg:text-sm truncate">{item.name}</span>
             </div>
             <svg
               className={`w-4 h-4 flex-shrink-0 transition-transform ${isExpanded ? "transform rotate-180" : ""
@@ -512,7 +512,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
                     }
                     onClose();
                   }}
-                  className={`block px-3 py-2 text-sm rounded-lg transition-colors truncate ${child.disabled
+                  className={`block px-3 py-3 lg:py-2 text-base lg:text-sm rounded-lg transition-colors truncate ${child.disabled
                     ? "opacity-50 cursor-not-allowed text-gray-500 hover:text-gray-500 hover:bg-transparent"
                     : isActive(child.path)
                       ? "text-blue-400 bg-gray-800"
@@ -539,7 +539,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
           }
           onClose();
         }}
-        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 mb-1 ${item.disabled
+        className={`flex items-center gap-3 px-3 py-3.5 lg:py-2.5 rounded-lg transition-all duration-200 mb-2 lg:mb-1 ${item.disabled
           ? "opacity-50 cursor-not-allowed text-gray-500 hover:text-gray-500 hover:bg-transparent"
           : isActive(item.path)
             ? "bg-blue-600 text-white shadow-lg shadow-blue-600/50"
@@ -547,7 +547,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
           }`}
       >
         {item.icon}
-        <span className="font-medium text-sm truncate">{item.name}</span>
+        <span className="font-medium text-base lg:text-sm truncate">{item.name}</span>
       </Link>
     );
   };

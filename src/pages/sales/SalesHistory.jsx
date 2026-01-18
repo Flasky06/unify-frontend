@@ -338,7 +338,7 @@ const SalesHistory = () => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 xl:gap-6 w-full lg:w-auto">
           <div className="flex gap-2 w-full sm:w-auto">
             <div className="flex-1 sm:w-40">
               <label className="block text-sm font-medium text-gray-700 mb-2">

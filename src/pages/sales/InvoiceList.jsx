@@ -252,7 +252,7 @@ export const InvoiceList = () => {
   return (
     <div className="p-1 md:p-6">
       {/* Filters */}
-      <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4 xl:gap-6">
         <div className="col-span-2 md:col-span-1">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Search

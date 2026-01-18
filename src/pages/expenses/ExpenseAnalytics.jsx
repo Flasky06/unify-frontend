@@ -196,7 +196,7 @@ export const ExpenseAnalytics = () => {
         ) : (
           <>
             {/* Expense Metrics */}
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xl:gap-6">
               <div className="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-lg border border-red-200">
                 <p className="text-sm text-red-600 font-medium">
                   Total Expenses

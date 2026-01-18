@@ -401,7 +401,7 @@ export const ExpenseList = () => {
       <div className="flex flex-col gap-3">
         {/* Filters Input Area */}
         {/* Filters Input Area */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 xl:gap-6 items-end">
           <div className="w-full col-span-2 sm:col-span-1">
             <label className="block text-xs font-medium text-gray-700 mb-1">
               Search

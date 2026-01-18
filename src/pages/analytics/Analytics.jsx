@@ -202,7 +202,7 @@ export const Analytics = () => {
               <h2 className="text-xl font-bold text-gray-800 mb-4">
                 Sales Analytics
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xl:gap-6">
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-600 font-medium">
                     Total Sales

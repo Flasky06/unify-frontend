@@ -179,7 +179,7 @@ const OnboardingWizard = () => {
     const progressPercentage = (currentStep / totalSteps) * 100;
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 px-4 py-8">
+        <div className="min-h-[100dvh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 px-4 py-8">
             <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
                 {/* Progress Bar */}
                 <div className="bg-gray-100 h-2">

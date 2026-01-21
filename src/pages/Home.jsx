@@ -46,16 +46,18 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-[100dvh] bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
+      <div className="bg-gradient-to-b from-blue-50 to-white relative"> {/* Removed overflow-hidden from here to avoid conflicts, handled by parent */}
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative z-10">
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             {/* Adjusted logo size from 152px to nice header size */}
             <img
               src={mflowLogo}
               alt="mflow pos"
-              className="h-12 w-auto"
+              className="h-20 w-auto"
+              height="80"
+              width="auto"
             />
           </Link>
           <div className="flex items-center gap-3">
@@ -88,7 +90,8 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 md:pt-24 md:pb-32">
           <div className="text-center w-full max-w-4xl mx-auto">
             <div className="flex justify-center mb-8">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100 animate-fadeIn">
+              {/* Removed animate-fadeIn to prevent layout jump */}
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100">
                 <svg
                   className="w-4 h-4"
                   fill="currentColor"

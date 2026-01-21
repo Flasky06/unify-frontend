@@ -51,7 +51,7 @@ const Login = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-gray-50 px-4 py-8">
       <div className="max-w-5xl w-full">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Side - Welcome Panel (Hidden on mobile) */}

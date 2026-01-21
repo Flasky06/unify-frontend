@@ -570,16 +570,9 @@ export const Sidebar = ({ isOpen, onClose }) => {
       >
         {/* Header with Close Button */}
         <div className="px-5 py-4 border-b border-gray-700 flex items-center justify-between">
-          <div className="flex flex-col gap-1">
-            <img src={mflowLogo} alt="mflow pos" className="h-10 w-auto" />
-            {/* Optional: Keep subtitle if needed, or remove if logo covers it. Kept for now but smaller */}
-            <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-1">
-              {isSuperAdmin()
-                ? "Admin Panel"
-                : user?.businessName ||
-                user?.business?.businessName ||
-                "Business Management"}
-            </p>
+          <div className="flex flex-col gap-1 w-full items-center"> {/* Centered and full width for large logo */}
+            <img src={mflowLogo} alt="mflow pos" className="h-32 w-auto object-contain" /> {/* h-32 as requested */}
+            {/* Removed subtitle as large logo likely contains text or shouldn't have small text under it in this layout */}
           </div>
           {/* Close button - only visible on mobile */}
           <button

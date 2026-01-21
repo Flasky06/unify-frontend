@@ -570,7 +570,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
       >
         {/* Header with Close Button */}
         <div className="px-5 py-4 border-b border-gray-700 flex items-center justify-between">
-          <div className="flex flex-col gap-1 w-full items-center"> {/* Centered and full width for large logo */}
+          <div className="flex flex-col gap-1 w-full items-start"> {/* Align Left for mobile/sidebar */}
             <img src={mflowLogo} alt="mflow pos" className="h-32 w-auto object-contain" /> {/* h-32 as requested */}
             {/* Removed subtitle as large logo likely contains text or shouldn't have small text under it in this layout */}
           </div>

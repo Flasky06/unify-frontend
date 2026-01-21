@@ -55,7 +55,7 @@ const Home = () => {
             <img
               src={mflowLogo}
               alt="mflow pos"
-              className="h-20 md:h-[152px] w-auto max-w-full object-contain"
+              className="h-28 md:h-[152px] w-auto max-w-full object-contain"
               height="152"
               width="auto"
             />
@@ -72,15 +72,9 @@ const Home = () => {
               <>
                 <Link
                   to="/login"
-                  className="hidden sm:block font-medium text-gray-600 hover:text-blue-600 transition text-sm sm:text-base mr-2"
+                  className="px-4 py-2 text-blue-600 font-bold hover:text-blue-700 transition text-sm sm:text-base border border-blue-600 rounded-lg bg-white"
                 >
                   Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-3 py-2 sm:px-6 sm:py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-xs sm:text-base whitespace-nowrap"
-                >
-                  Start Free Trial
                 </Link>
               </>
             )}
@@ -88,10 +82,10 @@ const Home = () => {
         </nav>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 md:pt-24 md:pb-32">
-          <div className="text-center w-full max-w-4xl mx-auto">
-            <div className="flex justify-center mb-8">
+          <div className="text-left md:text-center w-full max-w-4xl mx-auto">
+            <div className="flex justify-start md:justify-center mb-8">
               {/* Removed animate-fadeIn to prevent layout jump */}
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100 whitespace-normal text-center">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100 whitespace-normal text-left md:text-center">
                 <svg
                   className="w-4 h-4 flex-shrink-0"
                   fill="currentColor"
@@ -119,7 +113,7 @@ const Home = () => {
               </span>{" "}
               built for Kenyan businesses
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-4 justify-start md:justify-center mb-16">
               {isAuthenticated ? (
                 <Link
                   to="/dashboard"

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
+import mflowLogo from "../../assets/mflow-white.png";
 
 export const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
@@ -568,12 +569,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
       `}
       >
         {/* Header with Close Button */}
-        <div className="p-5 border-b border-gray-700 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              mflow
-            </h1>
-            <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">
+        <div className="px-3 py-3 border-b border-gray-700 flex items-center justify-between">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-bold text-white">mflow pos</h2>
+            <p className="text-[10px] text-gray-400 uppercase tracking-wider">
               {isSuperAdmin()
                 ? "Admin Panel"
                 : user?.businessName ||

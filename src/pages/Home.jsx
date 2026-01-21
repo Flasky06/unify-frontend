@@ -112,12 +112,12 @@ const Home = () => {
                 mflow pos
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto h-auto min-h-[auto] md:min-h-0">
               The complete{" "}
-              <span className="font-bold text-blue-600">
+              <span className="text-blue-600 font-semibold">
                 POS and inventory management system
               </span>{" "}
-              built for Kenyan businesses
+              built for SMEs and MSMEs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               {isAuthenticated ? (

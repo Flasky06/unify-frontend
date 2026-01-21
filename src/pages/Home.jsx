@@ -60,11 +60,11 @@ const Home = () => {
               width="auto"
             />
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {isAuthenticated ? (
               <Link
                 to="/dashboard"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-sm text-sm"
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-sm text-xs sm:text-sm"
               >
                 Dashboard
               </Link>
@@ -72,13 +72,13 @@ const Home = () => {
               <>
                 <Link
                   to="/login"
-                  className="font-medium text-gray-600 hover:text-blue-600 transition text-sm sm:text-base mr-2"
+                  className="hidden sm:block font-medium text-gray-600 hover:text-blue-600 transition text-sm sm:text-base mr-2"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 sm:px-6 sm:py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap"
+                  className="px-3 py-2 sm:px-6 sm:py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-xs sm:text-base whitespace-nowrap"
                 >
                   Start Free Trial
                 </Link>
@@ -91,9 +91,9 @@ const Home = () => {
           <div className="text-center w-full max-w-4xl mx-auto">
             <div className="flex justify-center mb-8">
               {/* Removed animate-fadeIn to prevent layout jump */}
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100 whitespace-normal text-center">
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 flex-shrink-0"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -103,7 +103,7 @@ const Home = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                Trusted by growing retail businesses in Kenya
+                <span className="text-left">Trusted by growing retail businesses in Kenya</span>
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">

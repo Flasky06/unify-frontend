@@ -39,15 +39,18 @@ const VerifyEmail = () => {
       setStatus("error");
       setMessage(
         error.data?.message ||
-          error.message ||
-          "Email verification failed. The code may be invalid or expired."
+        error.message ||
+        "Email verification failed. The code may be invalid or expired."
       );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => {
+    // Auto-populate email from registration if available
+    return sessionStorage.getItem("verificationEmail") || "";
+  });
   const [resendLoading, setResendLoading] = useState(false);
   const [resendMessage, setResendMessage] = useState("");
 

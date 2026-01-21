@@ -48,9 +48,11 @@ const Register = () => {
         };
         await register(registerData);
 
-        // Email verification disabled - redirect to login
-        alert("Registration successful! Please login to continue.");
-        window.location.href = "/login";
+        // Store email for verification page
+        sessionStorage.setItem("verificationEmail", values.email);
+
+        // Redirect to email verification
+        window.location.href = "/verify-email";
       } catch (error) {
         console.error("Registration failed:", error);
       }

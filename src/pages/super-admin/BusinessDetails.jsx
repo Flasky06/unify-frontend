@@ -35,10 +35,6 @@ export const BusinessDetails = () => {
     action: null,
   });
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
-
   const loadData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -78,14 +74,17 @@ export const BusinessDetails = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
   const handleToggleStatus = async () => {
     try {
       await businessService.toggleBusinessStatus(id);
       setToast({
         isOpen: true,
-        message: `Business ${
-          stats.isActive ? "deactivated" : "activated"
-        } successfully`,
+        message: `Business ${stats.isActive ? "deactivated" : "activated"
+          } successfully`,
         type: "success",
       });
       setConfirmDialog({ isOpen: false, action: null });
@@ -226,11 +225,10 @@ export const BusinessDetails = () => {
           </div>
           <div className="flex items-center gap-3">
             <span
-              className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${
-                stats.isActive
+              className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${stats.isActive
                   ? "bg-green-100 text-green-800"
                   : "bg-red-100 text-red-800"
-              }`}
+                }`}
             >
               {stats.isActive ? "Active" : "Inactive"}
             </span>
@@ -418,16 +416,13 @@ export const BusinessDetails = () => {
         isOpen={confirmDialog.isOpen}
         onClose={() => setConfirmDialog({ isOpen: false, action: null })}
         onConfirm={handleToggleStatus}
-        title={`${
-          confirmDialog.action === "deactivate" ? "Deactivate" : "Activate"
-        } Business`}
-        message={`Are you sure you want to ${
-          confirmDialog.action === "deactivate" ? "deactivate" : "activate"
-        } this business? ${
-          confirmDialog.action === "deactivate"
+        title={`${confirmDialog.action === "deactivate" ? "Deactivate" : "Activate"
+          } Business`}
+        message={`Are you sure you want to ${confirmDialog.action === "deactivate" ? "deactivate" : "activate"
+          } this business? ${confirmDialog.action === "deactivate"
             ? "Users will not be able to access this business while it is deactivated."
             : "Users will be able to access this business again."
-        }`}
+          }`}
         confirmText={
           confirmDialog.action === "deactivate" ? "Deactivate" : "Activate"
         }
@@ -532,7 +527,7 @@ const SubscriptionCard = ({
 
   const daysRemaining = Math.ceil(
     (new Date(subscription.subscriptionEndDate) - new Date()) /
-      (1000 * 60 * 60 * 24)
+    (1000 * 60 * 60 * 24)
   );
 
   return (
@@ -560,9 +555,8 @@ const SubscriptionCard = ({
                   subscription.subscriptionEndDate
                 ).toLocaleDateString()}
                 <span
-                  className={`ml-2 text-xs ${
-                    daysRemaining < 7 ? "text-red-500" : "text-gray-500"
-                  }`}
+                  className={`ml-2 text-xs ${daysRemaining < 7 ? "text-red-500" : "text-gray-500"
+                    }`}
                 >
                   (
                   {daysRemaining > 0 ? `${daysRemaining} days left` : "Expired"}
@@ -608,9 +602,8 @@ const StatusBadge = ({ status }) => {
   };
   return (
     <span
-      className={`px-2 py-1 text-xs font-semibold rounded-full ${
-        styles[status] || styles.CANCELLED
-      }`}
+      className={`px-2 py-1 text-xs font-semibold rounded-full ${styles[status] || styles.CANCELLED
+        }`}
     >
       {status}
     </span>

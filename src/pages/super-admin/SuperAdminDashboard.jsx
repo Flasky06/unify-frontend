@@ -88,49 +88,6 @@ const SuperAdminDashboard = () => {
       <div className="flex flex-col gap-4 sm:gap-6">
         {/* Statistics Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Revenue Section */}
-          <StatCard
-            title="Total Revenue"
-            value={`KSH ${stats.totalRevenue?.toLocaleString() || "0"}`}
-            icon={
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            }
-            color="green"
-          />
-
-          <StatCard
-            title="This Month Revenue"
-            value={`KSH ${stats.currentMonthRevenue?.toLocaleString() || "0"}`}
-            icon={
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                />
-              </svg>
-            }
-            color="emerald"
-          />
-
           {/* Users Section */}
           <StatCard
             title="Total Users"

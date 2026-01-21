@@ -55,8 +55,8 @@ const Home = () => {
             <img
               src={mflowLogo}
               alt="mflow pos"
-              className="h-20 w-auto"
-              height="80"
+              className="h-[152px] w-auto"
+              height="152"
               width="auto"
             />
           </Link>

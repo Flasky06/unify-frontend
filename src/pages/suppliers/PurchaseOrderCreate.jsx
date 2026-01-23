@@ -467,7 +467,7 @@ export const PurchaseOrderCreate = () => {
                           className="h-8 text-sm w-full p-1 border-gray-300"
                         />
                         {/* Mobile-only total display under price */}
-                        <div className="md:hidden text-xs text-gray-500 mt-1 font-medium">
+                        <div className="md:hidden text-xs text-green-600 mt-1 font-medium">
                           {item.total.toLocaleString()}
                         </div>
                       </td>

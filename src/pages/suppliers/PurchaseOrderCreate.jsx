@@ -208,8 +208,8 @@ export const PurchaseOrderCreate = () => {
   if (loading) return <div className="p-8 text-center">Loading...</div>;
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-0 md:p-6 max-w-5xl mx-auto">
+      <div className="flex items-center justify-between mb-6 p-2 md:p-0">
         <h1 className="text-2xl font-bold text-gray-900">Record Purchase</h1>
         <Button variant="outline" onClick={() => navigate("/purchase-orders")}>
           Cancel
@@ -218,7 +218,7 @@ export const PurchaseOrderCreate = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-lg shadow-md p-6 space-y-6"
+        className="bg-white rounded-none md:rounded-lg shadow-none md:shadow-md p-2 md:p-6 space-y-6"
       >
         {/* Simplified Header Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -404,19 +404,19 @@ export const PurchaseOrderCreate = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-1 md:px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                     Product
                   </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase w-24">
+                  <th className="px-1 md:px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase w-20 md:w-24">
                     Qty
                   </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">
+                  <th className="px-1 md:px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase w-28 md:w-32">
                     Unit Price
                   </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">
+                  <th className="hidden md:table-cell px-1 md:px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">
                     Total
                   </th>
-                  <th className="w-10"></th>
+                  <th className="w-8 md:w-10"></th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -427,16 +427,16 @@ export const PurchaseOrderCreate = () => {
 
                   return (
                     <tr key={index}>
-                      <td className="px-3 py-2">
+                      <td className="px-1 md:px-3 py-2">
                         <select
-                          className="w-full text-sm border-gray-300 rounded focus:ring-blue-500"
+                          className="w-full text-sm border-gray-300 rounded focus:ring-blue-500 p-1"
                           value={item.productId}
                           onChange={(e) =>
                             handleItemChange(index, "productId", e.target.value)
                           }
                           required
                         >
-                          <option value="">Select Product...</option>
+                          <option value="">Select...</option>
                           {filteredProducts.map((p) => (
                             <option key={p.id} value={p.id}>
                               {p.name}
@@ -444,7 +444,7 @@ export const PurchaseOrderCreate = () => {
                           ))}
                         </select>
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="px-1 md:px-3 py-2">
                         <Input
                           type="number"
                           min="1"
@@ -452,10 +452,10 @@ export const PurchaseOrderCreate = () => {
                           onChange={(e) =>
                             handleItemChange(index, "quantity", e.target.value)
                           }
-                          className="h-8 text-sm"
+                          className="h-8 text-sm w-full p-1"
                         />
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="px-1 md:px-3 py-2">
                         <Input
                           type="number"
                           min="0"
@@ -464,18 +464,22 @@ export const PurchaseOrderCreate = () => {
                           onChange={(e) =>
                             handleItemChange(index, "unitPrice", e.target.value)
                           }
-                          className="h-8 text-sm"
+                          className="h-8 text-sm w-full p-1"
                         />
+                        {/* Mobile-only total display under price */}
+                        <div className="md:hidden text-xs text-gray-500 mt-1 font-medium">
+                          Tot: {item.total.toLocaleString()}
+                        </div>
                       </td>
-                      <td className="px-3 py-2 text-right font-medium text-gray-700">
+                      <td className="hidden md:table-cell px-1 md:px-3 py-2 text-right font-medium text-gray-700">
                         {item.total.toLocaleString()}
                       </td>
-                      <td className="px-3 py-2 text-center">
+                      <td className="px-1 md:px-3 py-2 text-center">
                         {items.length > 1 && (
                           <button
                             type="button"
                             onClick={() => removeItemRow(index)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 font-bold text-lg"
                           >
                             &times;
                           </button>

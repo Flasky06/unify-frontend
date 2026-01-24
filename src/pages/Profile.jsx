@@ -221,49 +221,82 @@ const Profile = () => {
                 </div>
 
                 {isBusinessUser && (user?.business || user?.businessId) && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                      Business Information
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        label="Business Name"
-                        value={businessData.businessName}
-                        onChange={(e) =>
-                          setBusinessData({
-                            ...businessData,
-                            businessName: e.target.value,
-                          })
-                        }
-                        disabled={!isEditing}
-                        placeholder="Your Business Name"
-                      />
-                      <Input
-                        label="Business Type"
-                        value={businessData.businessType}
-                        onChange={(e) =>
-                          setBusinessData({
-                            ...businessData,
-                            businessType: e.target.value,
-                          })
-                        }
-                        disabled={!isEditing}
-                        placeholder="e.g. Retail"
-                      />
-                      <Input
-                        label="Address"
-                        value={businessData.address}
-                        onChange={(e) =>
-                          setBusinessData({
-                            ...businessData,
-                            address: e.target.value,
-                          })
-                        }
-                        disabled={!isEditing}
-                        placeholder="Business Address"
-                      />
+                  <>
+                    <div className="pt-4 border-t border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                        Business Information
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                          label="Business Name"
+                          value={businessData.businessName}
+                          onChange={(e) =>
+                            setBusinessData({
+                              ...businessData,
+                              businessName: e.target.value,
+                            })
+                          }
+                          disabled={!isEditing}
+                          placeholder="Your Business Name"
+                        />
+                        <Input
+                          label="Business Type"
+                          value={businessData.businessType}
+                          onChange={(e) =>
+                            setBusinessData({
+                              ...businessData,
+                              businessType: e.target.value,
+                            })
+                          }
+                          disabled={!isEditing}
+                          placeholder="e.g. Retail"
+                        />
+                        <Input
+                          label="Address"
+                          value={businessData.address}
+                          onChange={(e) =>
+                            setBusinessData({
+                              ...businessData,
+                              address: e.target.value,
+                            })
+                          }
+                          disabled={!isEditing}
+                          placeholder="Business Address"
+                        />
+                      </div>
                     </div>
-                  </div>
+                    <div className="pt-4 border-t border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                        Subscription Plan
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">
+                            Current Plan
+                          </label>
+                          <p className="px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg text-blue-900 font-medium text-sm">
+                            {user?.business?.currentPlan || "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">
+                            Shop Limit
+                          </label>
+                          <p className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 font-medium text-sm">
+                            {user?.business?.shopLimit || "0"}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">
+                            User Limit
+                          </label>
+                          <p className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 font-medium text-sm">
+                            {user?.business?.userLimit || "0"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 )}
 
                 {isEditing && (

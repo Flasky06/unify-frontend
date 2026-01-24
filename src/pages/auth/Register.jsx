@@ -64,9 +64,26 @@ const Register = () => {
     <div className="min-h-[100dvh] flex items-center justify-center bg-gray-50 px-4 py-8">
       <SEO
         title="Register"
-        description="Create your mflow pos account today. Start managing your retail business efficiently."
+        description="Join thousands of retailers using Mflow POS. Start your free trial today."
         url="/register"
       />
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://mflowpos.com"
+          }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Register",
+            "item": "https://mflowpos.com/register"
+          }]
+        })}
+      </script>
       <div className="max-w-5xl w-full">
         <div className="grid lg:grid-cols-2 gap-8 items-stretch">
           {/* Left Side - Features (Hidden on mobile) */}

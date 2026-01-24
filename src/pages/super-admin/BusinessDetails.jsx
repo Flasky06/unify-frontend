@@ -226,8 +226,8 @@ export const BusinessDetails = () => {
           <div className="flex items-center gap-3">
             <span
               className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${stats.isActive
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
                 }`}
             >
               {stats.isActive ? "Active" : "Inactive"}
@@ -447,6 +447,7 @@ export const BusinessDetails = () => {
           onSuccess={handlePaymentRecorded}
           subscriptionId={subscription.id}
           currentEndDate={subscription.subscriptionEndDate}
+          planPrice={subscription.pricePerPeriod || subscription.monthlyRate || 2000}
         />
       )}
 
@@ -568,6 +569,12 @@ const SubscriptionCard = ({
               <span className="text-sm text-gray-500 w-24">Shop Limit:</span>
               <span className="font-medium text-gray-900">
                 {subscription.shopLimit} Shops
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500 w-24">User Limit:</span>
+              <span className="font-medium text-gray-900">
+                {subscription.userLimit ? `${subscription.userLimit} Users` : "Unlimited Users"}
               </span>
             </div>
             <div className="flex items-center gap-2">

@@ -1,6 +1,44 @@
+# Mflow POS - Robots.txt
 User-agent: *
+
+# Allow public pages
 Allow: /
+Allow: /login
+Allow: /register
+Allow: /pricing
+Allow: /features
+Allow: /contact
+Allow: /blog/
+
+# Allow industry-specific landing pages
+Allow: /pos-for-*
+Allow: /mobile-pos-kenya
+
+# Allow location-based pages
+Allow: /pos-system-*
+
+# Disallow authenticated areas
 Disallow: /dashboard/
 Disallow: /admin/
+Disallow: /api/
+Disallow: /settings/
+Disallow: /account/
 
+# Disallow search result pages if you have any
+Disallow: /search?
+Disallow: /*?*
+
+# Allow CSS and JS for proper crawling
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.webp
+Allow: /*.svg
+
+# Sitemap
 Sitemap: https://mflowpos.com/sitemap.xml
+
+# Crawl-delay for politeness (optional)
+Crawl-delay: 1

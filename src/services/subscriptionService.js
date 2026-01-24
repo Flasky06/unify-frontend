@@ -24,6 +24,16 @@ export const subscriptionService = {
     return await apiFetch(`/super-admin/subscription-plans/${planId}`);
   },
 
+  /**
+   * Update subscription plan (Super Admin)
+   */
+  updatePlan: async (planId, updateData) => {
+    return await apiFetch(`/super-admin/subscription-plans/${planId}`, {
+      method: "PUT",
+      body: updateData,
+    });
+  },
+
   // ==================== Business Subscriptions ====================
 
   /**
@@ -180,5 +190,13 @@ export const subscriptionService = {
     return await apiFetch(
       `/super-admin/revenue?startDate=${startDate}&endDate=${endDate}`
     );
+  },
+  /**
+   * Migrate legacy users
+   */
+  migrateLegacyUsers: async () => {
+    return await apiFetch("/super-admin/migrations/legacy-users", {
+      method: "POST",
+    });
   },
 };

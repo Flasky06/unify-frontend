@@ -56,9 +56,26 @@ const Login = () => {
     <div className="min-h-[100dvh] flex items-center justify-center bg-gray-50 px-4 py-8">
       <SEO
         title="Login"
-        description="Sign in to your mflow pos account to manage your business."
+        description="Login to Mflow POS - Manage your business from anywhere."
         url="/login"
       />
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://mflowpos.com"
+          }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Login",
+            "item": "https://mflowpos.com/login"
+          }]
+        })}
+      </script>
       <div className="max-w-5xl w-full">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Side - Welcome Panel (Hidden on mobile) */}

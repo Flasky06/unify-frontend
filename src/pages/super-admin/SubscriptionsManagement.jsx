@@ -26,7 +26,7 @@ const SubscriptionsManagement = () => {
 
   const navigate = useNavigate();
 
- 
+
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -43,7 +43,7 @@ const SubscriptionsManagement = () => {
     }
   }, [filterStatus, showToast]);
 
-   useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [fetchData]);
 
@@ -78,6 +78,14 @@ const SubscriptionsManagement = () => {
       render: (row) => (
         <span>
           {row.currentShopCount} / {row.shopLimit}
+        </span>
+      ),
+    },
+    {
+      header: "Users",
+      render: (row) => (
+        <span>
+          {row.currentUserCount} / {row.userLimit || "∞"}
         </span>
       ),
     },
@@ -160,6 +168,27 @@ const SubscriptionsManagement = () => {
         />
       </div>
 
+      {/* Actions */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={async () => {
+            if (window.confirm("Are you sure you want to migrate all legacy users to a 30-day trial?")) {
+              try {
+                // Call migration service
+                await subscriptionService.migrateLegacyUsers();
+                showToast("Legacy users migrated successfully", "success");
+                fetchData(); // Refresh list
+              } catch (err) {
+                showToast("Migration failed: " + err.message, "error");
+              }
+            }
+          }}
+          className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition shadow-sm text-sm font-medium"
+        >
+          Migrate Legacy Users
+        </button>
+      </div>
+
       {/* Filters and Search */}
       <div className="flex flex-col md:flex-row gap-4 mb-4">
         <div className="flex gap-2 flex-wrap">
@@ -167,11 +196,10 @@ const SubscriptionsManagement = () => {
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
-              className={`px-4 py-2 rounded-lg font-medium transition ${
-                filterStatus === status
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+              className={`px-4 py-2 rounded-lg font-medium transition ${filterStatus === status
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
             >
               {status}
             </button>

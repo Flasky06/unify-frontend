@@ -8,6 +8,7 @@ import mflowWhiteLogo from "../assets/mflow-white.png";
 const Home = () => {
   const { isAuthenticated } = useAuthStore();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [billingCycle, setBillingCycle] = useState("MONTHLY");
 
   const toggleFaq = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -15,51 +16,141 @@ const Home = () => {
 
   const faqs = [
     {
+      question: "Can I manage multiple shops?",
+      answer:
+        "Yes! Manage unlimited shop locations from one account. Each branch maintains separate inventory, and you can easily transfer stock between locations.",
+    },
+    {
+      question: "Can I print receipts and invoices?",
+      answer:
+        "Yes. Generate and print professional receipts for completed sales and invoices for pending orders. Perfect for record-keeping and customer documentation.",
+    },
+    {
+      question: "Can I add my staff with different permissions?",
+      answer:
+        "Absolutely. Add multiple users with role-based permissions. Control exactly what each team member can access to keep your business data secure.",
+    },
+    {
       question: "Do I need special hardware?",
       answer:
-        "No. Mflow POS runs on any device with a web browser. You can use your existing smartphone, tablet, laptop, or desktop computer.",
+        "No. Mflow POS runs on any device with a web browser. Use your existing smartphone, tablet, laptop, or desktop computer.",
     },
     {
-      question: "Can I use mflow for my specific business?",
+      question: "What reports can I generate?",
       answer:
-        "Yes. mflow works effectively for retail shops, spare parts dealers, electronics, laundry businesses, and other stock-based businesses.",
+        "Generate sales reports, stock movement reports, and comprehensive accounts summaries. All reports can be exported as PDF for your records.",
     },
     {
-      question: "What if I have multiple shops?",
+      question: "Can I track suppliers and purchase orders?",
       answer:
-        "You can manage multiple shops under one business, transfer stock between them, and view reports per shop or combined—all from one account.",
+        "Yes. Track all your suppliers, create purchase orders, monitor payments, and keep complete records of supplier transactions and outstanding balances.",
     },
     {
-      question: "Do I need an internet connection?",
+      question: "Is my data secure?",
       answer:
-        "Yes. mflow is a cloud-based platform. This ensures your data is always secure, automatically backed up, and accessible from any device.",
+        "Yes. Your data is stored securely in the cloud with automatic backups. Access is protected with email verification and role-based permissions.",
     },
     {
-      question: "Can I generate reports?",
+      question: "Can I sell both products and services?",
       answer:
-        "Yes. Instantly generate detailed sales, expense, and profit reports. You can view, print, or save them as PDF for your records.",
-    },
-    {
-      question: "Can I control what my staff sees?",
-      answer:
-        "Yes. You can assign specific roles (e.g., Sales Rep, Manager) to your employees. This ensures they only access what they need, keeping your profits and settings secure.",
+        "Yes. The system supports both physical products with inventory tracking and services without stock management, all from one platform.",
     },
   ];
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       <SEO
-        title="Home"
-        description="mflow pos is the complete point of sale and inventory management system built for SMEs and MSMEs in Kenya. Track sales, stock, and expenses easily."
+        title="POS System for Boutiques, Spare Parts, Electronics & Retail Shops in Kenya | Works on Phone"
+        description="Simple POS system for your boutique, electronics shop, spare parts, cosmetics, baby shop, laundry mart or accessories store. Track stock and sales from your phone or tablet. No installation. From KES 1,500/month. Used across Nairobi, Mombasa, Kisumu, Nakuru."
         url="/"
+        keywords="POS for boutique Kenya, POS for electronics shop, spare parts POS Kenya, cosmetics shop POS, baby shop POS, laundry mart POS, shoe shop POS Kenya, accessories shop POS, POS that works on phone Kenya, mobile POS Kenya, tablet POS system, cheap POS Kenya, affordable shop software, retail POS Nairobi, business management system Kenya, cloud POS Kenya, multi branch POS, POS for small shop Kenya"
+        image="/m-logo.jpg"
+      />
+
+      {/* Software Application Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Mflow POS",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web, Android, iOS",
+            "offers": {
+              "@type": "AggregateOffer",
+              "lowPrice": "1500",
+              "highPrice": "20000",
+              "priceCurrency": "KES",
+              "offerCount": "5"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "127"
+            },
+            "description": "Cloud-based POS and inventory management system for retail businesses in Kenya. Multi-shop support, user permissions, and comprehensive reporting.",
+            "featureList": [
+              "Multi-shop Management",
+              "Stock Tracking",
+              "Expense Tracking",
+              "Sales Reports",
+              "User Permissions",
+              "Supplier Management"
+            ]
+          })
+        }}
+      />
+
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map(faq => ({
+              "@type": "Question",
+              "name": faq.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
+              }
+            }))
+          })
+        }}
+      />
+
+      {/* Organization Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Mflow POS",
+            "url": "https://mflowpos.com",
+            "logo": "https://mflowpos.com/m-logo.jpg",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+254-717-299-106",
+              "contactType": "Customer Service",
+              "areaServed": "KE",
+              "availableLanguage": ["en", "sw"]
+            },
+            "sameAs": [
+              "https://wa.me/254717299106"
+            ]
+          })
+        }}
       />
       {/* Fixed Navbar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2 group">
-            <h1 className="text-2xl font-bold text-gray-900 tracking-wide">
+            <span className="text-2xl font-bold text-gray-900 tracking-wide">
               <span className="text-blue-600">M</span>flow POS
-            </h1>
+            </span>
           </Link>
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
@@ -90,127 +181,305 @@ const Home = () => {
       </header >
 
       {/* Hero Section */}
-      < div className="bg-gradient-to-b from-blue-50 to-white pt-24" >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 md:pb-32">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex justify-center mb-8">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>Trusted by growing retail businesses in Kenya</span>
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
-              Grow Your Business with
-              <span className="block mt-2">
-                <span className="text-blue-600">M</span>flow POS
-              </span>
+      <div className="bg-gradient-to-b from-blue-50 to-white pt-24" style={{ maxHeight: '50vh', minHeight: '500px' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 h-full flex flex-col justify-center">
+          <div className="text-center max-w-7xl mx-auto">
+            <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
+              <span className="text-slate-800">Manage Your Growing Business with Confidence</span> — <span className="text-blue-600">From Anywhere</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              The complete{" "}
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-4xl mx-auto text-center">
+              Complete{" "}
               <span className="text-blue-600 font-semibold">
-                POS and inventory management system
+                cloud-based POS & inventory system
               </span>{" "}
-              built for SMEs and MSMEs
+              with multi-branch support, user permissions, and comprehensive reporting
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              {isAuthenticated ? (
-                <Link
-                  to="/dashboard"
-                  className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-lg hover:-translate-y-0.5"
-                >
-                  Go to Dashboard
-                </Link>
-              ) : (
-                <Link
-                  to="/register"
-                  className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-lg hover:-translate-y-0.5"
-                >
-                  Start Your 7-Day Free Trial
-                </Link>
-              )}
-            </div>
           </div>
         </div>
       </div >
 
       {/* Pricing Section */}
-      < section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mb-16" >
-        <div className="text-center mb-10">
+      <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 mb-16">
+        <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-lg text-gray-600">
-            Subscription per shop. No commissions. No hidden fees.
-          </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-blue-600 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              {/* Left Side - Features */}
-              <div>
-                <h3 className="text-3xl font-bold text-white mb-6">Everything you need to grow:</h3>
-                <ul className="space-y-4">
-                  {[
-                    "Sales, stock, expenses & staff management",
-                    "Inventory Management",
-                    "Unlimited Staff",
-                    "Priority Support",
-                    "Advanced Reporting",
-                    "Stock Transfers",
-                    "Employee Permissions",
-                  ].map((feature) => (
-                    <li key={feature} className="flex items-center text-blue-50 text-lg font-medium">
-                      <svg
-                        className="w-6 h-6 text-blue-300 mr-3 flex-shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Right Side - Pricing Details & CTA - WHITE CARD */}
-              <div className="flex flex-col items-center justify-center text-center bg-white rounded-2xl p-8 shadow-xl transform md:scale-105 border border-gray-100">
-                <span className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-4">Most Popular</span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Monthly Plan</h3>
-                <div className="flex items-baseline mb-4">
-                  <span className="text-5xl font-extrabold text-gray-900">KES 1,500</span>
-                  <span className="text-gray-500 ml-2 font-medium text-lg">/shop</span>
-                </div>
-                <p className="text-gray-600 mb-8 text-base">
-                  Full access to all features.<br />Cancel anytime.
-                </p>
-                <Link
-                  to="/register?plan=MONTHLY"
-                  className="w-full max-w-sm py-4 px-8 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-md hover:shadow-lg text-lg mb-4"
-                >
-                  Start 7-Day Free Trial
-                </Link>
-                <p className="text-gray-400 text-xs">
-                  No credit card required
-                </p>
-              </div>
-            </div>
+        {/* Billing Cycle Toggle */}
+        <div className="flex justify-center mb-12">
+          <div className="bg-gray-100 p-1 rounded-xl inline-flex shadow-inner">
+            <button
+              onClick={() => setBillingCycle("MONTHLY")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${billingCycle === "MONTHLY"
+                ? "bg-white text-blue-600 shadow-sm"
+                : "text-gray-500 hover:text-gray-900"
+                }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle("QUARTERLY")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${billingCycle === "QUARTERLY"
+                ? "bg-white text-blue-600 shadow-sm"
+                : "text-gray-500 hover:text-gray-900"
+                }`}
+            >
+              Quarterly
+            </button>
+            <button
+              onClick={() => setBillingCycle("ANNUALLY")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${billingCycle === "ANNUALLY"
+                ? "bg-white text-blue-600 shadow-sm"
+                : "text-gray-500 hover:text-gray-900"
+                }`}
+            >
+              Annually
+            </button>
           </div>
         </div>
-      </section >
+
+        {/* First Row - 3 Plans */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-6">
+          {/* Starter Plan */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition relative flex flex-col">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">Starter Plan</h3>
+            <p className="text-gray-500 mb-6">Perfect for single shop businesses</p>
+            <div className="flex items-baseline mb-6">
+              <span className="text-4xl font-extrabold text-gray-900">
+                KES {(1500 * (billingCycle === "MONTHLY" ? 1 : billingCycle === "QUARTERLY" ? 3 : 12)).toLocaleString()}
+              </span>
+              <span className="text-gray-500 ml-2 font-medium">
+                /{billingCycle === "MONTHLY" ? "month" : billingCycle === "QUARTERLY" ? "quarter" : "year"}
+              </span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">1 Shop</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 3 Users</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Basic Reporting
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Email Support
+              </li>
+            </ul>
+            <Link
+              to={`/register?plan=STARTER&period=${billingCycle}`}
+              className="w-full block text-center py-3 px-6 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition"
+            >
+              Start Free Trial
+            </Link>
+          </div>
+
+          {/* Growth Plan - Highlighted */}
+          <div className="bg-blue-600 rounded-2xl p-8 shadow-xl relative flex flex-col text-white">
+            <div className="absolute top-0 right-0 left-0 -mt-4 text-center">
+              <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
+                Most Popular
+              </span>
+            </div>
+            <h3 className="text-2xl font-bold mb-2 text-center">Growth Plan</h3>
+            <p className="text-blue-100 mb-6">Scale up to 3 locations</p>
+            <div className="flex items-baseline mb-6">
+              <span className="text-4xl font-extrabold text-white">
+                KES {(4000 * (billingCycle === "MONTHLY" ? 1 : billingCycle === "QUARTERLY" ? 3 : 12)).toLocaleString()}
+              </span>
+              <span className="text-blue-200 ml-2 font-medium">
+                /{billingCycle === "MONTHLY" ? "month" : billingCycle === "QUARTERLY" ? "quarter" : "year"}
+              </span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center text-blue-50">
+                <svg className="w-5 h-5 text-blue-200 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 3 Shops</span>
+              </li>
+              <li className="flex items-center text-blue-50">
+                <svg className="w-5 h-5 text-blue-200 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 12 Users</span>
+              </li>
+              <li className="flex items-center text-blue-50">
+                <svg className="w-5 h-5 text-blue-200 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Stock Transfers
+              </li>
+              <li className="flex items-center text-blue-50">
+                <svg className="w-5 h-5 text-blue-200 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Advanced Analytics
+              </li>
+            </ul>
+            <Link
+              to={`/register?plan=GROWTH&period=${billingCycle}`}
+              className="w-full block text-center py-3 px-6 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg"
+            >
+              Start Free Trial
+            </Link>
+          </div>
+
+          {/* Business Plan */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition relative flex flex-col">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">Business Plan</h3>
+            <p className="text-gray-500 mb-6">Ideal for growing businesses</p>
+            <div className="flex items-baseline mb-6">
+              <span className="text-4xl font-extrabold text-gray-900">
+                KES {(7500 * (billingCycle === "MONTHLY" ? 1 : billingCycle === "QUARTERLY" ? 3 : 12)).toLocaleString()}
+              </span>
+              <span className="text-gray-500 ml-2 font-medium">
+                /{billingCycle === "MONTHLY" ? "month" : billingCycle === "QUARTERLY" ? "quarter" : "year"}
+              </span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 7 Shops</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 20 Users</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Advanced Analytics
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Priority Support
+              </li>
+            </ul>
+            <Link
+              to={`/register?plan=BUSINESS&period=${billingCycle}`}
+              className="w-full block text-center py-3 px-6 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition"
+            >
+              Start Free Trial
+            </Link>
+          </div>
+        </div>
+
+        {/* Second Row - 2 Plans */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Pro Plan */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition relative flex flex-col">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">Pro Plan</h3>
+            <p className="text-gray-500 mb-6">For established enterprises</p>
+            <div className="flex items-baseline mb-6">
+              <span className="text-4xl font-extrabold text-gray-900">
+                KES {(12000 * (billingCycle === "MONTHLY" ? 1 : billingCycle === "QUARTERLY" ? 3 : 12)).toLocaleString()}
+              </span>
+              <span className="text-gray-500 ml-2 font-medium">
+                /{billingCycle === "MONTHLY" ? "month" : billingCycle === "QUARTERLY" ? "quarter" : "year"}
+              </span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 10 Shops</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Unlimited Users</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                All Features
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Priority Support
+              </li>
+            </ul>
+            <Link
+              to={`/register?plan=PRO&period=${billingCycle}`}
+              className="w-full block text-center py-3 px-6 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition"
+            >
+              Start Free Trial
+            </Link>
+          </div>
+
+          {/* Enterprise Plan */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition relative flex flex-col">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">Enterprise Plan</h3>
+            <p className="text-gray-500 mb-6">Maximum scale & capacity</p>
+            <div className="flex items-baseline mb-6">
+              <span className="text-4xl font-extrabold text-gray-900">
+                KES {(20000 * (billingCycle === "MONTHLY" ? 1 : billingCycle === "QUARTERLY" ? 3 : 12)).toLocaleString()}
+              </span>
+              <span className="text-gray-500 ml-2 font-medium">
+                /{billingCycle === "MONTHLY" ? "month" : billingCycle === "QUARTERLY" ? "quarter" : "year"}
+              </span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Up to 20 Shops</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="font-semibold">Unlimited Users</span>
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                All Features
+              </li>
+              <li className="flex items-center text-gray-600">
+                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Dedicated Support
+              </li>
+            </ul>
+            <Link
+              to={`/register?plan=ENTERPRISE&period=${billingCycle}`}
+              className="w-full block text-center py-3 px-6 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition"
+            >
+              Start Free Trial
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Features Grid */}
       < section id="features" className="bg-white py-16" >
@@ -231,51 +500,12 @@ const Home = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                  />
-                ),
-                title: "Advanced Inventory",
-                description:
-                  "Know what you have at any time. Track stock levels across one or multiple shops. See what's selling, what's stuck, and when to restock.",
-              },
-              {
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                  />
-                ),
-                title: "Performance Analytics",
-                description:
-                  "Make data-driven decisions. Uncover trends and insights that drive growth with powerful, easy-to-understand dashboards.",
-              },
-              {
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                   />
                 ),
-                title: "Multi-Shop Support",
+                title: "Multi-Branch Management",
                 description:
-                  "Expand your empire. Seamlessly manage multiple branches from one central hub, no matter where you are.",
-              },
-              {
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                ),
-                title: "Expense Tracking",
-                description:
-                  "See where your money actually goes. Record rent, labour, transport, utilities, and daily expenses. Know your real profit — not just sales.",
+                  "Manage unlimited shop locations from one account. Each branch maintains separate inventory with easy stock transfers between locations.",
               },
               {
                 icon: (
@@ -286,9 +516,9 @@ const Home = () => {
                     d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
                   />
                 ),
-                title: "Staff Permissions",
+                title: "User Permissions & Roles",
                 description:
-                  "Empower your team safely. Give staff the exact tools they need while keeping sensitive business data secure.",
+                  "Add multiple staff members with role-based access control. Assign specific permissions to protect sensitive data and empower your team.",
               },
               {
                 icon: (
@@ -296,12 +526,77 @@ const Home = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                   />
                 ),
-                title: "Products & Services",
+                title: "Real-Time Inventory Tracking",
                 description:
-                  "Create and manage your offerings with ease. Organize products and services to speed up checkout and delight customers.",
+                  "Monitor stock levels in real-time across all locations. Get low stock alerts, process returns, and adjust inventory with full history tracking.",
+              },
+              {
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                ),
+                title: "Supplier & Purchase Orders",
+                description:
+                  "Track suppliers, create purchase orders, and monitor payments. Keep complete records of all supplier transactions and balances.",
+              },
+              {
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                ),
+                title: "Receipts & Invoices",
+                description:
+                  "Generate and print professional receipts and invoices. Save pending invoices and convert them to sales when customers pay.",
+              },
+              {
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                ),
+                title: "Comprehensive Reports",
+                description:
+                  "Sales reports, stock movement analysis, profit tracking, and accounts summary. Export to PDF for record-keeping and analysis.",
+              },
+              {
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                ),
+                title: "Expense Management",
+                description:
+                  "Track all business expenses with payee information. Categorize spending and see your true profit after deducting all costs.",
+              },
+              {
+                icon: (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                  />
+                ),
+                title: "100% Cloud-Based",
+                description:
+                  "Access from anywhere on any device. Your data is automatically backed up and secure. No installation or special hardware needed.",
               },
             ].map((feature, index) => (
               <div
@@ -362,6 +657,14 @@ const Home = () => {
                 {
                   title: "Backup everything securely to the cloud",
                   description: "Your data is safe, secure, and always accessible",
+                },
+                {
+                  title: "Works on your phone and tablet",
+                  description: "Access from any device - smartphone, tablet, laptop, or desktop",
+                },
+                {
+                  title: "No installation or additional hardware needed",
+                  description: "Start immediately with just a web browser. No special equipment required",
                 },
               ].map((benefit, index) => (
                 <div
@@ -527,7 +830,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-around gap-12 mb-12">
             <div className="md:max-w-xs">
-              <img src={mflowWhiteLogo} alt="mflow pos" className="h-24 w-auto mb-4" />
+              <img src={mflowWhiteLogo} alt="Mflow POS - Cloud Point of Sale System Logo" className="h-24 w-auto mb-4" />
               <p className="text-gray-400 max-w-sm">
                 Empowering Kenyan SMEs and MSMEs with modern Point of Sale Solution.
                 Cloud-based, mobile-responsive, and built for growth.

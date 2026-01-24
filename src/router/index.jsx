@@ -22,6 +22,7 @@ const BusinessDetails = lazy(() =>
   import("../pages/super-admin/BusinessDetails").then(module => ({ default: module.BusinessDetails }))
 );
 const SubscriptionsManagement = lazy(() => import("../pages/super-admin/SubscriptionsManagement"));
+const SubscriptionPlans = lazy(() => import("../pages/super-admin/SubscriptionPlans"));
 import RoleManagement from "../pages/users/RoleManagement";
 import { ProductList } from "../pages/products/ProductList";
 import { ProductCategoryList } from "../pages/products/ProductCategoryList";
@@ -349,6 +350,10 @@ export const router = createBrowserRouter([
       {
         path: "subscriptions",
         element: <SubscriptionsManagement />,
+      },
+      {
+        path: "subscription-plans",
+        element: <SubscriptionPlans />,
       },
     ],
   },

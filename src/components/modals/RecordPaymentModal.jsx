@@ -9,10 +9,11 @@ export const RecordPaymentModal = ({
   onSuccess,
   subscriptionId,
   currentEndDate,
+  planPrice = 2000,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    amount: "2000",
+    amount: planPrice.toString(),
     paymentDate: new Date().toISOString().split("T")[0],
     paymentMethod: "MPESA",
     transactionReference: "",
@@ -60,6 +61,11 @@ export const RecordPaymentModal = ({
             {currentEndDate && (
               <span className="block mt-1">
                 Current expiry: {new Date(currentEndDate).toLocaleDateString()}
+              </span>
+            )}
+            {planPrice && (
+              <span className="block mt-1 font-medium text-gray-700">
+                Plan rate: KES {planPrice.toLocaleString()} / month
               </span>
             )}
           </p>

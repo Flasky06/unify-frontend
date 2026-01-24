@@ -7,6 +7,7 @@ export const MySubscription = () => {
   const [subscription, setSubscription] = useState(null);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -25,6 +26,22 @@ export const MySubscription = () => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRefresh = async () => {
+    try {
+      setRefreshing(true);
+      const [subData, paymentsData] = await Promise.all([
+        subscriptionService.getMySubscription().catch(() => null),
+        subscriptionService.getMyPayments().catch(() => []),
+      ]);
+      setSubscription(subData);
+      setPayments(paymentsData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -93,13 +110,35 @@ export const MySubscription = () => {
             Manage your plan and billing
           </p>
         </div>
-        <span
-          className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(
-            subscription.status
-          )}`}
-        >
-          {subscription.status}
-        </span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Refresh subscription data"
+          >
+            <svg
+              className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </button>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(
+              subscription.status
+            )}`}
+          >
+            {subscription.status}
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -120,8 +159,8 @@ export const MySubscription = () => {
           </p>
           <p
             className={`text-sm mt-1 font-medium ${subscription.daysUntilExpiry < 7
-                ? "text-red-500"
-                : "text-green-500"
+              ? "text-red-500"
+              : "text-green-500"
               }`}
           >
             {subscription.daysUntilExpiry} days remaining
@@ -141,8 +180,8 @@ export const MySubscription = () => {
           <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3">
             <div
               className={`h-1.5 rounded-full ${subscription.currentShopCount >= subscription.shopLimit
-                  ? "bg-red-500"
-                  : "bg-blue-500"
+                ? "bg-red-500"
+                : "bg-blue-500"
                 }`}
               style={{
                 width: `${Math.min(

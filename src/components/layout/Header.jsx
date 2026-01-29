@@ -4,11 +4,9 @@ export const Header = ({ onMenuClick }) => {
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 sm:px-6 py-2 md:py-3 relative">
-      <div className="flex items-center justify-between w-full h-full min-h-[24px]">
+      <div className="flex items-center justify-between w-full ">
         {/* Logo - visible on mobile when sidebar is hidden */}
-        <h1 className="text-2xl font-bold text-gray-900 tracking-wide lg:hidden">
-          <span className="text-blue-500">M</span>flow POS
-        </h1>
+        <img src="/mflow-logo.png" alt="Mflow POS" className="h-8 w-auto lg:hidden" />
         <div className="hidden lg:block" /> {/* Spacer for desktop */}
 
         <button

@@ -590,8 +590,12 @@ export const Sidebar = ({ isOpen, onClose }) => {
       >
         {/* Header with Close Button */}
         <div className="px-2 py-1 border-b border-gray-700 flex items-center justify-between">
-          <div className="flex w-full items-center justify-start pl-1">
-            <h1 className="text-2xl font-bold text-white tracking-wide"><span className="text-blue-500">M</span>flow POS</h1>
+          <div className="flex w-full items-center justify-start pl-1 gap-3">
+            {/* <h1 className="text-2xl font-bold text-white tracking-wide"><span className="text-blue-500">M</span>flow POS</h1> */}
+            <img src="/white-mflow-logo.png" alt="Mflow POS" className="h-12 w-auto" />
+            <span className="text-lg font-bold text-white tracking-wide truncate">
+              {user?.business?.businessName || "Mflow POS"}
+            </span>
           </div>
           {/* Close button - only visible on mobile */}
           <button

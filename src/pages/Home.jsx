@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import SEO from "../components/common/SEO";
 import useAuthStore from "../store/authStore";
 import { useState } from "react";
-import mflowLogo from "../assets/mflowpos.png";
+// import mflowLogo from "../assets/mflowpos.png";
 
 const Home = () => {
   const { isAuthenticated } = useAuthStore();
@@ -145,12 +145,9 @@ const Home = () => {
       />
       {/* Fixed Navbar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-between items-center">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2 group">
-            <img src={mflowLogo} alt="Mflow POS Logo" width="40" height="40" className="h-10 w-auto" />
-            <span className="text-2xl font-bold text-gray-900 tracking-wide">
-              <span className="text-blue-600">M</span>flow POS
-            </span>
+            <img src="/mflow-logo.png" alt="Mflow POS Logo" width="96" height="96" className="h-14 w-auto" />
           </Link>
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
@@ -831,9 +828,11 @@ const Home = () => {
       {/* Footer */}
       < footer className="bg-gray-900 text-gray-300 py-8" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-around gap-12 mb-12">
-            <div className="md:max-w-xs">
-              <img src={mflowLogo} alt="Mflow POS - Cloud Point of Sale System Logo" width="96" height="96" className="h-24 w-auto mb-4" />
+          <div className="flex flex-col md:flex-row justify-around gap-12 mb-12 text-center md:text-left">
+            <div className="md:max-w-xs flex flex-col justify-center items-center md:items-start">
+              <div className="flex justify-center items-center w-full">
+                <img src="/white-mflow-logo.png" alt="Mflow POS - Cloud Point of Sale System Logo" width="96" height="96" className="h-16 w-auto mb-4" />
+              </div>
               <p className="text-gray-400 max-w-sm">
                 Empowering Kenyan SMEs and MSMEs with modern Point of Sale Solution.
                 Cloud-based, mobile-responsive, and built for growth.
